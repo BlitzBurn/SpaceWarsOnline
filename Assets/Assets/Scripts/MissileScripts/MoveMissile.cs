@@ -5,21 +5,30 @@ using UnityEngine;
 public class MoveMissile : MonoBehaviour
 {
     public Transform direction = null;
-    public Rigidbody missileRB;
+    private Rigidbody missileRB;
+    private Rigidbody rocketRB;
     public float missileForce;
 
     void Start()
     {
-        missileRB = GetComponent<Rigidbody>();
+        missileRB = gameObject.GetComponent<Rigidbody>();
+
+        rocketRB = gameObject.GetComponentInParent<Rigidbody>();
     }
 
     // GetVelocity.rocketVelocity
 
     void Update()
     {
+        Debug.Log(rocketRB.velocity);
         if (this.direction != null )
         {
-           // missileRB.AddForce(direction.up * (missileForce + GetVelocity.rocketSpeed) );
+            //  missileRB.AddForce(direction.up * (missileForce + GetVelocity.rocketSpeed) );
+
+            //missileRB.AddForce(direction.up*Time.deltaTime*missileForce);
+
+            missileRB.velocity =(direction.up * Time.deltaTime * missileForce);
+
 
         }
     }

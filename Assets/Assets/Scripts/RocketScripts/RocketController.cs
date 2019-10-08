@@ -4,25 +4,27 @@ using UnityEngine;
 
 public class RocketController : MonoBehaviour
 {
-    public Transform direction = null;
+    //public Transform direction = null;
 
-    
-    public Rigidbody rocketRB;
+    private Transform rocketDirection;
+    private Rigidbody rocketRB;
 
     public float rocketForce;
    
 
     void Start()
     {
-        rocketRB = GetComponent<Rigidbody>();
+        rocketRB = gameObject.GetComponent<Rigidbody>();
+        rocketDirection = gameObject.GetComponent<Transform>();
+        //rocketDirection = null;
     }
 
    
     void FixedUpdate()
     {
-        if (this.direction != null && Input.GetKey(KeyCode.Space))
+        if (this.rocketDirection != null && Input.GetKey(KeyCode.Space))
         {
-            rocketRB.AddForce(direction.right*rocketForce);
+            rocketRB.AddForce(rocketDirection.right*rocketForce);
         }
 
     }

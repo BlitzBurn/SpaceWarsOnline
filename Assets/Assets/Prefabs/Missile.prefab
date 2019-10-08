@@ -126,7 +126,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   direction: {fileID: 7844516961318534840}
   missileRB: {fileID: 7844516961318534847}
-  missileForce: 90
+  missileForce: 10000
 --- !u!114 &7997944576822943124
 MonoBehaviour:
   m_ObjectHideFlags: 0

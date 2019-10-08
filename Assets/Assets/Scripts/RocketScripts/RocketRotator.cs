@@ -5,21 +5,19 @@ using UnityEngine;
 public class RocketRotator : MonoBehaviour
 {
 
-    public GameObject ship;
-
     public float rotationSpeed;
 
     void FixedUpdate()
     {
 
-        if (Input.GetKey(KeyCode.D))
+        if (Input.GetKey(KeyCode.A))
         {
-            ship.transform.Rotate(Vector3.down * rotationSpeed);
+           gameObject.transform.Rotate(Vector3.down * rotationSpeed);
         }
 
-        else if (Input.GetKey(KeyCode.A))
+        else if (Input.GetKey(KeyCode.D))
         {
-            ship.transform.Rotate(Vector3.up * rotationSpeed);
+            gameObject.transform.Rotate(Vector3.up * rotationSpeed);
         }
     }
 }

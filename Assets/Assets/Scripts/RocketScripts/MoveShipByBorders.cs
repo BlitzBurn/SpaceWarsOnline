@@ -11,29 +11,39 @@ public class MoveShipByBorders : MonoBehaviour
     public float upperYborder;
     public float bottomYborder;
 
+    public static float leftXborderstatic;
+    public static float rightXborderstatic;
+    public static float upperYborderstatic;
+    public static float bottomYborderstatic;
+
     void Start()
     {
         shipRB = GetComponent<Rigidbody>();
+
+        leftXborderstatic = leftXborder;
+        rightXborderstatic = rightXborder;
+        upperYborderstatic = upperYborder;
+        bottomYborderstatic = bottomYborder;
     }
 
     void Update()
     {
 
-        if (transform.position.x <= leftXborder)
+        if (transform.position.x <= leftXborderstatic)
         {
-            transform.position = new Vector3(rightXborder - 1, transform.position.y, transform.position.z);
+            transform.position = new Vector3(rightXborderstatic - 1, transform.position.y, transform.position.z);
         }
-        else if (shipRB.position.x >= rightXborder)
+        else if (shipRB.position.x >= rightXborderstatic)
         {
-            transform.position = new Vector3(leftXborder + 1, transform.position.y, transform.position.z);
+            transform.position = new Vector3(leftXborderstatic + 1, transform.position.y, transform.position.z);
         }
-        else if (shipRB.position.z >= upperYborder)
+        else if (shipRB.position.z >= upperYborderstatic)
         {
-            transform.position = new Vector3(transform.position.x, transform.position.y, bottomYborder + 1);
+            transform.position = new Vector3(transform.position.x, transform.position.y, bottomYborderstatic + 1);
         }
-        else if (shipRB.position.z <= bottomYborder)
+        else if (shipRB.position.z <= bottomYborderstatic)
         {
-            transform.position = new Vector3(transform.position.x, transform.position.y, upperYborder - 1);
+            transform.position = new Vector3(transform.position.x, transform.position.y, upperYborderstatic - 1);
         }
 
     }

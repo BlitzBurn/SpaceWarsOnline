@@ -11,8 +11,8 @@ public class NetworkConnectionManager : MonoBehaviourPunCallbacks
     public Button BtnConnectMaster;
     public Button BtnConnectRoom;
 
-    public bool TriesToConnectToMaster;
-    public bool TriesToConnectToRoom;
+    protected bool TriesToConnectToMaster;
+    protected bool TriesToConnectToRoom;
 
     private float time;
 
@@ -25,13 +25,6 @@ public class NetworkConnectionManager : MonoBehaviourPunCallbacks
 
     void Update()
     {
-        time += Time.deltaTime;
-        if (time>=8)
-        {
-            time = 0;
-            Debug.Log(PhotonNetwork.CurrentRoom.PlayerCount);
-        }
-
         if (BtnConnectMaster != null)
         {
             BtnConnectMaster.gameObject.SetActive(!PhotonNetwork.IsConnected && !TriesToConnectToMaster);
@@ -78,8 +71,17 @@ public class NetworkConnectionManager : MonoBehaviourPunCallbacks
             return;
         }
             
-        TriesToConnectToRoom = true;
-        PhotonNetwork.JoinRandomRoom();
+       TriesToConnectToRoom = true;
+        PhotonNetwork.CreateRoom("TestRoom1");
+        PhotonNetwork.JoinRoom("");
+
+        //PhotonNetwork.JoinRandomRoom();
+
+        RoomOptions roomOptions = new RoomOptions();
+        //roomOptions.IsVisible = true;
+        roomOptions.MaxPlayers = 4;
+
+        PhotonNetwork.JoinOrCreateRoom("room1", roomOptions, TypedLobby.Default);
     }
 
     public override void OnJoinedRoom()
@@ -89,11 +91,12 @@ public class NetworkConnectionManager : MonoBehaviourPunCallbacks
         TriesToConnectToRoom = false;
 
         Debug.Log("Master: "+PhotonNetwork.IsMasterClient + " | Players In Room: " + PhotonNetwork.CurrentRoom.PlayerCount + " | RoomName: " + PhotonNetwork.CurrentRoom.Name + " Region: " + PhotonNetwork.CloudRegion);
-
+        SceneManager.LoadScene("GamePlayScene");
+        /*
         if (PhotonNetwork.IsMasterClient && SceneManager.GetActiveScene().name != "GamePlayScene")
         {
             SceneManager.LoadScene("GamePlayScene");//Change This later!!!!
-        }
+        }*/
     }
 
     public override void OnJoinRandomFailed(short returnCode, string message)
@@ -107,6 +110,13 @@ public class NetworkConnectionManager : MonoBehaviourPunCallbacks
     {
         base.OnCreateRoomFailed(returnCode, message);
         Debug.Log(message);
+        base.OnCreateRoomFailed(returnCode, message);
         TriesToConnectToRoom = false;
+    }
+
+    public override void OnCreatedRoom()
+    {
+        //MasterManager.DebugConsole.Add
+        Debug.Log("Created room successfully: "+this);
     }
 }

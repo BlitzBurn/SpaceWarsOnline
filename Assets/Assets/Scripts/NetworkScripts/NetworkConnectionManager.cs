@@ -9,6 +9,7 @@ using UnityEngine.SceneManagement;
 public class NetworkConnectionManager : MonoBehaviourPunCallbacks
 {
     public Button BtnConnectMaster;
+    public Button BtnCreateRoom;
     public Button BtnConnectRoom;
 
     protected bool TriesToConnectToMaster;
@@ -72,16 +73,26 @@ public class NetworkConnectionManager : MonoBehaviourPunCallbacks
         }
             
        TriesToConnectToRoom = true;
-        PhotonNetwork.CreateRoom("TestRoom1");
-        PhotonNetwork.JoinRoom("");
+        //PhotonNetwork.CreateRoom("TestRoom1");
+        PhotonNetwork.JoinRoom("room1");
 
-        //PhotonNetwork.JoinRandomRoom();
+        //PhotonNetwork.JoinRandomRoom();        
+    }
+
+    public void OnClick_CreateRoom()
+    {
+        if (!PhotonNetwork.IsConnected)
+        {
+            return;
+        }
 
         RoomOptions roomOptions = new RoomOptions();
         //roomOptions.IsVisible = true;
         roomOptions.MaxPlayers = 4;
 
-        PhotonNetwork.JoinOrCreateRoom("room1", roomOptions, TypedLobby.Default);
+        PhotonNetwork.CreateRoom("room1", roomOptions, TypedLobby.Default);
+
+
     }
 
     public override void OnJoinedRoom()
@@ -109,14 +120,15 @@ public class NetworkConnectionManager : MonoBehaviourPunCallbacks
     public override void OnCreateRoomFailed(short returnCode, string message)
     {
         base.OnCreateRoomFailed(returnCode, message);
-        Debug.Log(message);
-        base.OnCreateRoomFailed(returnCode, message);
+        Debug.Log("Room creation failed");
+        
         TriesToConnectToRoom = false;
     }
 
     public override void OnCreatedRoom()
     {
         //MasterManager.DebugConsole.Add
+        base.OnCreatedRoom();
         Debug.Log("Created room successfully: "+this);
     }
 }

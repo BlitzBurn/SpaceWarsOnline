@@ -5,14 +5,20 @@ using System.Collections.Generic;
 using Photon.Pun;
 using SpaceWarsOnline;
 using Photon.Realtime;
+//using Photon.Pun.IPunObservable;
 
 namespace SpaceWarsOnline
 {
-    public class GameManagerScript : MonoBehaviourPunCallbacks
+    public class GameManagerScript : MonoBehaviourPunCallbacks, IPunObservable
     {
 
-        [Header("Game Manager")]
+        [Header("Spawn Players")]
         public PlayerScript playerPrefab;
+        public List<GameObject> spawnLocation;
+        // public GameObject spawnLocation1, spawnLocation2, spawnLocation3, spawnLocation4;
+
+        protected int numberOfPlayers;
+
 
         [HideInInspector]
         public PlayerScript localPlayer;
@@ -28,15 +34,37 @@ namespace SpaceWarsOnline
 
         private void Start()
         {
-            PlayerScript.RefreshInstance(ref localPlayer, playerPrefab);
+            numberOfPlayers = PhotonNetwork.CountOfPlayers;
+            PlayerScript.RefreshInstance(ref localPlayer, playerPrefab, spawnLocation[numberOfPlayers]);
            
-        }
+        }    
 
         public override void OnPlayerEnteredRoom(Photon.Realtime.Player newPlayer)
         {
+            numberOfPlayers = PhotonNetwork.CountOfPlayers;
             base.OnPlayerEnteredRoom(newPlayer);
-            PlayerScript.RefreshInstance(ref localPlayer, playerPrefab);
+            Debug.Log(numberOfPlayers);
+            PlayerScript.RefreshInstance(ref localPlayer, playerPrefab, spawnLocation[numberOfPlayers]);
         }
+
+        private void Update()
+        {
+            //
+        }
+
+        public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+        {
+            if (stream.IsWriting)
+            {
+                stream.SendNext(numberOfPlayers);
+
+            }
+            else if (stream.IsReading)
+            {
+                numberOfPlayers = (int)stream.ReceiveNext();
+            }
+        }
+
     }
 }
 

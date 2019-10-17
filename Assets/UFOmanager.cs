@@ -6,11 +6,16 @@ public class UFOmanager : MonoBehaviour
 {
     //Try instatiating this shit with different rotations
 
-    public Vector3 startPosition, endPosition;
+    public Transform startPosition, endPosition;
+    //public GameObject 
 
-    float movementSpeed = 0.05f;
-    float frequency = 1;
-    float magnitude = 5;
+    Rigidbody ufoRigidbody;
+    public float movementSpeed = -18f;
+   // public float frequency = 0.06f;
+    public float magnitude = 5;
+
+    private Vector3 ufoDirection;
+    private Vector3 orthogonal;
 
     float angle = 0f;
 
@@ -18,14 +23,24 @@ public class UFOmanager : MonoBehaviour
 
     void Start()
     {
-        
+          ufoRigidbody = gameObject.GetComponent<Rigidbody>();
+        determineUfoDirection();
     }
+
+    private void determineUfoDirection()
+    {
+        ufoDirection = (startPosition.position - endPosition.position).normalized;
+        orthogonal = new Vector3(-ufoDirection.z, 0 , ufoDirection.x);
+    }
+
 
     
     void Update()
     {
-        angle += Time.deltaTime * movementSpeed;
-        float angleBullShit = Mathf.Cos(2.0f * Mathf.PI * frequency * angle);
-        transform.position = startPosition + (endPosition-startPosition) * 0.5f * (1-angleBullShit);
+        angle += Time.deltaTime;
+
+        ufoRigidbody.velocity = ufoDirection * movementSpeed + orthogonal * magnitude * Mathf.Sin(magnitude*angle);
+        //float angleBullShit = Mathf.Cos(92.0f * Mathf.PI * frequency * angle);
+       /// transform.position = startPosition.position + (endPosition.position-startPosition.position) * 0.5f * (1-angleBullShit);
     }
 }

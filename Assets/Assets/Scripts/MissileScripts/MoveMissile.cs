@@ -5,13 +5,15 @@ using UnityEngine.Networking;
 
 public class MoveMissile : MonoBehaviour
 {
-    public Transform direction = null;
+    private Transform direction = null;
     private Rigidbody missileRB;
     private Rigidbody rocketRB;    
     public float missileForce;
 
     void Start()
     {
+        direction = gameObject.GetComponent<Transform>();
+
         missileRB = gameObject.GetComponent<Rigidbody>();
 
         rocketRB = gameObject.GetComponentInParent<Rigidbody>();

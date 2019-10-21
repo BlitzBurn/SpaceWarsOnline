@@ -1,8 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
-public class UFOmanager : MonoBehaviour
+public class UFOmanager : MonoBehaviourPun
 {
     //Try instatiating this shit with different rotations
 
@@ -33,7 +34,7 @@ public class UFOmanager : MonoBehaviour
     {
         transform.position= startPosition.position;
         ufoRigidbody = gameObject.GetComponent<Rigidbody>();
-        determineUfoDirection();
+        DetermineUfoDirection();
 
         foreach (GameObject ufoLaserFiringPoint in GameObject.FindGameObjectsWithTag("UFOLaserTag"))
         {
@@ -42,7 +43,7 @@ public class UFOmanager : MonoBehaviour
 
     }
 
-    private void determineUfoDirection()
+    private void DetermineUfoDirection()
     {
         ufoDirection = (startPosition.position - endPosition.position).normalized;
         orthogonal = new Vector3(-ufoDirection.z, 0 , ufoDirection.x);

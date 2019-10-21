@@ -1,9 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
 
-public class FireMissile :MonoBehaviour
+public class FireMissile :MonoBehaviourPun
 {
     public GameObject Missile;   
     public Transform MissileSpawnPoint;
@@ -34,7 +35,7 @@ public class FireMissile :MonoBehaviour
     
     private void FireMissileMethod()
     {
-        var instantiatedMissile = Instantiate(Missile, MissileSpawnPoint.position, MissileSpawnPoint.rotation);           
+        var instantiatedMissile = PhotonNetwork.Instantiate(Missile.gameObject.name, MissileSpawnPoint.position, MissileSpawnPoint.rotation);           
         missileExplode = instantiatedMissile.GetComponent<MissileExplode>();
 
         missileExplode.SetCollisionIgnore(rocketName);

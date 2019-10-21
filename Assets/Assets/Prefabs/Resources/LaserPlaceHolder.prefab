@@ -215,4 +215,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd099fa5d9fa145419252c5cbde13c49, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  missileForce: 4000
+  missileForce: 400

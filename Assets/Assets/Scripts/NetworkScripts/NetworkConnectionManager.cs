@@ -35,6 +35,11 @@ public class NetworkConnectionManager : MonoBehaviourPunCallbacks
         {
             BtnConnectRoom.gameObject.SetActive(PhotonNetwork.IsConnected && !TriesToConnectToMaster && !TriesToConnectToRoom);
         }
+
+        if (TriesToConnectToRoom)
+        {
+            //Debug.Log("TriesToConnectToRoom");
+        }
     }
 
     public void OnClickConnectToMaster()
@@ -71,7 +76,7 @@ public class NetworkConnectionManager : MonoBehaviourPunCallbacks
         {
             return;
         }
-            
+        Debug.Log("Connect to do room");
        TriesToConnectToRoom = true;
         //PhotonNetwork.CreateRoom("TestRoom1");
         PhotonNetwork.JoinRoom("room1");

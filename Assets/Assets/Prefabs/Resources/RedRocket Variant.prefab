@@ -66,7 +66,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ddbb91b879e65704eb836ec4449d8957, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AmountOfHealth: 100
+  AmountOfHealth: 10
   isNonDestructible: 0
 --- !u!114 &5034864099733945865
 MonoBehaviour:
@@ -140,33 +140,6 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 4832840845346009573, guid: eafc1085a9151f54c9d561022525b68a,
-        type: 3}
-      propertyPath: MissileCooldown
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 4832840845346009573, guid: eafc1085a9151f54c9d561022525b68a,
-        type: 3}
-      propertyPath: RocketDirection
-      value: 
-      objectReference: {fileID: 7556674016688469783}
-    - target: {fileID: 4832840845346009573, guid: eafc1085a9151f54c9d561022525b68a,
-        type: 3}
-      propertyPath: Missile
-      value: 
-      objectReference: {fileID: 7844516961318534724, guid: fcf192d8f6bb05546a3e8d2084b31fd3,
-        type: 3}
-    - target: {fileID: 4832840845346009573, guid: eafc1085a9151f54c9d561022525b68a,
-        type: 3}
-      propertyPath: MissileSpawnPoint
-      value: 
-      objectReference: {fileID: 5218486987945292745}
-    - target: {fileID: 4832840845346009573, guid: eafc1085a9151f54c9d561022525b68a,
-        type: 3}
-      propertyPath: missileExplode
-      value: 
-      objectReference: {fileID: 7997944576822943124, guid: fcf192d8f6bb05546a3e8d2084b31fd3,
-        type: 3}
     - target: {fileID: 4470419117731601933, guid: eafc1085a9151f54c9d561022525b68a,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -222,6 +195,33 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4832840845346009573, guid: eafc1085a9151f54c9d561022525b68a,
+        type: 3}
+      propertyPath: MissileCooldown
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4832840845346009573, guid: eafc1085a9151f54c9d561022525b68a,
+        type: 3}
+      propertyPath: RocketDirection
+      value: 
+      objectReference: {fileID: 7556674016688469783}
+    - target: {fileID: 4832840845346009573, guid: eafc1085a9151f54c9d561022525b68a,
+        type: 3}
+      propertyPath: Missile
+      value: 
+      objectReference: {fileID: 7844516961318534724, guid: fcf192d8f6bb05546a3e8d2084b31fd3,
+        type: 3}
+    - target: {fileID: 4832840845346009573, guid: eafc1085a9151f54c9d561022525b68a,
+        type: 3}
+      propertyPath: MissileSpawnPoint
+      value: 
+      objectReference: {fileID: 5218486987945292745}
+    - target: {fileID: 4832840845346009573, guid: eafc1085a9151f54c9d561022525b68a,
+        type: 3}
+      propertyPath: missileExplode
+      value: 
+      objectReference: {fileID: 7997944576822943124, guid: fcf192d8f6bb05546a3e8d2084b31fd3,
+        type: 3}
     - target: {fileID: 2215601966365022931, guid: eafc1085a9151f54c9d561022525b68a,
         type: 3}
       propertyPath: m_LocalRotation.x

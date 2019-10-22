@@ -1,9 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Networking;
+using Photon.Pun;
 
-public class Health : MonoBehaviour
+public class Health : MonoBehaviourPun/*, Photon.Pun.IPunObservable*/
 {
 
     public int AmountOfHealth;
@@ -11,11 +11,9 @@ public class Health : MonoBehaviour
 
     void Update()
     {
-        
-
-        if (AmountOfHealth == 0 && isNonDestructible==false)
+        if (AmountOfHealth <= 0 && isNonDestructible==false)
         {
-            Destroy(gameObject);
+            PhotonNetwork.Destroy(gameObject);
             Debug.Log("Ded");
         }
 
@@ -44,4 +42,16 @@ public class Health : MonoBehaviour
             //explodeScript.DetonateMissile();
         }        
     }
+    void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)    
+    {
+        if (stream.IsWriting == true)
+        {
+            stream.SendNext(AmountOfHealth);
+        }
+        else
+        {
+             AmountOfHealth= (int)stream.ReceiveNext();
+        }
+    }
+
 }

@@ -1923,20 +1923,25 @@ PrefabInstance:
       propertyPath: m_Name
       value: LaserPlaceHolder
       objectReference: {fileID: 0}
+    - target: {fileID: 3395517105864046361, guid: b8f9cccaadd9575469d2a1c06660dad9,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6434136023996872964, guid: b8f9cccaadd9575469d2a1c06660dad9,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.23
+      value: -3.7
       objectReference: {fileID: 0}
     - target: {fileID: 6434136023996872964, guid: b8f9cccaadd9575469d2a1c06660dad9,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.77370167
+      value: -53.8
       objectReference: {fileID: 0}
     - target: {fileID: 6434136023996872964, guid: b8f9cccaadd9575469d2a1c06660dad9,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -15.31
+      value: -12.2
       objectReference: {fileID: 0}
     - target: {fileID: 6434136023996872964, guid: b8f9cccaadd9575469d2a1c06660dad9,
         type: 3}

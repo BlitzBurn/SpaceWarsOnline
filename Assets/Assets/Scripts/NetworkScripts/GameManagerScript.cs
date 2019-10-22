@@ -45,7 +45,10 @@ namespace SpaceWarsOnline
             base.OnPlayerEnteredRoom(newPlayer);
             Debug.Log(numberOfPlayers);
             PlayerScript.RefreshInstance(ref localPlayer, playerPrefab, spawnLocation[numberOfPlayers]);
+
         }
+
+        
 
         private void Update()
         {

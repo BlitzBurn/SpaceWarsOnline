@@ -8,9 +8,14 @@ using UnityEngine.SceneManagement;
 
 public class NetworkConnectionManager : MonoBehaviourPunCallbacks
 {
+    [Header("Buttons")]
     public Button BtnConnectMaster;
     public Button BtnCreateRoom;
     public Button BtnConnectRoom;
+
+    [Header("Username")]
+    public InputField userNameInput;
+    private string userName;
 
     protected bool TriesToConnectToMaster;
     protected bool TriesToConnectToRoom;
@@ -19,10 +24,20 @@ public class NetworkConnectionManager : MonoBehaviourPunCallbacks
 
     void Start()
     {
+        userNameInput.onValueChanged.AddListener(delegate { OnTextInput(); });
         DontDestroyOnLoad(gameObject);
         TriesToConnectToMaster = false;
         TriesToConnectToRoom = false;
+        OnClickConnectToMaster();
     }
+
+    public void OnTextInput()
+    {
+        userName = userNameInput.text.ToString();
+        PlayerPrefs.SetString("PlayerName", userName);
+    }
+
+   
 
     void Update()
     {
@@ -31,16 +46,24 @@ public class NetworkConnectionManager : MonoBehaviourPunCallbacks
             BtnConnectMaster.gameObject.SetActive(!PhotonNetwork.IsConnected && !TriesToConnectToMaster);
         }
 
-        if (BtnConnectRoom != null)
+        if (BtnConnectRoom != null && BtnCreateRoom != null)
         {
             BtnConnectRoom.gameObject.SetActive(PhotonNetwork.IsConnected && !TriesToConnectToMaster && !TriesToConnectToRoom);
+            BtnCreateRoom.gameObject.SetActive(PhotonNetwork.IsConnected && !TriesToConnectToMaster && !TriesToConnectToRoom);
         }
 
         if (TriesToConnectToRoom)
         {
             //Debug.Log("TriesToConnectToRoom");
         }
+
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            Debug.Log(userName);
+        }
     }
+
+   
 
     public void OnClickConnectToMaster()
     {

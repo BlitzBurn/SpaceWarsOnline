@@ -12,17 +12,18 @@ public class RocketController : MonoBehaviourPun
     public float rocketForce;    
     public float rotationSpeed;
 
+    
+
     void Start()
     {
+        
         rocketRB = gameObject.GetComponent<Rigidbody>();
-        rocketDirection = gameObject.GetComponent<Transform>();     
+        rocketDirection = gameObject.GetComponent<Transform>();        
     }
 
 
     void FixedUpdate()
-    {
-        
-
+    {    
         if (Input.GetKey(KeyCode.Space))
         {
             MoveForward();
@@ -57,4 +58,6 @@ public class RocketController : MonoBehaviourPun
     {
         gameObject.transform.Rotate(Vector3.down * rotationSpeed);
     }
+
+   
 }

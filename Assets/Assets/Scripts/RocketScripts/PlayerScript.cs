@@ -8,13 +8,7 @@ namespace SpaceWarsOnline
 {
     public class PlayerScript : MonoBehaviourPun
     {
-
-        [HideInInspector]
-        public InputStr Input;
-        public struct InputStr
-        {
-
-        }
+        private string newName;
 
         protected Rigidbody rocketRigidBody;
         protected Quaternion rocketRotation;
@@ -23,11 +17,24 @@ namespace SpaceWarsOnline
         {
             rocketRigidBody = GetComponent<Rigidbody>();
 
-            if (!photonView.IsMine && GetComponent<RocketController>() != null && GetComponent<FireMissile>() !=null)
+            if (!photonView.IsMine && GetComponent<RocketController>() != null && GetComponent<FireMissile>() !=null )
             {
+                Debug.Log("Start called");
                 Destroy(GetComponent<FireMissile>());
                 Destroy(GetComponent<RocketController>());
+               // Destroy(GetComponent<Health>());
             }
+
+            Changename();
+        }
+
+
+        private void Changename()
+        {
+            newName = "Player" + Random.Range(1, 69) + Random.Range(12, 50);
+            //newName = PlayerPrefs.GetString("PlayerName");
+            gameObject.name = newName;
+            Debug.Log(newName);
         }
 
         public static void RefreshInstance(ref PlayerScript player, PlayerScript playerPrefab, GameObject spawnLocation)
@@ -45,6 +52,18 @@ namespace SpaceWarsOnline
 
             player = PhotonNetwork.Instantiate(playerPrefab.gameObject.name, spawnPosition, rotation).GetComponent<PlayerScript>();
             Debug.Log("Instantiated "+playerPrefab.gameObject.name);
+        }
+
+        void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+        {
+            if (stream.IsWriting == true)
+            {
+                stream.SendNext(newName);
+            }
+            else
+            {
+                newName = (string)stream.ReceiveNext();
+            }
         }
     }
 }

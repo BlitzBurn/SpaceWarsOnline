@@ -34,7 +34,14 @@ public class NetworkConnectionManager : MonoBehaviourPunCallbacks
     public void OnTextInput()
     {
         userName = userNameInput.text.ToString();
-        PlayerPrefs.SetString("PlayerName", userName);
+        userName = (string)PhotonNetwork.player.customProperties["CustomPlayerName"];
+        Hashtable hash = new Hashtable();
+        hash.Add("CustomPlayerName", userName);
+        PhotonNetwork.player.SetCustomProperties(hash);
+
+        //photonView.Owner.NickName = userName;
+        //PlayerPrefs.SetString("PlayerName", userName);
+        Debug.Log(PhotonNetwork.NickName);
     }
 
    

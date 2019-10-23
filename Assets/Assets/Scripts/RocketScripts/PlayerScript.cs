@@ -16,23 +16,25 @@ namespace SpaceWarsOnline
         private void Awake()
         {
             rocketRigidBody = GetComponent<Rigidbody>();
+            Changename();
 
             if (!photonView.IsMine && GetComponent<RocketController>() != null && GetComponent<FireMissile>() !=null )
             {
                 Debug.Log("Start called");
                 Destroy(GetComponent<FireMissile>());
                 Destroy(GetComponent<RocketController>());
-               // Destroy(GetComponent<Health>());
+                
+                // Destroy(GetComponent<Health>());
             }
 
-            Changename();
+            
         }
 
 
         private void Changename()
         {
-            newName = "Player" + Random.Range(1, 69) + Random.Range(12, 50);
-            //newName = PlayerPrefs.GetString("PlayerName");
+            //newName = "Player" + Random.Range(1, 69) + Random.Range(12, 50);
+            newName = PlayerPrefs.GetString("PlayerName");
             gameObject.name = newName;
             Debug.Log(newName);
         }

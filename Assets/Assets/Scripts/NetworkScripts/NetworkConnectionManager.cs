@@ -57,10 +57,6 @@ public class NetworkConnectionManager : MonoBehaviourPunCallbacks
             //Debug.Log("TriesToConnectToRoom");
         }
 
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            Debug.Log(userName);
-        }
     }
 
    

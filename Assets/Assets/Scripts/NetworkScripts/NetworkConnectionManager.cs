@@ -6,6 +6,8 @@ using UnityEngine.UI;
 using Photon.Realtime;
 using UnityEngine.SceneManagement;
 
+
+
 public class NetworkConnectionManager : MonoBehaviourPunCallbacks
 {
     [Header("Buttons")]
@@ -37,14 +39,13 @@ public class NetworkConnectionManager : MonoBehaviourPunCallbacks
         userName = (string)PhotonNetwork.player.customProperties["CustomPlayerName"];
         Hashtable hash = new Hashtable();
         hash.Add("CustomPlayerName", userName);
-        PhotonNetwork.player.SetCustomProperties(hash);
-
+        PhotonNetwork.LocalPlayer.SetCustomProperties(hash);
         //photonView.Owner.NickName = userName;
         //PlayerPrefs.SetString("PlayerName", userName);
         Debug.Log(PhotonNetwork.NickName);
     }
 
-   
+    
 
     void Update()
     {
@@ -128,6 +129,7 @@ public class NetworkConnectionManager : MonoBehaviourPunCallbacks
 
     public override void OnJoinedRoom()
     {
+        Debug.Log("OnJoinedRoomCalled");
         base.OnJoinedRoom();
 
         TriesToConnectToRoom = false;

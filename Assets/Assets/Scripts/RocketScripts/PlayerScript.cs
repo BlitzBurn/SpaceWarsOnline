@@ -33,9 +33,10 @@ namespace SpaceWarsOnline
 
         private void Changename()
         {
-            //newName = "Player" + Random.Range(1, 69) + Random.Range(12, 50);
+            newName = (string)PhotonNetwork.LocalPlayer.CustomProperties["CustomPlayerName"];
             //newName = PlayerPrefs.GetString("PlayerName");
-            newName = PhotonNetwork.NickName;
+            //newName = PhotonNetwork.NickName;
+
             gameObject.name = newName;
             Debug.Log(newName);
         }

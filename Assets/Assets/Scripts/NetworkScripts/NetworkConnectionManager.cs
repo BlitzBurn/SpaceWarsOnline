@@ -10,10 +10,16 @@ using UnityEngine.SceneManagement;
 
 public class NetworkConnectionManager : MonoBehaviourPunCallbacks
 {
+    
+    private Text _userNameText;
+
     [Header("Buttons")]
     public Button BtnConnectMaster;
     public Button BtnCreateRoom;
     public Button BtnConnectRoom;
+    public Button submitUserName;
+    public Button submitRoomName;
+
 
     [Header("Username")]
     public InputField userNameInput;
@@ -26,26 +32,29 @@ public class NetworkConnectionManager : MonoBehaviourPunCallbacks
 
     void Start()
     {
-        userNameInput.onValueChanged.AddListener(delegate { OnTextInput(); });
+        //userNameInput.onValueChanged.AddListener(delegate { OnTextInput(); });
         DontDestroyOnLoad(gameObject);
         TriesToConnectToMaster = false;
         TriesToConnectToRoom = false;
         OnClickConnectToMaster();
     }
 
-    public void OnTextInput()
+    public void UserNameInput()
     {
+        ExitGames.Client.Photon.Hashtable _customName = PhotonNetwork.LocalPlayer.CustomProperties;
+
         userName = userNameInput.text.ToString();
-        userName = (string)PhotonNetwork.player.customProperties["CustomPlayerName"];
-        Hashtable hash = new Hashtable();
-        hash.Add("CustomPlayerName", userName);
-        PhotonNetwork.LocalPlayer.SetCustomProperties(hash);
-        //photonView.Owner.NickName = userName;
-        //PlayerPrefs.SetString("PlayerName", userName);
-        Debug.Log(PhotonNetwork.NickName);
+
+        _customName["CustomPlayerName"] = userName;
+        PhotonNetwork.LocalPlayer.CustomProperties = _customName;
+
+        string SavedUsername = (string)PhotonNetwork.LocalPlayer.CustomProperties["CustomPlayerName"];
+
+        Debug.Log(SavedUsername);
+        
     }
 
-    
+
 
     void Update()
     {

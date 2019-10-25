@@ -82,10 +82,12 @@ namespace SpaceWarsOnline
             if (stream.IsWriting == true)
             {
                 stream.SendNext(newName);
+                stream.SendNext(gameObject.name);
             }
             else
             {
                 newName = (string)stream.ReceiveNext();
+                gameObject.name = (string)stream.ReceiveNext();
             }
         }
     }

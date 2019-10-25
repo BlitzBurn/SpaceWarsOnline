@@ -27,14 +27,16 @@ namespace SpaceWarsOnline
                 
                 // Destroy(GetComponent<Health>());
             }
-            if (photonView.IsMine)
-            {
-               // Changename();
-            }            
+                     
         }
 
         void Start()
         {
+
+            if (!photonView.IsMine)
+            {
+                Destroy(GetComponent<PlayerScript>());
+            }
             Changename();
         }
 

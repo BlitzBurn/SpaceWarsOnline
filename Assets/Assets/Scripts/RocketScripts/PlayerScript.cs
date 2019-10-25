@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
+using Photon.Realtime;
 
 
 namespace SpaceWarsOnline
@@ -16,34 +17,38 @@ namespace SpaceWarsOnline
         private void Awake()
         {
             rocketRigidBody = GetComponent<Rigidbody>();
-            Changename();
-
+           // gameObject.name = PhotonNetwork.LocalPlayer.UserId;
             if (!photonView.IsMine && GetComponent<RocketController>() != null && GetComponent<FireMissile>() !=null )
             {
                 Debug.Log("Start called");
                 Destroy(GetComponent<FireMissile>());
                 Destroy(GetComponent<RocketController>());
+
                 
                 // Destroy(GetComponent<Health>());
             }
-
-            
+            if (photonView.IsMine)
+            {
+               // Changename();
+            }            
         }
 
+        void Start()
+        {
+            Changename();
+        }
 
         private void Changename()
         {
+            Debug.Log("[Change Name Called]");
             newName = (string)PhotonNetwork.LocalPlayer.CustomProperties["CustomPlayerName"];
-            //newName = PlayerPrefs.GetString("PlayerName");
-            //newName = PhotonNetwork.NickName;
-
+            Debug.Log("PhotonNetwork Name:"+PhotonNetwork.LocalPlayer.CustomProperties["CustomPlayerName"]);   
             gameObject.name = newName;
-            Debug.Log(newName);
+            Debug.Log("newName"+newName);
         }
 
         public static void RefreshInstance(ref PlayerScript player, PlayerScript playerPrefab, GameObject spawnLocation)
         {
-            Debug.Log("Spawned");
             var position = Vector3.zero;
             var spawnPosition = spawnLocation.transform.position;
             var rotation = Quaternion.identity;
@@ -55,18 +60,18 @@ namespace SpaceWarsOnline
             }
 
             player = PhotonNetwork.Instantiate(playerPrefab.gameObject.name, spawnPosition, rotation).GetComponent<PlayerScript>();
-            Debug.Log("Instantiated "+playerPrefab.gameObject.name);
+           // Debug.Log("Instantiated "+playerPrefab.gameObject.name);
         }
 
-        void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+        public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
         {
             if (stream.IsWriting == true)
             {
-                stream.SendNext(newName);
+                //stream.SendNext(newName);
             }
             else
             {
-                newName = (string)stream.ReceiveNext();
+                //newName = (string)stream.ReceiveNext();
             }
         }
     }

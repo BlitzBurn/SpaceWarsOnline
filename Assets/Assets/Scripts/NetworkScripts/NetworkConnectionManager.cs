@@ -25,6 +25,11 @@ public class NetworkConnectionManager : MonoBehaviourPunCallbacks
     public InputField userNameInput;
     private string userName;
 
+    [Header("Enter Room")]
+    private string roomName;
+    public InputField roomNameInput;
+
+
     protected bool TriesToConnectToMaster;
     protected bool TriesToConnectToRoom;
 
@@ -32,6 +37,7 @@ public class NetworkConnectionManager : MonoBehaviourPunCallbacks
 
     void Start()
     {
+        roomName = "room1";
         //userNameInput.onValueChanged.AddListener(delegate { OnTextInput(); });
         DontDestroyOnLoad(gameObject);
         TriesToConnectToMaster = false;
@@ -39,7 +45,12 @@ public class NetworkConnectionManager : MonoBehaviourPunCallbacks
         OnClickConnectToMaster();
     }
 
-    public void UserNameInput()
+    public void RoomNameInput_OnClick()
+    {
+        roomName = roomNameInput.text.ToString();
+    }
+
+    public void UserNameInput_OnClick()
     {
         ExitGames.Client.Photon.Hashtable _customName = PhotonNetwork.LocalPlayer.CustomProperties;
 
@@ -50,8 +61,10 @@ public class NetworkConnectionManager : MonoBehaviourPunCallbacks
 
         string SavedUsername = (string)PhotonNetwork.LocalPlayer.CustomProperties["CustomPlayerName"];
 
-        Debug.Log(SavedUsername);
-        
+        //PhotonNetwork.AuthValues = new AuthenticationValues(SavedUsername);
+        //PhotonNetwork.LocalPlayer.UserId = SavedUsername;
+
+       // Debug.Log(PhotonNetwork.LocalPlayer.UserId);        
     }
 
 
@@ -115,13 +128,14 @@ public class NetworkConnectionManager : MonoBehaviourPunCallbacks
         Debug.Log("Connect to do room");
        TriesToConnectToRoom = true;
         //PhotonNetwork.CreateRoom("TestRoom1");
-        PhotonNetwork.JoinRoom("room1");
+        PhotonNetwork.JoinRoom(roomName);
 
         //PhotonNetwork.JoinRandomRoom();        
     }
 
     public void OnClick_CreateRoom()
     {
+        
         if (!PhotonNetwork.IsConnected)
         {
             return;
@@ -131,7 +145,7 @@ public class NetworkConnectionManager : MonoBehaviourPunCallbacks
         //roomOptions.IsVisible = true;
         roomOptions.MaxPlayers = 4;
 
-        PhotonNetwork.CreateRoom("room1", roomOptions, TypedLobby.Default);
+        PhotonNetwork.CreateRoom(roomName, roomOptions, TypedLobby.Default);
 
 
     }

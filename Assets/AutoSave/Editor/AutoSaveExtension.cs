@@ -19,7 +19,7 @@ namespace EckTechGames
 			{
 				// Save the scene and the assets.
 				EditorApplication.SaveScene();
-				EditorApplication.SaveAssets();
+				AssetDatabase.SaveAssets();
 			}
 		}
 	}

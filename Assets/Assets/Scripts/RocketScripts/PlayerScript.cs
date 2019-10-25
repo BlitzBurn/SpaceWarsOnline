@@ -33,10 +33,15 @@ namespace SpaceWarsOnline
         void Start()
         {
 
-            if (!photonView.IsMine)
+            if (photonView.IsMine)
             {
-                Destroy(GetComponent<PlayerScript>());
+                //Destroy(GetComponent<PlayerScript>());
+                
             }
+            /* else if (!photonView.IsMine)
+             {
+                 Changename();
+             }*/
             Changename();
         }
 
@@ -46,7 +51,7 @@ namespace SpaceWarsOnline
             newName = (string)PhotonNetwork.LocalPlayer.CustomProperties["CustomPlayerName"];
             Debug.Log("PhotonNetwork Name:"+PhotonNetwork.LocalPlayer.CustomProperties["CustomPlayerName"]);   
             gameObject.name = newName;
-            Debug.Log("newName"+newName);
+            Debug.Log("newName "+newName);
         }
 
         public static void RefreshInstance(ref PlayerScript player, PlayerScript playerPrefab, GameObject spawnLocation)

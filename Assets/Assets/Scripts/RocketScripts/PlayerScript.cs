@@ -17,7 +17,7 @@ namespace SpaceWarsOnline
         private void Awake()
         {
             rocketRigidBody = GetComponent<Rigidbody>();
-           // gameObject.name = PhotonNetwork.LocalPlayer.UserId;
+           
             if (!photonView.IsMine && GetComponent<RocketController>() != null && GetComponent<FireMissile>() !=null )
             {
                 Debug.Log("Start called");
@@ -25,7 +25,7 @@ namespace SpaceWarsOnline
                 Destroy(GetComponent<RocketController>());
 
                 
-                // Destroy(GetComponent<Health>());
+               
             }
                      
         }
@@ -35,14 +35,21 @@ namespace SpaceWarsOnline
 
             if (photonView.IsMine)
             {
-                //Destroy(GetComponent<PlayerScript>());
-                
+                StartCoroutine(delay());
+
             }
-            /* else if (!photonView.IsMine)
+             else if (!photonView.IsMine)
              {
-                 Changename();
-             }*/
+                 
+             }
+            //Changename();
+        }
+
+        private IEnumerator delay()
+        {
+            yield return new WaitForSeconds(3);
             Changename();
+
         }
 
         private void Changename()
@@ -74,11 +81,11 @@ namespace SpaceWarsOnline
         {
             if (stream.IsWriting == true)
             {
-                //stream.SendNext(newName);
+                stream.SendNext(newName);
             }
             else
             {
-                //newName = (string)stream.ReceiveNext();
+                newName = (string)stream.ReceiveNext();
             }
         }
     }

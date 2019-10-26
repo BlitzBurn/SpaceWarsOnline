@@ -52,6 +52,7 @@ namespace SpaceWarsOnline
 
         }
 
+        [PunRPC]
         private void Changename()
         {
             Debug.Log("[Change Name Called]");

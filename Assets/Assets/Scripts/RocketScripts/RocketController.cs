@@ -26,6 +26,7 @@ public class RocketController : MonoBehaviourPun
     {    
         if (Input.GetKey(KeyCode.Space))
         {
+            Debug.Log("Pressed the space bar");
             MoveForward();
         }
 

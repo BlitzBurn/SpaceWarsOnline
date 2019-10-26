@@ -47,7 +47,7 @@ namespace SpaceWarsOnline
 
         
 
-        [PunRPC]
+        [PunRPC]/*
         private void ChangeName()
         {
             Debug.Log("[Change Name Called]");
@@ -56,7 +56,7 @@ namespace SpaceWarsOnline
             gameObject.name = newName;
             Debug.Log("newName "+newName);
         }
-
+        */
         public static void RefreshInstance(ref PlayerScript player, PlayerScript playerPrefab, GameObject spawnLocation)
         {
             var position = Vector3.zero;

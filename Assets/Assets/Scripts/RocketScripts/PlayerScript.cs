@@ -30,12 +30,13 @@ namespace SpaceWarsOnline
                      
         }
 
+        [PunRPC]
         void Start()
         {
 
             if (photonView.IsMine)
             {
-                StartCoroutine(delay());
+                GetComponent<PhotonView>().RPC("ChangeName", RpcTarget.All);               
 
             }
              else if (!photonView.IsMine)
@@ -45,15 +46,10 @@ namespace SpaceWarsOnline
             //Changename();
         }
 
-        private IEnumerator delay()
-        {
-            yield return new WaitForSeconds(3);
-            Changename();
-
-        }
+        
 
         [PunRPC]
-        private void Changename()
+        private void ChangeName()
         {
             Debug.Log("[Change Name Called]");
             newName = (string)PhotonNetwork.LocalPlayer.CustomProperties["CustomPlayerName"];

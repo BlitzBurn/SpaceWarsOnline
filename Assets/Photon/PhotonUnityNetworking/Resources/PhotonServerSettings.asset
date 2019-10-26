@@ -35,5 +35,7 @@ MonoBehaviour:
   - Fire
   - RespawnSpaceship
   - Changename
+  - ChangeName
+  - Start
   DisableAutoOpenWizard: 1
   ShowSettings: 1

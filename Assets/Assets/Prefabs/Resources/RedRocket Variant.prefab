@@ -16,19 +16,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 116
   m_CollisionDetection: 0
---- !u!114 &-9112972769207110749
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3278733913496031897}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f53ae05bab0184b4ab5089a96213cf52, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  nametag: {fileID: 0}
 --- !u!114 &2600494713435716298
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -152,6 +139,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8886951598678817667, guid: eafc1085a9151f54c9d561022525b68a,
+        type: 3}
+      propertyPath: m_TagString
+      value: RocketTag
       objectReference: {fileID: 0}
     - target: {fileID: 4832840845346009573, guid: eafc1085a9151f54c9d561022525b68a,
         type: 3}

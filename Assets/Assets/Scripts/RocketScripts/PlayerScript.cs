@@ -18,7 +18,7 @@ namespace SpaceWarsOnline
         {
             rocketRigidBody = GetComponent<Rigidbody>();
            
-            if (!photonView.IsMine && GetComponent<RocketController>() != null && GetComponent<FireMissile>() !=null && GetComponent<AddCustomName>()!=null)
+            if (!photonView.IsMine && GetComponent<RocketController>() != null && GetComponent<FireMissile>() !=null /*&& GetComponent<AddCustomName>()!=null*/)
             {
                 Debug.Log("Start called");
                 Destroy(GetComponent<FireMissile>());
@@ -28,11 +28,7 @@ namespace SpaceWarsOnline
                
             }
 
-            for (int i = 0; i < PhotonNetwork.CountOfPlayers; i++)
-            {
-                Debug.Log("For loop: " + i);
-                Debug.Log(PhotonNetwork.PlayerList[i].NickName);
-            }
+            
 
         }
 

@@ -12,9 +12,19 @@ public class AddCustomName : MonoBehaviourPun
 
     public Text nametag;
 
+    List<GameObject> players = new List<GameObject>();
+
     [PunRPC]
     void Start()
     {
+        
+        foreach(GameObject rocket in GameObject.FindGameObjectsWithTag("RocketTag"))
+        {
+            players.Add(rocket);
+            rocket.name = PhotonNetwork.NickName;
+
+        }
+
         Debug.Log("PhotonNetwork.Nickname"+PhotonNetwork.NickName);
         Debug.Log("LocalPlayer.Nickname: "+PhotonNetwork.LocalPlayer.NickName);
 
@@ -34,10 +44,24 @@ public class AddCustomName : MonoBehaviourPun
     [PunRPC]
     private void ChangeName()
     {
+        Debug.Log("ChangeName");
+        foreach(Player player in PhotonNetwork.PlayerList)
+        {
+            
+        }
+
+        for (int i = 0; i < PhotonNetwork.CountOfPlayers; i++)
+        {
+            if (PhotonNetwork.LocalPlayer == PhotonNetwork.PlayerList[i])
+            {
+                
+            }
+        }
+        /*
         Debug.Log("[Change Name Called]");
         newName = (string)PhotonNetwork.LocalPlayer.CustomProperties["CustomPlayerName"];
         Debug.Log("PhotonNetwork Name:"+PhotonNetwork.LocalPlayer.CustomProperties["CustomPlayerName"]);   
-        gameObject.name = newName;
+        gameObject.name = newName;*/
 
         PhotonNetwork.LocalPlayer.NickName = newName;
         Debug.Log("Nickname: "+PhotonNetwork.LocalPlayer.NickName);

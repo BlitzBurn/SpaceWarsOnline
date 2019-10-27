@@ -166,13 +166,7 @@ public class NetworkConnectionManager : MonoBehaviourPunCallbacks
 
         Debug.Log("Master: "+PhotonNetwork.IsMasterClient + " | Players In Room: " + PhotonNetwork.CurrentRoom.PlayerCount + " | RoomName: " + PhotonNetwork.CurrentRoom.Name + " Region: " + PhotonNetwork.CloudRegion);
         SceneManager.LoadScene("GamePlayScene");
-
-       
-        /*
-        if (PhotonNetwork.IsMasterClient && SceneManager.GetActiveScene().name != "GamePlayScene")
-        {
-            SceneManager.LoadScene("GamePlayScene");//Change This later!!!!
-        }*/
+        
     }
 
     public override void OnJoinRandomFailed(short returnCode, string message)

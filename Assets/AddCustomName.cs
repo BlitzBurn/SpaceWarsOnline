@@ -31,7 +31,7 @@ public class AddCustomName : MonoBehaviourPun
         newName = (string)PhotonNetwork.LocalPlayer.CustomProperties["CustomPlayerName"];
         Debug.Log("PhotonNetwork Name:"+PhotonNetwork.LocalPlayer.CustomProperties["CustomPlayerName"]);   
         gameObject.name = newName;
-        Debug.Log("newName "+newName);
+        
     }
         
 }

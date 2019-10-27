@@ -10,9 +10,14 @@ public class AddCustomName : MonoBehaviourPun
 
     private string newName;
 
+    public Text nametag;
+
     [PunRPC]
     void Start()
     {
+        Debug.Log("PhotonNetwork.Nickname"+PhotonNetwork.NickName);
+        Debug.Log("LocalPlayer.Nickname: "+PhotonNetwork.LocalPlayer.NickName);
+
         Debug.Log("Start1");
         if (!photonView.IsMine)
         {
@@ -22,7 +27,7 @@ public class AddCustomName : MonoBehaviourPun
         else if (photonView.IsMine)
         {
             Debug.Log("Start3");
-            GetComponent<PhotonView>().RPC("ChangeName", RpcTarget.MasterClient);
+           // GetComponent<PhotonView>().RPC("ChangeName", RpcTarget.MasterClient);
         }
     }
 
@@ -37,5 +42,18 @@ public class AddCustomName : MonoBehaviourPun
         PhotonNetwork.LocalPlayer.NickName = newName;
         Debug.Log("Nickname: "+PhotonNetwork.LocalPlayer.NickName);
     }
-        
+
+
+    //AidenStudiosTutorialHere
+
+    void Awake()
+    {
+        //photonView.RPC("rpcShet", RpcTarget.All, PhotonNetwork.NickName);
+    }
+
+    [PunRPC]
+    public void updateName(string name)
+    {
+        nametag.text = name;
+    }
 }

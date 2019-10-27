@@ -25,13 +25,13 @@ public class AddCustomName : MonoBehaviourPun
     }
 
     [PunRPC]
-        private void ChangeName()
-        {
-            Debug.Log("[Change Name Called]");
-            newName = (string)PhotonNetwork.LocalPlayer.CustomProperties["CustomPlayerName"];
-            Debug.Log("PhotonNetwork Name:"+PhotonNetwork.LocalPlayer.CustomProperties["CustomPlayerName"]);   
-            gameObject.name = newName;
-            Debug.Log("newName "+newName);
-        }
+    private void ChangeName()
+    {
+        Debug.Log("[Change Name Called]");
+        newName = (string)PhotonNetwork.LocalPlayer.CustomProperties["CustomPlayerName"];
+        Debug.Log("PhotonNetwork Name:"+PhotonNetwork.LocalPlayer.CustomProperties["CustomPlayerName"]);   
+        gameObject.name = newName;
+        Debug.Log("newName "+newName);
+    }
         
 }

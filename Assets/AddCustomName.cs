@@ -21,7 +21,7 @@ public class AddCustomName : MonoBehaviourPun
         foreach(GameObject rocket in GameObject.FindGameObjectsWithTag("RocketTag"))
         {
             players.Add(rocket);
-            rocket.name = PhotonNetwork.NickName;
+            //rocket.name = PhotonNetwork.NickName;
 
         }
 
@@ -37,7 +37,7 @@ public class AddCustomName : MonoBehaviourPun
         else if (photonView.IsMine)
         {
             Debug.Log("Start3");
-           // GetComponent<PhotonView>().RPC("ChangeName", RpcTarget.MasterClient);
+            
         }
     }
 
@@ -54,7 +54,7 @@ public class AddCustomName : MonoBehaviourPun
         {
             if (PhotonNetwork.LocalPlayer == PhotonNetwork.PlayerList[i])
             {
-                
+                gameObject.name = PhotonNetwork.PlayerList[i].NickName;
             }
         }
         /*
@@ -72,12 +72,17 @@ public class AddCustomName : MonoBehaviourPun
 
     void Awake()
     {
-        //photonView.RPC("rpcShet", RpcTarget.All, PhotonNetwork.NickName);
+        
     }
 
     [PunRPC]
     public void updateName(string name)
     {
         nametag.text = name;
+    }
+
+    private void Update()
+    {
+        
     }
 }

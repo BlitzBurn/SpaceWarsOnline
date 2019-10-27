@@ -18,7 +18,8 @@ public class RocketController : MonoBehaviourPun
     {
         
         rocketRB = gameObject.GetComponent<Rigidbody>();
-        rocketDirection = gameObject.GetComponent<Transform>();        
+        rocketDirection = gameObject.GetComponent<Transform>();
+        gameObject.name = PhotonNetwork.NickName;
     }
 
 

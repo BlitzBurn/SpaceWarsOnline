@@ -18,12 +18,12 @@ namespace SpaceWarsOnline
         {
             rocketRigidBody = GetComponent<Rigidbody>();
            
-            if (!photonView.IsMine && GetComponent<RocketController>() != null && GetComponent<FireMissile>() !=null )
+            if (!photonView.IsMine && GetComponent<RocketController>() != null && GetComponent<FireMissile>() !=null && GetComponent<AddCustomName>()!=null)
             {
                 Debug.Log("Start called");
                 Destroy(GetComponent<FireMissile>());
                 Destroy(GetComponent<RocketController>());
-
+                Destroy(GetComponent<AddCustomName>());
                 
                
             }
@@ -42,21 +42,12 @@ namespace SpaceWarsOnline
              {
                  
              }
-            //Changename();
+           
         }
 
         
 
-        [PunRPC]/*
-        private void ChangeName()
-        {
-            Debug.Log("[Change Name Called]");
-            newName = (string)PhotonNetwork.LocalPlayer.CustomProperties["CustomPlayerName"];
-            Debug.Log("PhotonNetwork Name:"+PhotonNetwork.LocalPlayer.CustomProperties["CustomPlayerName"]);   
-            gameObject.name = newName;
-            Debug.Log("newName "+newName);
-        }
-        */
+        
         public static void RefreshInstance(ref PlayerScript player, PlayerScript playerPrefab, GameObject spawnLocation)
         {
             var position = Vector3.zero;

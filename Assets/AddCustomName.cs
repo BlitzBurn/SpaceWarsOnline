@@ -2,28 +2,36 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Photon.Pun;
+using Photon.Realtime;
 
-public class AddCustomName : MonoBehaviour
-{/*
-    [Header("Username")]
-    public InputField userNameInput;
-    private string userName;
+public class AddCustomName : MonoBehaviourPun
+{
 
+    private string newName;
+
+    [PunRPC]
     void Start()
     {
-        userNameInput.onValueChanged.AddListener(delegate { OnTextInput(); } );
-    }
 
-    public void OnTextInput()
-    {
-        userName = userNameInput.text.ToString();
-    }
-
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (photonView.IsMine)
         {
-            Debug.Log(userName);
+            GetComponent<PhotonView>().RPC("ChangeName", RpcTarget.AllBuffered);
         }
-    }*/
+        else if (!photonView.IsMine)
+        {
+
+        }
+    }
+
+    [PunRPC]
+        private void ChangeName()
+        {
+            Debug.Log("[Change Name Called]");
+            newName = (string)PhotonNetwork.LocalPlayer.CustomProperties["CustomPlayerName"];
+            Debug.Log("PhotonNetwork Name:"+PhotonNetwork.LocalPlayer.CustomProperties["CustomPlayerName"]);   
+            gameObject.name = newName;
+            Debug.Log("newName "+newName);
+        }
+        
 }

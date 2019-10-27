@@ -17,7 +17,7 @@ namespace SpaceWarsOnline
         private void Awake()
         {
             rocketRigidBody = GetComponent<Rigidbody>();
-           
+            Debug.Log();
             if (!photonView.IsMine && GetComponent<RocketController>() != null && GetComponent<FireMissile>() !=null /*&& GetComponent<AddCustomName>()!=null*/)
             {
                 Debug.Log("Start called");

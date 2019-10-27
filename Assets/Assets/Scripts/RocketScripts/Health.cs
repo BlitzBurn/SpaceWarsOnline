@@ -36,6 +36,7 @@ public class Health : MonoBehaviourPun/*, Photon.Pun.IPunObservable*/
     {
         if (collision.collider.tag == "MissileTag")
         {
+            
            // Debug.Log("Missile hit");
 
             //MissileExplode explodeScript = collision.gameObject.GetComponent<MissileExplode>();

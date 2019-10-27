@@ -23,7 +23,7 @@ namespace SpaceWarsOnline
                 Debug.Log("Start called");
                 Destroy(GetComponent<FireMissile>());
                 Destroy(GetComponent<RocketController>());
-                Destroy(GetComponent<AddCustomName>());
+               // Destroy(GetComponent<AddCustomName>());
                 
                
             }

@@ -27,7 +27,13 @@ namespace SpaceWarsOnline
                 
                
             }
-                     
+
+            for (int i = 0; i < PhotonNetwork.CountOfPlayers; i++)
+            {
+                Debug.Log("For loop: " + i);
+                Debug.Log(PhotonNetwork.PlayerList[i].NickName);
+            }
+
         }
 
         [PunRPC]

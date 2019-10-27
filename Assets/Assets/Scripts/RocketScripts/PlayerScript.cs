@@ -40,7 +40,7 @@ namespace SpaceWarsOnline
             }
              else if (!photonView.IsMine)
              {
-                GetComponent<PhotonView>().RPC("ChangeName", RpcTarget.AllBuffered);
+                GetComponent<PhotonView>().RPC("ChangeName", RpcTarget.MasterClient);
             }
            
         }

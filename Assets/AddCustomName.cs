@@ -14,11 +14,11 @@ public class AddCustomName : MonoBehaviourPun
     void Start()
     {
 
-        if (photonView.IsMine)
+        if (!photonView.IsMine)
         {
-            //GetComponent<PhotonView>().RPC("ChangeName", RpcTarget.AllBuffered);
+           // GetComponent<PhotonView>().RPC("ChangeName", RpcTarget.AllBuffered);
         }
-        else if (!photonView.IsMine)
+        else if (photonView.IsMine)
         {
 
         }

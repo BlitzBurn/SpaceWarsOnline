@@ -13,14 +13,16 @@ public class AddCustomName : MonoBehaviourPun
     [PunRPC]
     void Start()
     {
-
+        Debug.Log("Start1");
         if (!photonView.IsMine)
         {
-           // GetComponent<PhotonView>().RPC("ChangeName", RpcTarget.AllBuffered);
+            Debug.Log("Start2");
+            
         }
         else if (photonView.IsMine)
         {
-
+            Debug.Log("Start3");
+            GetComponent<PhotonView>().RPC("ChangeName", RpcTarget.MasterClient);
         }
     }
 

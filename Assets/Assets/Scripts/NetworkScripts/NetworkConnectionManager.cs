@@ -57,21 +57,13 @@ public class NetworkConnectionManager : MonoBehaviourPunCallbacks
         userName = userNameInput.text.ToString();
 
         PhotonNetwork.NickName = userName;
-        PhotonNetwork.LocalPlayer.NickName = userName;
-       
-     
+        PhotonNetwork.LocalPlayer.NickName = userName;    
 
         _customName["CustomPlayerName"] = userName;
         PhotonNetwork.LocalPlayer.CustomProperties = _customName;
 
         string SavedUsername = (string)PhotonNetwork.LocalPlayer.CustomProperties["CustomPlayerName"];
-
-       
-
-        //PhotonNetwork.AuthValues = new AuthenticationValues(SavedUsername);
-        //PhotonNetwork.LocalPlayer.UserId = SavedUsername;
-
-        // Debug.Log(PhotonNetwork.LocalPlayer.UserId);        
+              
     }
 
 

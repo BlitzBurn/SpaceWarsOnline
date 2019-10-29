@@ -44,12 +44,6 @@ public class AddCustomName : MonoBehaviourPun
     [PunRPC]
     private void ChangeName()
     {
-        Debug.Log("ChangeName");
-        foreach(Player player in PhotonNetwork.PlayerList)
-        {
-            
-        }
-
         for (int i = 0; i < PhotonNetwork.CountOfPlayers; i++)
         {
             if (PhotonNetwork.LocalPlayer == PhotonNetwork.PlayerList[i])
@@ -57,14 +51,10 @@ public class AddCustomName : MonoBehaviourPun
                 gameObject.name = PhotonNetwork.PlayerList[i].NickName;
             }
         }
-        /*
-        Debug.Log("[Change Name Called]");
-        newName = (string)PhotonNetwork.LocalPlayer.CustomProperties["CustomPlayerName"];
-        Debug.Log("PhotonNetwork Name:"+PhotonNetwork.LocalPlayer.CustomProperties["CustomPlayerName"]);   
-        gameObject.name = newName;*/
-
-        PhotonNetwork.LocalPlayer.NickName = newName;
-        Debug.Log("Nickname: "+PhotonNetwork.LocalPlayer.NickName);
+        /*         
+        newName = (string)PhotonNetwork.LocalPlayer.CustomProperties["CustomPlayerName"];       
+        gameObject.name = newName;
+        */
     }
 
 

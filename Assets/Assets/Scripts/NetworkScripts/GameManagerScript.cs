@@ -55,7 +55,7 @@ namespace SpaceWarsOnline
             Debug.Log("Start Called: Game Manager");
             //numberOfPlayers += 1;
             PlayerScript.RefreshInstance(ref localPlayer, playerPrefab, spawnLocation[numberOfPlayers]);
-            Debug.Log(gameHasStarted);
+
            
         }    
 
@@ -79,22 +79,15 @@ namespace SpaceWarsOnline
 
         void FixedUpdate()
         {
-            // PV.RPC("LobbyPlayerCount", RpcTarget.AllBuffered, gameHasStarted);
-            // Debug.Log(numberOfPlayers);
+             //PV.RPC("LobbyPlayerCount", RpcTarget.AllBuffered, gameHasStarted);
+        
 
-            /*
-            Debug.Log("CountOfPlayers: "+PhotonNetwork.CountOfPlayers);
-            Debug.Log("PlayerList: "+PhotonNetwork.PlayerList.Length);
-            Debug.Log("PlayersOnMaster"+PhotonNetwork.CountOfPlayersOnMaster);
-            Debug.Log("PlayersInRooms"+PhotonNetwork.CountOfPlayersInRooms);*/
-
-            // playersInLobby.text = numberOfPlayers.ToString();
+           
             playersInLobby.text = PhotonNetwork.PlayerList.Length.ToString();
             if (players.Count < PhotonNetwork.CountOfPlayers)
             {
                 
-                //
-               // Debug.Log(numberOfPlayers);
+               
             }
 
             if (!gameHasStarted)
@@ -105,14 +98,13 @@ namespace SpaceWarsOnline
 
         [PunRPC]
         private void LobbyPlayerCount(bool gameStarted)
-        {
-            /*
+        {            
                 foreach (GameObject rocket in GameObject.FindGameObjectsWithTag("RocketTag"))
                 {
                     players.Add(rocket);
                     //rocket.SetActive(false);
                 Debug.Log("Added Rocket To List");
-                }*/
+                }
             
         }
 

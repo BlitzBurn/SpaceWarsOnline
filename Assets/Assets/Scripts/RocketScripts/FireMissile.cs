@@ -10,7 +10,8 @@ public class FireMissile :MonoBehaviourPun
     public Transform MissileSpawnPoint;
     public MissileExplode missileExplode;
 
-   
+    private PhotonView pv;
+
     public float MissileCooldown;    
     private float time;   
     private string rocketName;
@@ -29,6 +30,7 @@ public class FireMissile :MonoBehaviourPun
         if (Input.GetKeyDown(KeyCode.Mouse1) && time >= MissileCooldown)
         {
             FireMissileMethod();
+           
         }
     }
 

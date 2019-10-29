@@ -40,5 +40,7 @@ MonoBehaviour:
   - RefreshInstance
   - updateName
   - LobbyPlayerCount
+  - ChangeMaterial
+  - ChangeRocketMaterial
   DisableAutoOpenWizard: 1
   ShowSettings: 1

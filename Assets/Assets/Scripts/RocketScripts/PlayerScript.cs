@@ -11,52 +11,30 @@ namespace SpaceWarsOnline
     {
         private string newName;
 
+        
+
         protected Rigidbody rocketRigidBody;
         protected Quaternion rocketRotation;
 
         private void Awake()
         {
             rocketRigidBody = GetComponent<Rigidbody>();
-            
-            if (!photonView.IsMine && GetComponent<RocketController>() != null && GetComponent<FireMissile>() !=null)
+
+            if (!base.photonView.IsMine && GetComponent<RocketController>() != null && GetComponent<FireMissile>() != null)
             {
                 //Debug.Log("Start called");
                 Destroy(GetComponent<FireMissile>());
-                Destroy(GetComponent<RocketController>());            
-                
-            }
-
-            
-
+                Destroy(GetComponent<RocketController>());
+                Destroy(GetComponent<PlayerMaterialChange>());
+            } 
         }
 
         [PunRPC]
         void Start()
         {
             GameManagerScript.numberOfPlayers += 1;
-            if (photonView.IsMine)
-            {
-                
-            }
-             else if (!photonView.IsMine)
-             {
-                
-            }
-
-            for (int i = 0; PhotonNetwork.CountOfPlayersInRooms < i; i++)
-            {
-                if (PhotonNetwork.PlayerList[i] == PhotonNetwork.LocalPlayer)
-                {
-                    Debug.Log("Is localPlayer");
-                }
-                else
-                {
-                    Debug.Log("is Not Local Playerd");
-                }
-            }
         }
 
-        
 
         
         public static void RefreshInstance(ref PlayerScript player, PlayerScript playerPrefab, GameObject spawnLocation)

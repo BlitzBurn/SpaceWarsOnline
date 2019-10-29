@@ -22,7 +22,7 @@ namespace SpaceWarsOnline
         public List<GameObject> spawnLocation;
         // public GameObject spawnLocation1, spawnLocation2, spawnLocation3, spawnLocation4;
 
-        protected int numberOfPlayers;
+        public static int numberOfPlayers=0;
 
         private bool gameHasStarted;
         
@@ -50,11 +50,16 @@ namespace SpaceWarsOnline
         private void Start()
         {
             // numberOfPlayers = PhotonNetwork.CountOfPlayers;
-            numberOfPlayers += 1;
+            PhotonNetwork.SendRate = 20;
+            PhotonNetwork.SerializationRate = 10;
+            Debug.Log("Start Called: Game Manager");
+            //numberOfPlayers += 1;
             PlayerScript.RefreshInstance(ref localPlayer, playerPrefab, spawnLocation[numberOfPlayers]);
             Debug.Log(gameHasStarted);
            
         }    
+
+       
 
         public override void OnPlayerEnteredRoom(Photon.Realtime.Player newPlayer)
         {
@@ -74,9 +79,11 @@ namespace SpaceWarsOnline
 
         void FixedUpdate()
         {
+            PV.RPC("LobbyPlayerCount", RpcTarget.AllBuffered, gameHasStarted);
+           // Debug.Log(numberOfPlayers);
             if (players.Count < PhotonNetwork.CountOfPlayers)
             {
-                PV.RPC("LobbyPlayerCount", RpcTarget.AllBuffered, gameHasStarted);
+                
                 //Debug.Log(PhotonNetwork.CountOfPlayers);
                 Debug.Log(numberOfPlayers);
             }
@@ -90,22 +97,22 @@ namespace SpaceWarsOnline
         [PunRPC]
         private void LobbyPlayerCount(bool gameStarted)
         {
-            
+            /*
                 foreach (GameObject rocket in GameObject.FindGameObjectsWithTag("RocketTag"))
                 {
                     players.Add(rocket);
                     //rocket.SetActive(false);
                 Debug.Log("Added Rocket To List");
-                }
+                }*/
             playersInLobby.text = numberOfPlayers.ToString();
         }
 
         public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
         {
             if (stream.IsWriting)
-            {
-                stream.SendNext(numberOfPlayers);
+            {                
                 stream.SendNext(gameHasStarted);
+                stream.SendNext(numberOfPlayers);
                 stream.SendNext(playersInLobby);
             }
             else if (stream.IsReading)

@@ -132,7 +132,7 @@ public class NetworkConnectionManager : MonoBehaviourPunCallbacks
         {
             return;
         }
-        Debug.Log("Connect to do room");
+        //Debug.Log("Connect to do room");
        TriesToConnectToRoom = true;
         //PhotonNetwork.CreateRoom("TestRoom1");
         PhotonNetwork.JoinRoom(roomName);

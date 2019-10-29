@@ -20,7 +20,7 @@ namespace SpaceWarsOnline
             
             if (!photonView.IsMine && GetComponent<RocketController>() != null && GetComponent<FireMissile>() !=null)
             {
-                Debug.Log("Start called");
+                //Debug.Log("Start called");
                 Destroy(GetComponent<FireMissile>());
                 Destroy(GetComponent<RocketController>());            
                 
@@ -33,7 +33,7 @@ namespace SpaceWarsOnline
         [PunRPC]
         void Start()
         {
-
+            GameManagerScript.numberOfPlayers += 1;
             if (photonView.IsMine)
             {
                 

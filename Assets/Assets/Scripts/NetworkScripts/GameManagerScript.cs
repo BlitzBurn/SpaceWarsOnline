@@ -63,11 +63,11 @@ namespace SpaceWarsOnline
 
         public override void OnPlayerEnteredRoom(Photon.Realtime.Player newPlayer)
         {
-            numberOfPlayers += 1;
+            //numberOfPlayers += 1;
             Debug.Log("Player Entered room "+numberOfPlayers);
             base.OnPlayerEnteredRoom(newPlayer);
             
-            PlayerScript.RefreshInstance(ref localPlayer, playerPrefab, spawnLocation[numberOfPlayers]);
+            PlayerScript.RefreshInstance(ref localPlayer, playerPrefab, spawnLocation[PhotonNetwork.PlayerList.Length]);
 
         }
 
@@ -79,13 +79,22 @@ namespace SpaceWarsOnline
 
         void FixedUpdate()
         {
-            PV.RPC("LobbyPlayerCount", RpcTarget.AllBuffered, gameHasStarted);
-           // Debug.Log(numberOfPlayers);
+            // PV.RPC("LobbyPlayerCount", RpcTarget.AllBuffered, gameHasStarted);
+            // Debug.Log(numberOfPlayers);
+
+            /*
+            Debug.Log("CountOfPlayers: "+PhotonNetwork.CountOfPlayers);
+            Debug.Log("PlayerList: "+PhotonNetwork.PlayerList.Length);
+            Debug.Log("PlayersOnMaster"+PhotonNetwork.CountOfPlayersOnMaster);
+            Debug.Log("PlayersInRooms"+PhotonNetwork.CountOfPlayersInRooms);*/
+
+            // playersInLobby.text = numberOfPlayers.ToString();
+            playersInLobby.text = PhotonNetwork.PlayerList.Length.ToString();
             if (players.Count < PhotonNetwork.CountOfPlayers)
             {
                 
-                //Debug.Log(PhotonNetwork.CountOfPlayers);
-                Debug.Log(numberOfPlayers);
+                //
+               // Debug.Log(numberOfPlayers);
             }
 
             if (!gameHasStarted)
@@ -104,7 +113,7 @@ namespace SpaceWarsOnline
                     //rocket.SetActive(false);
                 Debug.Log("Added Rocket To List");
                 }*/
-            playersInLobby.text = numberOfPlayers.ToString();
+            
         }
 
         public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
@@ -113,13 +122,13 @@ namespace SpaceWarsOnline
             {                
                 stream.SendNext(gameHasStarted);
                 stream.SendNext(numberOfPlayers);
-                stream.SendNext(playersInLobby);
+                //stream.SendNext(playersInLobby);
             }
             else if (stream.IsReading)
             {
                 gameHasStarted = (bool)stream.ReceiveNext();
                 numberOfPlayers = (int)stream.ReceiveNext();
-                playersInLobby = (Text)stream.ReceiveNext();
+                //playersInLobby = (Text)stream.ReceiveNext();
             }
         }
 

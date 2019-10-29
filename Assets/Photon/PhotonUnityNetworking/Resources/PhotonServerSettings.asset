@@ -39,5 +39,6 @@ MonoBehaviour:
   - Start
   - RefreshInstance
   - updateName
+  - LobbyPlayerCount
   DisableAutoOpenWizard: 1
   ShowSettings: 1

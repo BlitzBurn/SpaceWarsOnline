@@ -17,15 +17,13 @@ namespace SpaceWarsOnline
         private void Awake()
         {
             rocketRigidBody = GetComponent<Rigidbody>();
-            Debug.Log();
-            if (!photonView.IsMine && GetComponent<RocketController>() != null && GetComponent<FireMissile>() !=null /*&& GetComponent<AddCustomName>()!=null*/)
+            
+            if (!photonView.IsMine && GetComponent<RocketController>() != null && GetComponent<FireMissile>() !=null)
             {
                 Debug.Log("Start called");
                 Destroy(GetComponent<FireMissile>());
-                Destroy(GetComponent<RocketController>());
-               // Destroy(GetComponent<AddCustomName>());
+                Destroy(GetComponent<RocketController>());            
                 
-               
             }
 
             
@@ -44,7 +42,18 @@ namespace SpaceWarsOnline
              {
                 
             }
-           
+
+            for (int i = 0; PhotonNetwork.CountOfPlayersInRooms < i; i++)
+            {
+                if (PhotonNetwork.PlayerList[i] == PhotonNetwork.LocalPlayer)
+                {
+                    Debug.Log("Is localPlayer");
+                }
+                else
+                {
+                    Debug.Log("is Not Local Playerd");
+                }
+            }
         }
 
         
@@ -63,7 +72,7 @@ namespace SpaceWarsOnline
             }
 
             player = PhotonNetwork.Instantiate(playerPrefab.gameObject.name, spawnPosition, rotation).GetComponent<PlayerScript>();
-           // Debug.Log("Instantiated "+playerPrefab.gameObject.name);
+            
         }
 
         public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)

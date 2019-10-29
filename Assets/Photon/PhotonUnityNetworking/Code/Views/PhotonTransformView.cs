@@ -55,8 +55,11 @@ namespace Photon.Pun
         {
             if (!this.m_PhotonView.IsMine)
             {
-                transform.position = Vector3.MoveTowards(transform.position, this.m_NetworkPosition, this.m_Distance * (1.0f / PhotonNetwork.SerializationRate));
-                transform.rotation = Quaternion.RotateTowards(transform.rotation, this.m_NetworkRotation, this.m_Angle * (1.0f / PhotonNetwork.SerializationRate));
+                if (this.m_NetworkPosition != null && this.m_Distance != 0 && PhotonNetwork.SerializationRate > 0 && transform.position != this.m_NetworkPosition)
+                {
+                    transform.position = Vector3.MoveTowards(transform.position, this.m_NetworkPosition, this.m_Distance * (1.0f / (PhotonNetwork.SerializationRate == 0 ? 1 : PhotonNetwork.SerializationRate)));
+                    transform.rotation = Quaternion.RotateTowards(transform.rotation, this.m_NetworkRotation, this.m_Angle * ((1.0f / PhotonNetwork.SerializationRate == 0 ? 1 : PhotonNetwork.SerializationRate)));
+                }
             }
         }
 
@@ -104,7 +107,7 @@ namespace Photon.Pun
                         this.m_Distance = Vector3.Distance(transform.position, this.m_NetworkPosition);
                     }
 
-                   
+
                 }
 
                 if (this.m_SynchronizeRotation)

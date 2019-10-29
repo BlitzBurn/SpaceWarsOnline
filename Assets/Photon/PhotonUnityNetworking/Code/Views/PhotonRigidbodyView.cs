@@ -47,10 +47,10 @@ namespace Photon.Pun
 
         public void FixedUpdate()
         {
-            if (!this.m_PhotonView.IsMine)
+            if (!this.m_PhotonView.IsMine && PhotonNetwork.SerializationRate > 0 && transform.position != this.m_NetworkPosition)
             {
-                this.m_Body.position = Vector3.MoveTowards(this.m_Body.position, this.m_NetworkPosition, this.m_Distance * (1.0f / PhotonNetwork.SerializationRate));
-                this.m_Body.rotation = Quaternion.RotateTowards(this.m_Body.rotation, this.m_NetworkRotation, this.m_Angle * (1.0f / PhotonNetwork.SerializationRate));
+                this.m_Body.position = Vector3.MoveTowards(this.m_Body.position, this.m_NetworkPosition, this.m_Distance * (1.0f / (1.0f / PhotonNetwork.SerializationRate == 0 ? 1 : PhotonNetwork.SerializationRate)));
+                this.m_Body.rotation = Quaternion.RotateTowards(this.m_Body.rotation, this.m_NetworkRotation, this.m_Angle * (1.0f / (1.0f / PhotonNetwork.SerializationRate == 0 ? 1 : PhotonNetwork.SerializationRate)));
             }
         }
 
@@ -83,7 +83,7 @@ namespace Photon.Pun
                         this.m_Body.position = this.m_NetworkPosition;
                     }
                 }
-                
+
                 if (this.m_SynchronizeVelocity || this.m_SynchronizeAngularVelocity)
                 {
                     float lag = Mathf.Abs((float)(PhotonNetwork.Time - info.SentServerTime));

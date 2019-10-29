@@ -159,7 +159,7 @@ public class NetworkConnectionManager : MonoBehaviourPunCallbacks
 
     public override void OnJoinedRoom()
     {
-        Debug.Log("OnJoinedRoomCalled");
+        //Debug.Log("OnJoinedRoomCalled");
         base.OnJoinedRoom();
 
         TriesToConnectToRoom = false;

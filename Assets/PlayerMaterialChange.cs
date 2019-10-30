@@ -24,7 +24,7 @@ public class PlayerMaterialChange : MonoBehaviourPun, IPunObservable
     public void ChangeRocketMaterial()
     {
         if (!hasChangedMat) {
-            Debug.Log("Change mat method;");
+
             rocketRenderer = GetComponent<Renderer>();
             rocketRenderer.enabled = true;
             

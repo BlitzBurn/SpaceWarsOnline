@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
+using Photon.Realtime;
 
-public class PlayerMaterialChange : MonoBehaviourPun
+public class PlayerMaterialChange : MonoBehaviourPun, IPunObservable
 {
     [Header("Material")]
     public List<Material> RocketColors;
@@ -22,17 +23,17 @@ public class PlayerMaterialChange : MonoBehaviourPun
     [PunRPC]
     public void ChangeRocketMaterial()
     {
-        if (!hasChangedMat && photonView.IsMine) {
+        if (!hasChangedMat) {
             Debug.Log("Change mat method;");
             rocketRenderer = GetComponent<Renderer>();
             rocketRenderer.enabled = true;
             
-            rocketRenderer.material = RocketColors[PhotonNetwork.PlayerList.Length];//.sharedMaterial = RocketColors[PhotonNetwork.PlayerList.Length];
+            rocketRenderer.material = RocketColors[PhotonNetwork.PlayerList.Length-1];//.sharedMaterial = RocketColors[PhotonNetwork.PlayerList.Length];
             hasChangedMat = true;
         }
     }
 
-    void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
         if (stream.IsWriting == true)
         {

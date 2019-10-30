@@ -23,9 +23,10 @@ namespace SpaceWarsOnline
             if (!base.photonView.IsMine && GetComponent<RocketController>() != null && GetComponent<FireMissile>() != null)
             {
                 //Debug.Log("Start called");
-                Destroy(GetComponent<FireMissile>());
-                Destroy(GetComponent<RocketController>());
+                Destroy(GetComponent<FireMissile>());               
+                Destroy(GetComponent<RocketController>());               
                 Destroy(GetComponent<PlayerMaterialChange>());
+                
             } 
         }
 

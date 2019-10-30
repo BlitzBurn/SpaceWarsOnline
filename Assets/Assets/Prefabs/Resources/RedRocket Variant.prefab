@@ -36,6 +36,7 @@ MonoBehaviour:
   ObservedComponents:
   - {fileID: 5034864099733945865}
   - {fileID: 3153108076569640303}
+  - {fileID: 9123520243108406312}
   viewIdField: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
@@ -136,8 +137,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   RocketColors:
-  - {fileID: 2100000, guid: 1598ff147655ecb4893e78f88baa9475, type: 2}
-  - {fileID: 2100000, guid: 1598ff147655ecb4893e78f88baa9475, type: 2}
+  - {fileID: 2100000, guid: 66bf34124db1fe04bba877a9a6caf455, type: 2}
   - {fileID: 2100000, guid: 8716782a5acc73942a0d0c3d30f504b7, type: 2}
   - {fileID: 2100000, guid: 966e87b53a9b57a4a8f81cdddb490e36, type: 2}
   - {fileID: 2100000, guid: 0743c9f73bfb09e4983bebdac3bf6951, type: 2}
@@ -163,33 +163,6 @@ PrefabInstance:
       propertyPath: m_TagString
       value: RocketTag
       objectReference: {fileID: 0}
-    - target: {fileID: 4832840845346009573, guid: eafc1085a9151f54c9d561022525b68a,
-        type: 3}
-      propertyPath: MissileCooldown
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 4832840845346009573, guid: eafc1085a9151f54c9d561022525b68a,
-        type: 3}
-      propertyPath: RocketDirection
-      value: 
-      objectReference: {fileID: 6256815429384284335}
-    - target: {fileID: 4832840845346009573, guid: eafc1085a9151f54c9d561022525b68a,
-        type: 3}
-      propertyPath: Missile
-      value: 
-      objectReference: {fileID: 7844516961318534724, guid: fcf192d8f6bb05546a3e8d2084b31fd3,
-        type: 3}
-    - target: {fileID: 4832840845346009573, guid: eafc1085a9151f54c9d561022525b68a,
-        type: 3}
-      propertyPath: MissileSpawnPoint
-      value: 
-      objectReference: {fileID: 6256815429384284343}
-    - target: {fileID: 4832840845346009573, guid: eafc1085a9151f54c9d561022525b68a,
-        type: 3}
-      propertyPath: missileExplode
-      value: 
-      objectReference: {fileID: 7997944576822943124, guid: fcf192d8f6bb05546a3e8d2084b31fd3,
-        type: 3}
     - target: {fileID: 4470419117731601933, guid: eafc1085a9151f54c9d561022525b68a,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -245,6 +218,33 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4832840845346009573, guid: eafc1085a9151f54c9d561022525b68a,
+        type: 3}
+      propertyPath: MissileCooldown
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4832840845346009573, guid: eafc1085a9151f54c9d561022525b68a,
+        type: 3}
+      propertyPath: RocketDirection
+      value: 
+      objectReference: {fileID: 6256815429384284332}
+    - target: {fileID: 4832840845346009573, guid: eafc1085a9151f54c9d561022525b68a,
+        type: 3}
+      propertyPath: Missile
+      value: 
+      objectReference: {fileID: 7844516961318534724, guid: fcf192d8f6bb05546a3e8d2084b31fd3,
+        type: 3}
+    - target: {fileID: 4832840845346009573, guid: eafc1085a9151f54c9d561022525b68a,
+        type: 3}
+      propertyPath: MissileSpawnPoint
+      value: 
+      objectReference: {fileID: 6256815429384284340}
+    - target: {fileID: 4832840845346009573, guid: eafc1085a9151f54c9d561022525b68a,
+        type: 3}
+      propertyPath: missileExplode
+      value: 
+      objectReference: {fileID: 7997944576822943124, guid: fcf192d8f6bb05546a3e8d2084b31fd3,
+        type: 3}
     - target: {fileID: 2215601966365022931, guid: eafc1085a9151f54c9d561022525b68a,
         type: 3}
       propertyPath: m_LocalRotation.x
@@ -280,15 +280,15 @@ PrefabInstance:
       propertyPath: m_LocalPosition.y
       value: -0
       objectReference: {fileID: 0}
-    - target: {fileID: 7430393928310898022, guid: eafc1085a9151f54c9d561022525b68a,
-        type: 3}
-      propertyPath: m_Name
-      value: LeftFin
-      objectReference: {fileID: 0}
     - target: {fileID: 7733973233106753267, guid: eafc1085a9151f54c9d561022525b68a,
         type: 3}
       propertyPath: m_Name
       value: RightFin
+      objectReference: {fileID: 0}
+    - target: {fileID: 7430393928310898022, guid: eafc1085a9151f54c9d561022525b68a,
+        type: 3}
+      propertyPath: m_Name
+      value: LeftFin
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: eafc1085a9151f54c9d561022525b68a, type: 3}
@@ -298,13 +298,13 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 6256815429384284442}
   m_PrefabAsset: {fileID: 0}
---- !u!4 &6256815429384284335 stripped
+--- !u!4 &6256815429384284332 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4470419117731601933, guid: eafc1085a9151f54c9d561022525b68a,
     type: 3}
   m_PrefabInstance: {fileID: 6256815429384284442}
   m_PrefabAsset: {fileID: 0}
---- !u!4 &6256815429384284343 stripped
+--- !u!4 &6256815429384284340 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2215601966365022931, guid: eafc1085a9151f54c9d561022525b68a,
     type: 3}

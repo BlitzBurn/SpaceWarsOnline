@@ -54,7 +54,7 @@ namespace SpaceWarsOnline
             PhotonNetwork.SerializationRate = 10;
             Debug.Log("Start Called: Game Manager");
             //numberOfPlayers += 1;
-            PlayerScript.RefreshInstance(ref localPlayer, playerPrefab, spawnLocation[numberOfPlayers]);
+            PlayerScript.RefreshInstance(ref localPlayer, playerPrefab, spawnLocation[PhotonNetwork.PlayerList.Length/*numberOfPlayers*/]);
 
            
         }    

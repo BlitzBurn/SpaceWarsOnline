@@ -8,6 +8,7 @@ TagManager:
   - RocketTag
   - PlayerSpawnLocation
   - UFOLaserTag
+  - GameManager
   layers:
   - Default
   - TransparentFX

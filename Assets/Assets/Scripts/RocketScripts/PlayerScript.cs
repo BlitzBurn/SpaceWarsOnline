@@ -7,37 +7,43 @@ using Photon.Realtime;
 
 namespace SpaceWarsOnline
 {
-    public class PlayerScript : MonoBehaviourPun
+    public class PlayerScript : MonoBehaviourPun, IPunObservable
     {
         private string newName;
 
-        
+
+        private PhotonView pvGameManager;
+        public static PlayerScript playerScriptPrefab;
+
+        private GameObject gameManagerObject;
 
         protected Rigidbody rocketRigidBody;
         protected Quaternion rocketRotation;
 
         private void Awake()
         {
-            rocketRigidBody = GetComponent<Rigidbody>();
+            rocketRigidBody = GetComponent<Rigidbody>();          
 
-            if (!base.photonView.IsMine && GetComponent<RocketController>() != null && GetComponent<FireMissile>() != null)
+            gameManagerObject = GameObject.FindGameObjectWithTag("GameManager");
+            
+            pvGameManager = gameManagerObject.GetComponent<PhotonView>();
+            if (!base.photonView.IsMine)
             {
-                //Debug.Log("Start called");
-                Destroy(GetComponent<FireMissile>());               
-                Destroy(GetComponent<RocketController>());               
-                Destroy(GetComponent<PlayerMaterialChange>());
-                
+                Debug.Log("Nulreff not Thrown");
+                if (GetComponent<RocketController>() != null)
+                {
+                    if (GetComponent<FireMissile>() != null)
+                    {
+                        //Debug.Log("Start called");
+                        Destroy(GetComponent<FireMissile>());
+                        Destroy(GetComponent<RocketController>());
+                        Destroy(GetComponent<PlayerMaterialChange>());
+                    }
+                }            
             } 
         }
 
-        [PunRPC]
-        void Start()
-        {
-            GameManagerScript.numberOfPlayers += 1;
-        }
-
-
-        
+       
         public static void RefreshInstance(ref PlayerScript player, PlayerScript playerPrefab, GameObject spawnLocation)
         {
             var position = Vector3.zero;
@@ -49,9 +55,35 @@ namespace SpaceWarsOnline
                 rotation = player.transform.rotation;
                 PhotonNetwork.Destroy(player.gameObject);
             }
-            Debug.Log("SpawnedPlayer: "+PhotonNetwork.LocalPlayer.ActorNumber);
-            player = PhotonNetwork.Instantiate(playerPrefab.gameObject.name, spawnPosition, rotation).GetComponent<PlayerScript>();
             
+            player = PhotonNetwork.Instantiate(playerPrefab.gameObject.name, spawnPosition, rotation).GetComponent<PlayerScript>();
+            GameObject playerReference = player.gameObject;
+
+            /*
+            PlayerScript playerScriptReference = new GameObject().AddComponent<PlayerScript>();
+            */
+
+            // ///////
+            GameObject go_playerScriptReference =
+                Instantiate(playerScriptPrefab.gameObject);
+            PlayerScript playerScriptReference = go_playerScriptReference.GetComponent<PlayerScript>();
+            // ///////
+
+            playerScriptReference.dumbShit(playerReference);
+
+            player.gameObject.SetActive(false);
+            
+        }
+
+        void Update()
+        {
+
+        }
+
+        public void dumbShit(GameObject playerReference)
+        {
+            pvGameManager.RPC("AddPlayersToList", RpcTarget.All, playerReference);
+
         }
 
         public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
@@ -59,12 +91,12 @@ namespace SpaceWarsOnline
             if (stream.IsWriting == true)
             {
                 stream.SendNext(newName);
-                stream.SendNext(gameObject.name);
+                //stream.SendNext(gameObject.name);
             }
             else
             {
                 newName = (string)stream.ReceiveNext();
-                gameObject.name = (string)stream.ReceiveNext();
+                //gameObject.name = (string)stream.ReceiveNext();
             }
         }
     }

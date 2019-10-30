@@ -14,7 +14,11 @@ namespace SpaceWarsOnline
     {
         [Header("Lobby Stuff")]
         List<GameObject> players = new List<GameObject>();
+        public Text timeToGameStartText;
+        public float countDownTime;
+        private float timer;
         public Text playersInLobby;
+        public GameObject canvasStartGame;
         private PhotonView PV;
 
         [Header("Spawn Players")]
@@ -25,7 +29,7 @@ namespace SpaceWarsOnline
         public static int numberOfPlayers=0;
 
         private bool gameHasStarted;
-        
+
 
         [HideInInspector]
         public PlayerScript localPlayer;
@@ -42,13 +46,10 @@ namespace SpaceWarsOnline
             }
         }
 
-        private void startGame()
-        {
-
-        }
-
         private void Start()
         {
+            timer =0;
+
             // numberOfPlayers = PhotonNetwork.CountOfPlayers;
             PhotonNetwork.SendRate = 20;
             PhotonNetwork.SerializationRate = 10;
@@ -56,19 +57,21 @@ namespace SpaceWarsOnline
             //numberOfPlayers += 1;
             PlayerScript.RefreshInstance(ref localPlayer, playerPrefab, spawnLocation[PhotonNetwork.PlayerList.Length-1/*numberOfPlayers*/]);
 
-           
+            
+            PV.RPC("GameStartSequence", RpcTarget.All, gameHasStarted);
+
         }    
 
        
 
         public override void OnPlayerEnteredRoom(Photon.Realtime.Player newPlayer)
         {
-            //numberOfPlayers += 1;
-            Debug.Log("Player Entered room "+numberOfPlayers);
+          
+            Debug.Log("Player Entered room ");
             base.OnPlayerEnteredRoom(newPlayer);
             
             PlayerScript.RefreshInstance(ref localPlayer, playerPrefab, spawnLocation[PhotonNetwork.PlayerList.Length]);
-
+            PV.RPC("GameStartSequence", RpcTarget.All, gameHasStarted);
         }
 
         public override void OnPlayerLeftRoom(Player otherPlayer)
@@ -77,35 +80,57 @@ namespace SpaceWarsOnline
             base.OnPlayerLeftRoom(otherPlayer);
         }
 
-        void FixedUpdate()
+        void Update()
         {
-             //PV.RPC("LobbyPlayerCount", RpcTarget.AllBuffered, gameHasStarted);
-        
+            //Debug.Log(players.Count);
+            //PV.RPC("LobbyPlayerCount", RpcTarget.AllBuffered, gameHasStarted);
+            if (countDownTime >= 0 && !gameHasStarted)
+            {
+                timer = Time.deltaTime;
+                countDownTime -= timer;
+                // Debug.Log("Countdown time: " + countDownTime + " | Timer: " + timer + " | GameHasStarted: " + gameHasStarted);
+            }
+            else if (countDownTime<= 0&& !gameHasStarted)
+            {
+                gameHasStarted = true;
+                PV.RPC("GameStartSequence", RpcTarget.All, gameHasStarted);
+            }
 
-           
+            timeToGameStartText.text = Mathf.Ceil(countDownTime).ToString();
             playersInLobby.text = PhotonNetwork.PlayerList.Length.ToString();
-            if (players.Count < PhotonNetwork.CountOfPlayers)
-            {
-                
-               
-            }
-
-            if (!gameHasStarted)
-            {
-                
-            }
+           
         }
 
         [PunRPC]
-        private void LobbyPlayerCount(bool gameStarted)
-        {            
+        public void AddPlayersToList(GameObject playerReference)
+        {
+            Debug.Log("Added " + playerReference+" to list");
+            players.Add(playerReference);
+        }
+
+        [PunRPC]
+        private void GameStartSequence(bool hasGameStarted)
+        {
+           /* if (!hasGameStarted)
+            {
+                Debug.Log("GameStartSequence" + hasGameStarted);
                 foreach (GameObject rocket in GameObject.FindGameObjectsWithTag("RocketTag"))
                 {
                     players.Add(rocket);
-                    //rocket.SetActive(false);
-                Debug.Log("Added Rocket To List");
                 }
-            
+            }*/
+            if (hasGameStarted)
+            {
+                Debug.Log("GameStartSequence"+hasGameStarted);
+                canvasStartGame.SetActive(false);
+                foreach(GameObject rocket in players)
+                {
+                    Debug.Log("foreach");
+                    rocket.SetActive(true);
+                }
+            }
+
+           
         }
 
         public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
@@ -114,13 +139,16 @@ namespace SpaceWarsOnline
             {                
                 stream.SendNext(gameHasStarted);
                 stream.SendNext(numberOfPlayers);
-                //stream.SendNext(playersInLobby);
+                stream.SendNext(countDownTime);
+                stream.SendNext(timer);
+                
             }
             else if (stream.IsReading)
             {
                 gameHasStarted = (bool)stream.ReceiveNext();
                 numberOfPlayers = (int)stream.ReceiveNext();
-                //playersInLobby = (Text)stream.ReceiveNext();
+                countDownTime = (float)stream.ReceiveNext();
+                timer = (float)stream.ReceiveNext();
             }
         }
 

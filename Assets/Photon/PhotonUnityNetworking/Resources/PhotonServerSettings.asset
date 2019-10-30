@@ -42,5 +42,7 @@ MonoBehaviour:
   - LobbyPlayerCount
   - ChangeMaterial
   - ChangeRocketMaterial
+  - GameStartSequence
+  - AddPlayersToList
   DisableAutoOpenWizard: 1
   ShowSettings: 1

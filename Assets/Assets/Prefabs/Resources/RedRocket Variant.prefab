@@ -37,6 +37,7 @@ MonoBehaviour:
   - {fileID: 5034864099733945865}
   - {fileID: 3153108076569640303}
   - {fileID: 9123520243108406312}
+  - {fileID: 8012799065530238570}
   viewIdField: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
@@ -156,7 +157,7 @@ PrefabInstance:
     - target: {fileID: 8886951598678817667, guid: eafc1085a9151f54c9d561022525b68a,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8886951598678817667, guid: eafc1085a9151f54c9d561022525b68a,
         type: 3}

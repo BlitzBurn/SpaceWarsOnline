@@ -14,7 +14,7 @@ public class PlayerMaterialChange : MonoBehaviourPun, IPunObservable
 
     void Start()
     {
-        Debug.Log("Mat change start");
+        
         _photonView = GetComponent<PhotonView>();
         _photonView.RPC("ChangeRocketMaterial", RpcTarget.All);
     }

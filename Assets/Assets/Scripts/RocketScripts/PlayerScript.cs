@@ -49,7 +49,7 @@ namespace SpaceWarsOnline
                 rotation = player.transform.rotation;
                 PhotonNetwork.Destroy(player.gameObject);
             }
-
+            Debug.Log("SpawnedPlayer: "+PhotonNetwork.LocalPlayer.ActorNumber);
             player = PhotonNetwork.Instantiate(playerPrefab.gameObject.name, spawnPosition, rotation).GetComponent<PlayerScript>();
             
         }

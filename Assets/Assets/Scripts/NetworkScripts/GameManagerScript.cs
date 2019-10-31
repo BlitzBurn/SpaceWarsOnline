@@ -13,7 +13,9 @@ namespace SpaceWarsOnline
     public class GameManagerScript : MonoBehaviourPunCallbacks, IPunObservable
     {
         [Header("Lobby Stuff")]
+
         List<GameObject> players = new List<GameObject>();
+
         public Text timeToGameStartText;
         public float countDownTime;
         private float timer;
@@ -24,12 +26,11 @@ namespace SpaceWarsOnline
         [Header("Spawn Players")]
         public PlayerScript playerPrefab;
         public List<GameObject> spawnLocation;
-        // public GameObject spawnLocation1, spawnLocation2, spawnLocation3, spawnLocation4;
+        public List<GameObject> playerLocationGameStart;
 
         public static int numberOfPlayers=0;
-
         private bool gameHasStarted;
-
+        private int LoopVariable = 0;
 
         [HideInInspector]
         public PlayerScript localPlayer;
@@ -56,10 +57,8 @@ namespace SpaceWarsOnline
             Debug.Log("Start Called: Game Manager");
             //numberOfPlayers += 1;
             PlayerScript.RefreshInstance(ref localPlayer, playerPrefab, spawnLocation[PhotonNetwork.PlayerList.Length-1/*numberOfPlayers*/]);
-
             
-            PV.RPC("GameStartSequence", RpcTarget.All, gameHasStarted);
-
+           // PV.RPC("GameStartSequence", RpcTarget.All);
         }    
 
        
@@ -71,7 +70,7 @@ namespace SpaceWarsOnline
             base.OnPlayerEnteredRoom(newPlayer);
             
             PlayerScript.RefreshInstance(ref localPlayer, playerPrefab, spawnLocation[PhotonNetwork.PlayerList.Length]);
-            PV.RPC("GameStartSequence", RpcTarget.All, gameHasStarted);
+            //PV.RPC("GameStartSequence", RpcTarget.All);
         }
 
         public override void OnPlayerLeftRoom(Player otherPlayer)
@@ -82,18 +81,19 @@ namespace SpaceWarsOnline
 
         void Update()
         {
-            //Debug.Log(players.Count);
-            //PV.RPC("LobbyPlayerCount", RpcTarget.AllBuffered, gameHasStarted);
             if (countDownTime >= 0 && !gameHasStarted)
             {
                 timer = Time.deltaTime;
                 countDownTime -= timer;
-                // Debug.Log("Countdown time: " + countDownTime + " | Timer: " + timer + " | GameHasStarted: " + gameHasStarted);
             }
             else if (countDownTime<= 0&& !gameHasStarted)
             {
-                gameHasStarted = true;
-                PV.RPC("GameStartSequence", RpcTarget.All, gameHasStarted);
+
+                canvasStartGame.SetActive(false);
+
+
+                // PV.RPC("GameStartSequence", RpcTarget.All, gameHasStarted);
+                GameStartSequence(gameHasStarted);
             }
 
             timeToGameStartText.text = Mathf.Ceil(countDownTime).ToString();
@@ -101,36 +101,34 @@ namespace SpaceWarsOnline
            
         }
 
+    
         [PunRPC]
-        public void AddPlayersToList(GameObject playerReference)
+        public void GameStartSequence(bool IfgameHasStarted)
         {
-            Debug.Log("Added " + playerReference+" to list");
-            players.Add(playerReference);
-        }
+            Debug.Log("GameStartSequence, gameHasStarted:"+gameHasStarted+", IfgameHasStarted: "+IfgameHasStarted);
+            if (!IfgameHasStarted) {
+                gameHasStarted = true;
+                Debug.Log("Update");
+                players.Clear();
 
-        [PunRPC]
-        private void GameStartSequence(bool hasGameStarted)
-        {
-           /* if (!hasGameStarted)
-            {
-                Debug.Log("GameStartSequence" + hasGameStarted);
                 foreach (GameObject rocket in GameObject.FindGameObjectsWithTag("RocketTag"))
                 {
+                    //rocket.transform.position = playerLocationGameStart[i].transform.position;
                     players.Add(rocket);
                 }
-            }*/
-            if (hasGameStarted)
-            {
-                Debug.Log("GameStartSequence"+hasGameStarted);
-                canvasStartGame.SetActive(false);
-                foreach(GameObject rocket in players)
-                {
-                    Debug.Log("foreach");
-                    rocket.SetActive(true);
-                }
-            }
 
-           
+                for (int i = 0; i < PhotonNetwork.PlayerList.Length; i++)
+                {
+                    players[LoopVariable].transform.position = playerLocationGameStart[LoopVariable].transform.position;
+                    
+                    Debug.Log("name: "+players[LoopVariable].name+" Loopvariable: "+LoopVariable);
+                    Debug.Log(playerLocationGameStart[LoopVariable].transform.position);
+                    LoopVariable += 1;
+                    Debug.Log("ForLoop");
+                   
+                }
+                LoopVariable = 0;
+            }
         }
 
         public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
@@ -141,7 +139,7 @@ namespace SpaceWarsOnline
                 stream.SendNext(numberOfPlayers);
                 stream.SendNext(countDownTime);
                 stream.SendNext(timer);
-                
+                stream.SendNext(LoopVariable);
             }
             else if (stream.IsReading)
             {
@@ -149,6 +147,7 @@ namespace SpaceWarsOnline
                 numberOfPlayers = (int)stream.ReceiveNext();
                 countDownTime = (float)stream.ReceiveNext();
                 timer = (float)stream.ReceiveNext();
+                LoopVariable = (int)stream.ReceiveNext();
             }
         }
 

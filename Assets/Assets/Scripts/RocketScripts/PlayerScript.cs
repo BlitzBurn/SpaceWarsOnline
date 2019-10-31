@@ -11,6 +11,7 @@ namespace SpaceWarsOnline
     {
         private string newName;
 
+        private float instantiatedPlayerID;
 
         private PhotonView pvGameManager;
         public static PlayerScript playerScriptPrefab;
@@ -29,7 +30,7 @@ namespace SpaceWarsOnline
             pvGameManager = gameManagerObject.GetComponent<PhotonView>();
             if (!base.photonView.IsMine)
             {
-                Debug.Log("Nulreff not Thrown");
+               
                 if (GetComponent<RocketController>() != null)
                 {
                     if (GetComponent<FireMissile>() != null)
@@ -57,32 +58,33 @@ namespace SpaceWarsOnline
             }
             
             player = PhotonNetwork.Instantiate(playerPrefab.gameObject.name, spawnPosition, rotation).GetComponent<PlayerScript>();
-            GameObject playerReference = player.gameObject;
 
+
+            // GameObject playerReference = player.gameObject;
+
+            // int instantiatedPlayerID = PhotonNetwork.LocalPlayer.ActorNumber;
+
+            //player.CallAddListRPC(instantiatedPlayerID);
+
+            //player.gameObject.SetActive(false);
+            //PlayerScript playerScriptReference = new GameObject().AddComponent<PlayerScript>();
+
+
+            // ///////
             /*
-            PlayerScript playerScriptReference = new GameObject().AddComponent<PlayerScript>();
-            */
-
-            // ///////
-            GameObject go_playerScriptReference =
-                Instantiate(playerScriptPrefab.gameObject);
-            PlayerScript playerScriptReference = go_playerScriptReference.GetComponent<PlayerScript>();
+            GameObject go_playerScriptReference =Instantiate(playerScriptPrefab.gameObject);
+            PlayerScript playerScriptReference = go_playerScriptReference.GetComponent<PlayerScript>();*/
             // ///////
 
-            playerScriptReference.dumbShit(playerReference);
+            //playerScriptReference.dumbShit(playerReference);
 
-            player.gameObject.SetActive(false);
-            
-        }
 
-        void Update()
-        {
 
         }
 
-        public void dumbShit(GameObject playerReference)
+        public void CallAddListRPC(int instantiatedPlayerID)
         {
-            pvGameManager.RPC("AddPlayersToList", RpcTarget.All, playerReference);
+           // pvGameManager.RPC("AddPlayersToList", RpcTarget.All, instantiatedPlayerID);
 
         }
 

@@ -26,22 +26,15 @@ namespace SpaceWarsOnline
             rocketRigidBody = GetComponent<Rigidbody>();          
 
             gameManagerObject = GameObject.FindGameObjectWithTag("GameManager");
-            
+
             pvGameManager = gameManagerObject.GetComponent<PhotonView>();
-            if (!base.photonView.IsMine)
+            if (!base.photonView.IsMine && GetComponent<RocketController>() != null && GetComponent<FireMissile>() != null && GetComponent<PlayerMaterialChange>() != null)
             {
-               
-                if (GetComponent<RocketController>() != null)
-                {
-                    if (GetComponent<FireMissile>() != null)
-                    {
-                        //Debug.Log("Start called");
-                        Destroy(GetComponent<FireMissile>());
-                        Destroy(GetComponent<RocketController>());
-                        Destroy(GetComponent<PlayerMaterialChange>());
-                    }
-                }            
-            } 
+                Debug.Log("Start called Player Scripts");
+                Destroy(GetComponent<FireMissile>());
+                Destroy(GetComponent<RocketController>());
+                Destroy(GetComponent<PlayerMaterialChange>());
+            }
         }
 
        
@@ -60,23 +53,6 @@ namespace SpaceWarsOnline
             player = PhotonNetwork.Instantiate(playerPrefab.gameObject.name, spawnPosition, rotation).GetComponent<PlayerScript>();
 
 
-            // GameObject playerReference = player.gameObject;
-
-            // int instantiatedPlayerID = PhotonNetwork.LocalPlayer.ActorNumber;
-
-            //player.CallAddListRPC(instantiatedPlayerID);
-
-            //player.gameObject.SetActive(false);
-            //PlayerScript playerScriptReference = new GameObject().AddComponent<PlayerScript>();
-
-
-            // ///////
-            /*
-            GameObject go_playerScriptReference =Instantiate(playerScriptPrefab.gameObject);
-            PlayerScript playerScriptReference = go_playerScriptReference.GetComponent<PlayerScript>();*/
-            // ///////
-
-            //playerScriptReference.dumbShit(playerReference);
 
 
 
@@ -84,7 +60,7 @@ namespace SpaceWarsOnline
 
         public void CallAddListRPC(int instantiatedPlayerID)
         {
-           // pvGameManager.RPC("AddPlayersToList", RpcTarget.All, instantiatedPlayerID);
+          
 
         }
 

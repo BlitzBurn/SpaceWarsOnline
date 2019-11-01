@@ -1354,11 +1354,11 @@ MonoBehaviour:
   playerPrefab: {fileID: 8012799065530238570, guid: 6d1d51daa6ba04c4ebcf5cf065c6662a,
     type: 3}
   spawnLocation:
-  - {fileID: 1551642988}
-  - {fileID: 1804274208}
-  - {fileID: 897496929}
-  - {fileID: 516973806}
-  - {fileID: 516973806}
+  - {fileID: 1458967273}
+  - {fileID: 1248763426}
+  - {fileID: 1270437387}
+  - {fileID: 1394029959}
+  - {fileID: 1394029959}
   playerLocationGameStart:
   - {fileID: 1458967273}
   - {fileID: 1248763426}

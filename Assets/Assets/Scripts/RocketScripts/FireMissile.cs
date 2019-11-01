@@ -24,13 +24,14 @@ public class FireMissile :MonoBehaviourPun
 
     void Update()
     {
-        
         time += Time.deltaTime;
-
-        if (Input.GetKeyDown(KeyCode.Mouse1) && time >= MissileCooldown)
+        if (GameManagerScript.gameHasStarted)
         {
-            FireMissileMethod();
-           
+            if (Input.GetKeyDown(KeyCode.Mouse1) && time >= MissileCooldown)
+            {
+                FireMissileMethod();
+
+            }
         }
     }
 

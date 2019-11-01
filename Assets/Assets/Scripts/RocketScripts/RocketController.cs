@@ -24,10 +24,13 @@ public class RocketController : MonoBehaviourPun
 
 
     void FixedUpdate()
-    {    
-        if (Input.GetKey(KeyCode.Space))
-        {            
-            MoveForward();
+    {
+        if (GameManagerScript.gameHasStarted)
+        {
+            if (Input.GetKey(KeyCode.Space))
+            {
+                MoveForward();
+            }
         }
 
         if (Input.GetKey(KeyCode.A))
@@ -35,7 +38,7 @@ public class RocketController : MonoBehaviourPun
             RotateLeft();
         }
         else if (Input.GetKey(KeyCode.D))
-        {;
+        {
             RotateRight();
         }
 
@@ -43,6 +46,7 @@ public class RocketController : MonoBehaviourPun
         {
             Application.Quit();
         }
+
     }
 
     private void MoveForward()

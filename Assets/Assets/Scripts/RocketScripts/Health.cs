@@ -9,12 +9,16 @@ public class Health : MonoBehaviourPun/*, Photon.Pun.IPunObservable*/
     public int AmountOfHealth;
     public bool isNonDestructible = false;
 
+
     void Update()
     {
         if (AmountOfHealth <= 0 && isNonDestructible==false)
         {
-            PhotonNetwork.Destroy(gameObject);
+            GameManagerScript.livingPlayers = -1;
+            Debug.Log(GameManagerScript.livingPlayers);
             Debug.Log("Ded");
+            PhotonNetwork.Destroy(gameObject);
+            
         }
 
     }
@@ -48,10 +52,12 @@ public class Health : MonoBehaviourPun/*, Photon.Pun.IPunObservable*/
         if (stream.IsWriting == true)
         {
             stream.SendNext(AmountOfHealth);
+           
         }
         else
         {
              AmountOfHealth= (int)stream.ReceiveNext();
+            
         }
     }
 

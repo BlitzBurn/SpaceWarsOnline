@@ -20,8 +20,8 @@ public class MissileExplode : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        Debug.Log("collision.transform.name: " + collision.transform.name);
-        Debug.Log("collisionIgnore: "+collisionIgnore);
+        //Debug.Log("collision.transform.name: " + collision.transform.name);
+        //Debug.Log("collisionIgnore: "+collisionIgnore);
 
 
         if (collision.transform.name != collisionIgnore)
@@ -34,7 +34,7 @@ public class MissileExplode : MonoBehaviour
         }
         else if (collision.transform.name == collisionIgnore)
         {
-            Debug.Log("Collision ignored: " + collisionIgnore);
+            //Debug.Log("Collision ignored: " + collisionIgnore);
             // Debug.Log("PewPaPew");
         }
     }

@@ -21,6 +21,7 @@ public class GameManagerScript : MonoBehaviourPunCallbacks, IPunObservable
     public Text playersInLobby;
     public GameObject canvasStartGame;
     private PhotonView PV;
+    public static int livingPlayers=0;
 
     [Header("Spawn Players")]
     public PlayerScript playerPrefab;
@@ -79,6 +80,7 @@ public class GameManagerScript : MonoBehaviourPunCallbacks, IPunObservable
 
     void Update()
     {
+       
         if (countDownTime >= 0 && !gameHasStarted)
         {
             timer = Time.deltaTime;
@@ -93,6 +95,10 @@ public class GameManagerScript : MonoBehaviourPunCallbacks, IPunObservable
             PV.RPC("GameStartSequence", RpcTarget.All, gameHasStarted);
         }
 
+        if(gameHasStarted && livingPlayers == 1)
+        {
+            //Debug.Log("game over, YEAAAAAAH");
+        }
         timeToGameStartText.text = Mathf.Ceil(countDownTime).ToString();
         playersInLobby.text = PhotonNetwork.PlayerList.Length.ToString();
 
@@ -116,23 +122,9 @@ public class GameManagerScript : MonoBehaviourPunCallbacks, IPunObservable
             players.Add(rocket);
             Debug.Log("Added crap to da big list");
             Debug.Log(players.Count);
+            livingPlayers = players.Count;
         }
-        
-        /*
-        for (int i = 0; i < PhotonNetwork.PlayerList.Length; i++)
-        {
-            players[LoopVariable].transform.position = playerLocationGameStart[LoopVariable].transform.position;
-
-            Debug.Log("name: " + players[LoopVariable].name + " Loopvariable: " + LoopVariable);
-            Debug.Log(playerLocationGameStart[LoopVariable].transform.position);
-            LoopVariable += 1;
-            Debug.Log("ActorNumber: " + PhotonNetwork.PlayerList[i].ActorNumber);
-            Debug.Log("User ID: " + PhotonNetwork.PlayerList[i].UserId);
-
-        }
-        LoopVariable = 0;*/
-
-
+        Debug.Log(livingPlayers);
     }
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)

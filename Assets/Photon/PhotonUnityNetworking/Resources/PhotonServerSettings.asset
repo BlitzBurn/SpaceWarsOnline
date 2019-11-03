@@ -44,5 +44,6 @@ MonoBehaviour:
   - ChangeRocketMaterial
   - GameStartSequence
   - AddPlayersToList
+  - RestartGame
   DisableAutoOpenWizard: 1
   ShowSettings: 1

@@ -44,7 +44,7 @@ public class RocketController : MonoBehaviourPun
 
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            Application.Quit();
+            //Application.Quit();
         }
 
     }

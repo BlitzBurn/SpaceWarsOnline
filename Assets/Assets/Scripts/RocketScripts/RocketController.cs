@@ -41,12 +41,6 @@ public class RocketController : MonoBehaviourPun
         {
             RotateRight();
         }
-
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            //Application.Quit();
-        }
-
     }
 
     private void MoveForward()

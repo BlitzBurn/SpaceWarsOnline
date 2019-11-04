@@ -99,13 +99,10 @@ public class GameManagerScript : MonoBehaviourPunCallbacks, IPunObservable
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            //RestartGame();
+        {            
             Debug.Log("Restart Game");
             gameHasEnded = true;
-            Debug.Log(gameHasEnded);
-            //SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-            //Application.Quit();
+            Debug.Log(gameHasEnded);            
         }
 
         if (countDownTime >= 0 && !gameHasStarted)
@@ -124,7 +121,8 @@ public class GameManagerScript : MonoBehaviourPunCallbacks, IPunObservable
 
         if(gameHasStarted && livingPlayers == 1)
         {
-            //Debug.Log("game over, YEAAAAAAH");
+            gameHasEnded = true;
+            gameHasStarted = false;
         }
         timeToGameStartText.text = Mathf.Ceil(countDownTime).ToString();
         playersInLobby.text = PhotonNetwork.PlayerList.Length.ToString();

@@ -18,7 +18,7 @@ namespace SpaceWarsOnline
         private PhotonView PV;
         public static PlayerScript playerScriptPrefab;
 
-        
+
 
         protected Rigidbody rocketRigidBody;
         protected Quaternion rocketRotation;
@@ -27,7 +27,7 @@ namespace SpaceWarsOnline
 
         private void Awake()
         {
-            rocketRigidBody = GetComponent<Rigidbody>();                     
+            rocketRigidBody = GetComponent<Rigidbody>();
 
             PV = GetComponent<PhotonView>();
             if (!base.photonView.IsMine && GetComponent<RocketController>() != null && GetComponent<FireMissile>() != null && GetComponent<PlayerMaterialChange>() != null)
@@ -44,7 +44,6 @@ namespace SpaceWarsOnline
             hasRestared = false;
             startPosition = gameObject.transform.position;
             Debug.Log(startPosition);
-
         }
 
         void Update()
@@ -53,7 +52,8 @@ namespace SpaceWarsOnline
             {
                 Debug.Log("Restart PlayerScript");
                 hasRestared = true;
-                RestartGame();
+                //RestartGame();
+                PV.RPC("RestartGame", RpcTarget.AllBuffered);
             }
         }
 
@@ -68,15 +68,18 @@ namespace SpaceWarsOnline
                 rotation = player.transform.rotation;
                 PhotonNetwork.Destroy(player.gameObject);
             }
-            
+
             player = PhotonNetwork.Instantiate(playerPrefab.gameObject.name, spawnPosition, rotation).GetComponent<PlayerScript>();
         }
 
-        
+        [PunRPC]
         public void RestartGame()
         {
-            if(photonView.IsMine)
             gameObject.transform.position = startPosition;
+            // if (photonView.IsMine)
+            {
+                
+            }
         }
 
         public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)

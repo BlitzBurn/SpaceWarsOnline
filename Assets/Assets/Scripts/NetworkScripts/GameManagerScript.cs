@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Photon.Pun;
 using UnityEngine.UI;
-using SpaceWarsOnline;
+//using SpaceWarsOnline;
 using Photon.Realtime;
 //using Photon.Pun.IPunObservable;
 
@@ -17,19 +17,33 @@ public class GameManagerScript : MonoBehaviourPunCallbacks, IPunObservable
     public Text timeToGameStartText;
     public float countDownTime;
     private float timer;
+    private float countDownTimerReset;
     public Text playersInLobby;
     public GameObject canvasStartGame;
     private PhotonView PV;
     public static int livingPlayers=0;
+
+    [Header("Booltexts")]
+    public Text preptostText;
+    public Text gahaenText;
+    public Text gaiprogText;
 
     [Header("Spawn Players")]
     public PlayerScript playerPrefab;
     public List<GameObject> spawnLocation;
     public List<GameObject> playerLocationGameStart;
 
+    [Header("Restart Crap")]
+    private float resTime;
+    private float restartTime=3f;
+    private float restartResetTimer;
+
     public static int numberOfPlayers = 0;
-    public static bool gameHasStarted;
+
+    [Header("Gamemanager Booleans")]
+    public static bool preparingToStart;
     public static bool gameHasEnded;
+    public static bool gameIsInProgress;
 
     private int LoopVariable = 0;
 
@@ -39,8 +53,7 @@ public class GameManagerScript : MonoBehaviourPunCallbacks, IPunObservable
     private void Awake()
     {
         PV = GetComponent<PhotonView>();
-        gameHasStarted = false;
-        gameHasEnded = false;
+       
 
         if (!PhotonNetwork.IsConnected)
         {
@@ -51,15 +64,20 @@ public class GameManagerScript : MonoBehaviourPunCallbacks, IPunObservable
 
     private void Start()
     {
+        preparingToStart = true;
+        gameIsInProgress = false;
+        gameHasEnded = false;
+
         timer = 0;
+        countDownTimerReset = countDownTime;
 
-        // numberOfPlayers = PhotonNetwork.CountOfPlayers;
-        PhotonNetwork.SendRate = 20;
-        PhotonNetwork.SerializationRate = 10;
-        //numberOfPlayers += 1;
-        PlayerScript.RefreshInstance(ref localPlayer, playerPrefab, spawnLocation[PhotonNetwork.PlayerList.Length - 1]);
-
-        // PV.RPC("GameStartSequence", RpcTarget.All);
+        resTime = 0;
+        restartResetTimer = restartTime;
+      
+        //PhotonNetwork.SendRate = 20;
+        //PhotonNetwork.SerializationRate = 10;
+    
+        PlayerScript.RefreshInstance(ref localPlayer, playerPrefab, spawnLocation[PhotonNetwork.PlayerList.Length - 1]);     
     }
 
     public void RestartGame()
@@ -105,73 +123,103 @@ public class GameManagerScript : MonoBehaviourPunCallbacks, IPunObservable
             Debug.Log(gameHasEnded);            
         }
 
-        if (countDownTime >= 0 && !gameHasStarted)
+        preptostText.text = "PreparingToStart: "+preparingToStart.ToString();
+        gahaenText.text = "GameHasEnded: "+gameHasEnded.ToString();
+        gaiprogText.text = "GameIsInProgress: "+gameIsInProgress.ToString();
+
+        if (countDownTime >= 0 && preparingToStart && PhotonNetwork.PlayerList.Length>=2)
         {
             timer = Time.deltaTime;
             countDownTime -= timer;
         }
-        else if (countDownTime <= 0 && !gameHasStarted)
+        else if (countDownTime <= 0 && preparingToStart)
         {
-
-            canvasStartGame.SetActive(false);
-            gameHasStarted = true;
-
-            PV.RPC("GameStartSequence", RpcTarget.All, gameHasStarted);
+            PV.RPC("GameStartSequence", RpcTarget.All, preparingToStart);
         }
 
-        if(gameHasStarted && livingPlayers == 1)
+        if(gameIsInProgress && livingPlayers == 1)
         {
             gameHasEnded = true;
-            gameHasStarted = false;
+            gameIsInProgress = false;
+        }
+
+        if (gameHasEnded)
+        {
+            resTime += Time.deltaTime;
+        }
+
+        if (gameHasEnded && resTime>=restartTime)
+        {
+            timer = 0;
+            countDownTime = countDownTimerReset;
+            resTime = 0;
+            gameHasEnded = false;
+            gameIsInProgress = false;
+            preparingToStart = true;
         }
         timeToGameStartText.text = Mathf.Ceil(countDownTime).ToString();
         playersInLobby.text = PhotonNetwork.PlayerList.Length.ToString();
 
     }
 
+    [PunRPC]
+    public void GameRestart()
+    {
+        canvasStartGame.SetActive(true);
+        countDownTime = countDownTimerReset;
+    }
 
     [PunRPC]
     public void GameStartSequence(bool IfgameHasStarted)
     {
+        
+            canvasStartGame.SetActive(false);
+            preparingToStart = false;
+            gameIsInProgress = true;
+            Debug.Log("GameStartSequence, gameHasStarted:" + preparingToStart + ", IfgameHasStarted: " + IfgameHasStarted);
 
-        Debug.Log("GameStartSequence, gameHasStarted:" + gameHasStarted + ", IfgameHasStarted: " + IfgameHasStarted);
 
 
-
-        playersList.Clear();
-        Debug.Log(playersList.Count);
-
-        foreach (GameObject rocket in GameObject.FindGameObjectsWithTag("RocketTag"))
-        {
-            //rocket.transform.position = playerLocationGameStart[i].transform.position;
-            playersList.Add(rocket);
-            Debug.Log("Added crap to da big list");
+            playersList.Clear();
             Debug.Log(playersList.Count);
-            livingPlayers = playersList.Count;
-        }
+
+            foreach (GameObject rocket in GameObject.FindGameObjectsWithTag("RocketTag"))
+            {
+                //rocket.transform.position = playerLocationGameStart[i].transform.position;
+                playersList.Add(rocket);
+                Debug.Log("Added crap to da big list");
+                Debug.Log(playersList.Count);
+               
+            }
+
+        livingPlayers = playersList.Count;
         Debug.Log(livingPlayers);
+        
     }
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
         if (stream.IsWriting)
         {
-            stream.SendNext(gameHasStarted);
+            stream.SendNext(preparingToStart);
             stream.SendNext(numberOfPlayers);
             stream.SendNext(countDownTime);
             stream.SendNext(timer);
             stream.SendNext(LoopVariable);
             stream.SendNext(gameHasEnded);
+            stream.SendNext(countDownTimerReset);
+            stream.SendNext(livingPlayers);
         }
         else if (stream.IsReading)
         {
-            gameHasStarted = (bool)stream.ReceiveNext();
+            preparingToStart = (bool)stream.ReceiveNext();
             numberOfPlayers = (int)stream.ReceiveNext();
             countDownTime = (float)stream.ReceiveNext();
             timer = (float)stream.ReceiveNext();
             LoopVariable = (int)stream.ReceiveNext();
             gameHasEnded = (bool)stream.ReceiveNext();
-
+            countDownTimerReset = (float)stream.ReceiveNext();
+            livingPlayers = (int)stream.ReceiveNext();
         }
     }
 

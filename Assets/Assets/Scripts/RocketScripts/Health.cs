@@ -5,30 +5,49 @@ using Photon.Pun;
 
 public class Health : MonoBehaviourPun/*, Photon.Pun.IPunObservable*/
 {
+    
 
     public int AmountOfHealth;
+    private int maxHealth;
     public bool isNonDestructible = false;
+    private float time;
+    private float invisTime = (1.4f);
+    private PhotonView PV;
+    private PlayerScript _playerScript;
 
+    
+
+    private void Start()
+    {
+        time = 0;
+        maxHealth = AmountOfHealth;
+        PV = GetComponent<PhotonView>();
+        _playerScript = GetComponent<PlayerScript>();
+    }
 
     void Update()
     {
-        if (AmountOfHealth <= 0 && isNonDestructible==false)
+        time += Time.deltaTime;
+
+        if (AmountOfHealth <= 0 && isNonDestructible == false)
         {
-            GameManagerScript.livingPlayers = -1;
+            GameManagerScript.livingPlayers -= 1;
             Debug.Log(GameManagerScript.livingPlayers);
-            Debug.Log("Ded");
-            PhotonNetwork.Destroy(gameObject);
-            
+            Debug.Log("Ded");            
+            AmountOfHealth = maxHealth;
+            _playerScript.playerIsAlive = false;
+            Debug.Log(gameObject.name + "||" + _playerScript.playerIsAlive);
         }
 
     }
 
-   
+    [PunRPC]
     public void TakeDamage(int damageTaken)
     {
-        if (!isNonDestructible)
+        if (!isNonDestructible && time >= invisTime)
         {
             AmountOfHealth = AmountOfHealth - damageTaken;
+            time = 0;
         }
         else if (isNonDestructible)
         {
@@ -40,24 +59,30 @@ public class Health : MonoBehaviourPun/*, Photon.Pun.IPunObservable*/
     {
         if (collision.collider.tag == "MissileTag")
         {
-            
-           // Debug.Log("Missile hit");
+            PV.RPC("TakeDamage", RpcTarget.All, 1);
+            // Debug.Log("Missile hit");
 
             //MissileExplode explodeScript = collision.gameObject.GetComponent<MissileExplode>();
             //explodeScript.DetonateMissile();
-        }        
+        }
     }
-    void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)    
+    void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
         if (stream.IsWriting == true)
         {
             stream.SendNext(AmountOfHealth);
-           
+            stream.SendNext(maxHealth);
+            stream.SendNext(time);
+            stream.SendNext(invisTime);
+            stream.SendNext(GameManagerScript.livingPlayers);
         }
         else
         {
-             AmountOfHealth= (int)stream.ReceiveNext();
-            
+            AmountOfHealth = (int)stream.ReceiveNext();
+            maxHealth = (int)stream.ReceiveNext();
+            time = (float)stream.ReceiveNext();
+            invisTime = (float)stream.ReceiveNext();
+            GameManagerScript.livingPlayers = (int)stream.ReceiveNext();
         }
     }
 

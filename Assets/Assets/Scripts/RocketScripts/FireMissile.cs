@@ -15,17 +15,21 @@ public class FireMissile :MonoBehaviourPun
     public float MissileCooldown;    
     private float time;   
     private string rocketName;
-    
+
+    private PlayerScript _playerScript;
+
+
     void Start()
     {
         rocketName = gameObject.transform.name;
-        //Debug.Log("And Da daddy is: "+rocketName);
+
+        _playerScript = GetComponent<PlayerScript>();
     }
 
     void Update()
     {
         time += Time.deltaTime;
-        if (GameManagerScript.gameHasStarted)
+        if (GameManagerScript.gameIsInProgress && _playerScript.playerIsAlive)
         {
             if (Input.GetKeyDown(KeyCode.Mouse1) && time >= MissileCooldown)
             {
@@ -41,7 +45,7 @@ public class FireMissile :MonoBehaviourPun
         var instantiatedMissile = PhotonNetwork.Instantiate(Missile.gameObject.name, MissileSpawnPoint.position, MissileSpawnPoint.rotation);           
         missileExplode = instantiatedMissile.GetComponent<MissileExplode>();
 
-        missileExplode.SetCollisionIgnore(rocketName);
+        //missileExplode.SetCollisionIgnore(rocketName);
 
         time = 0;
     }

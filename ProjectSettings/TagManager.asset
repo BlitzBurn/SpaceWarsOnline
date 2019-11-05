@@ -9,6 +9,7 @@ TagManager:
   - PlayerSpawnLocation
   - UFOLaserTag
   - GameManager
+  - PlayerDeathLocation
   layers:
   - Default
   - TransparentFX

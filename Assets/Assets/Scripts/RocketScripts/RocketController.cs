@@ -11,12 +11,12 @@ public class RocketController : MonoBehaviourPun
     private Rigidbody rocketRB;    
     public float rocketForce;    
     public float rotationSpeed;
+    private PlayerScript _playerScript;
 
-   
 
     void Start()
     {
-        
+        _playerScript = GetComponent<PlayerScript>();
         rocketRB = gameObject.GetComponent<Rigidbody>();
         rocketDirection = gameObject.GetComponent<Transform>();
         gameObject.name = PhotonNetwork.NickName;
@@ -25,7 +25,7 @@ public class RocketController : MonoBehaviourPun
 
     void FixedUpdate()
     {
-        if (GameManagerScript.gameHasStarted)
+        if (GameManagerScript.gameIsInProgress && _playerScript.playerIsAlive)
         {
             if (Input.GetKey(KeyCode.Space))
             {

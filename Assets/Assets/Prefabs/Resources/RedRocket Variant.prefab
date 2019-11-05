@@ -68,7 +68,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ddbb91b879e65704eb836ec4449d8957, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AmountOfHealth: 10
+  AmountOfHealth: 1
   isNonDestructible: 0
 --- !u!114 &5034864099733945865
 MonoBehaviour:
@@ -125,6 +125,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b12ca0d8afbce544a1f9212f90499b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerIsAlive: 0
 --- !u!114 &9123520243108406312
 MonoBehaviour:
   m_ObjectHideFlags: 0

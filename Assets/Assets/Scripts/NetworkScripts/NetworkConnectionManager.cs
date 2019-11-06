@@ -17,13 +17,13 @@ public class NetworkConnectionManager : MonoBehaviourPunCallbacks
     public Button BtnConnectMaster;
     public Button BtnCreateRoom;
     public Button BtnConnectRoom;
-    public Button submitUserName;
+    //public Button submitUserName;
     public Button submitRoomName;
 
 
     [Header("Username")]
-    public InputField userNameInput;
-    private string userName;
+    /*public InputField userNameInput;
+    private string userName;*/
 
     [Header("Enter Room")]
     private string roomName;
@@ -51,7 +51,7 @@ public class NetworkConnectionManager : MonoBehaviourPunCallbacks
     }
 
     public void UserNameInput_OnClick()
-    {
+    {/*
         ExitGames.Client.Photon.Hashtable _customName = PhotonNetwork.LocalPlayer.CustomProperties;
 
         userName = userNameInput.text.ToString();
@@ -63,7 +63,7 @@ public class NetworkConnectionManager : MonoBehaviourPunCallbacks
         PhotonNetwork.LocalPlayer.CustomProperties = _customName;
 
         string SavedUsername = (string)PhotonNetwork.LocalPlayer.CustomProperties["CustomPlayerName"];
-              
+            */  
     }
 
 
@@ -79,6 +79,8 @@ public class NetworkConnectionManager : MonoBehaviourPunCallbacks
         {
             BtnConnectRoom.gameObject.SetActive(PhotonNetwork.IsConnected && !TriesToConnectToMaster && !TriesToConnectToRoom);
             BtnCreateRoom.gameObject.SetActive(PhotonNetwork.IsConnected && !TriesToConnectToMaster && !TriesToConnectToRoom);
+            roomNameInput.gameObject.SetActive(PhotonNetwork.IsConnected && !TriesToConnectToMaster && !TriesToConnectToRoom);
+            submitRoomName.gameObject.SetActive(PhotonNetwork.IsConnected && !TriesToConnectToMaster && !TriesToConnectToRoom);
         }
 
         if (TriesToConnectToRoom)

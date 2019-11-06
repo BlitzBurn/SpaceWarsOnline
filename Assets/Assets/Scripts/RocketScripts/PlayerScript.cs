@@ -22,18 +22,22 @@ public class PlayerScript : MonoBehaviourPun, IPunObservable
     protected Quaternion rocketRotation;
 
     public bool playerIsAlive;
+    public bool isInTestScene;
 
     private void Awake()
     {
         rocketRigidBody = GetComponent<Rigidbody>();
 
         PV = GetComponent<PhotonView>();
-        if (!base.photonView.IsMine && GetComponent<RocketController>() != null && GetComponent<FireMissile>() != null && GetComponent<PlayerMaterialChange>() != null)
+        if ((!base.photonView.IsMine && GetComponent<RocketController>() != null && GetComponent<FireMissile>() != null && GetComponent<PlayerMaterialChange>() != null) )
         {
-            Debug.Log("Start called Player Scripts");
-            Destroy(GetComponent<FireMissile>());
-            Destroy(GetComponent<RocketController>());
-            Destroy(GetComponent<PlayerMaterialChange>());
+            if (!isInTestScene)
+            {
+                Debug.Log("Components destroyed");
+                Destroy(GetComponent<FireMissile>());
+                Destroy(GetComponent<RocketController>());
+                Destroy(GetComponent<PlayerMaterialChange>());
+            }
         }
     }
 

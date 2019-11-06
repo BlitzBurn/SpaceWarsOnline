@@ -799,9 +799,7 @@ MonoBehaviour:
   BtnConnectMaster: {fileID: 2120170023}
   BtnCreateRoom: {fileID: 455805190}
   BtnConnectRoom: {fileID: 144878390}
-  submitUserName: {fileID: 2076664389}
   submitRoomName: {fileID: 2062176155}
-  userNameInput: {fileID: 1744848540}
   roomNameInput: {fileID: 435049468}
 --- !u!4 &461787987
 Transform:

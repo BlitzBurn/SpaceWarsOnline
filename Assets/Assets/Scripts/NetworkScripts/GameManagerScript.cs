@@ -169,6 +169,8 @@ public class GameManagerScript : MonoBehaviourPunCallbacks, IPunObservable
         countDownTime = countDownTimerReset;
     }
 
+
+
     [PunRPC]
     public void GameStartSequence(bool IfgameHasStarted)
     {
@@ -187,8 +189,8 @@ public class GameManagerScript : MonoBehaviourPunCallbacks, IPunObservable
             {
                 //rocket.transform.position = playerLocationGameStart[i].transform.position;
                 playersList.Add(rocket);
-                Debug.Log("Added crap to da big list");
-                Debug.Log(playersList.Count);
+                //Debug.Log("Added crap to da big list");
+                //Debug.Log(playersList.Count);
                
             }
 
@@ -209,6 +211,10 @@ public class GameManagerScript : MonoBehaviourPunCallbacks, IPunObservable
             stream.SendNext(gameHasEnded);
             stream.SendNext(countDownTimerReset);
             stream.SendNext(livingPlayers);
+            stream.SendNext(gameIsInProgress);
+            stream.SendNext(resTime);
+            stream.SendNext(restartTime);
+            stream.SendNext(restartResetTimer);
         }
         else if (stream.IsReading)
         {
@@ -220,6 +226,10 @@ public class GameManagerScript : MonoBehaviourPunCallbacks, IPunObservable
             gameHasEnded = (bool)stream.ReceiveNext();
             countDownTimerReset = (float)stream.ReceiveNext();
             livingPlayers = (int)stream.ReceiveNext();
+            gameIsInProgress = (bool)stream.ReceiveNext();
+            resTime= (float)stream.ReceiveNext();
+            restartTime = (float)stream.ReceiveNext();
+            restartResetTimer = (float)stream.ReceiveNext();
         }
     }
 

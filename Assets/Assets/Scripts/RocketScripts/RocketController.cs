@@ -33,6 +33,16 @@ public class RocketController : MonoBehaviourPun
             }
         }
 
+        if (!GameManagerScript.gameIsInProgress)
+        {
+            rocketRB.constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ;
+        }
+        else if (GameManagerScript.gameIsInProgress)
+        {
+            rocketRB.constraints = RigidbodyConstraints.None;
+            rocketRB.constraints = RigidbodyConstraints.FreezeRotationY;
+        }
+
         if (Input.GetKey(KeyCode.A))
         {
             RotateLeft();

@@ -9,7 +9,7 @@ public class AsteroidMovement : MonoBehaviourPunCallbacks
     public float movementSpeed;
     public float circleWidth;
     public float circleHeight;
-    public float angle;
+    private float angle;
 
 
     public float rotationSpeed;
@@ -21,9 +21,9 @@ public class AsteroidMovement : MonoBehaviourPunCallbacks
     {
         asteroidRB = gameObject.GetComponent<Rigidbody>();
 
-        movementSpeed = 1;
-        circleWidth = 10;
-        circleHeight = 10;
+        //movementSpeed = 1;
+        //circleWidth = 10;
+        //circleHeight = 10;
     }
 
     void Update()
@@ -36,6 +36,29 @@ public class AsteroidMovement : MonoBehaviourPunCallbacks
 
         transform.position= new Vector3(x, y, z);
     }
+
+    void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        if (stream.IsWriting == true)
+        {
+            stream.SendNext(movementSpeed);
+            stream.SendNext(circleHeight);
+            stream.SendNext(circleWidth);
+            stream.SendNext(angle);
+            stream.SendNext(rotationSpeed);
+        }
+        else
+        {
+            movementSpeed = (float)stream.ReceiveNext();
+            circleHeight = (float)stream.ReceiveNext();
+            circleWidth = (float)stream.ReceiveNext();
+            angle = (float)stream.ReceiveNext();
+            rotationSpeed = (float)stream.ReceiveNext();
+        }
+    }
+
+
+
 
     void FixedUpdate()
     {

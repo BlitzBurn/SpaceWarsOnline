@@ -27,8 +27,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3061182625565881979}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.83, z: 0}
-  m_LocalScale: {x: 0.24304692, y: 0.48802, z: 2.0739}
+  m_LocalPosition: {x: 0, y: -0.83001, z: 1.819e-12}
+  m_LocalScale: {x: 0.24304692, y: 0.30374363, z: 2.0739}
   m_Children: []
   m_Father: {fileID: 7844516961318534840}
   m_RootOrder: 2
@@ -119,8 +119,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4892935124510442654}
   m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: -0.0000005729494, y: -0.83005506, z: 0}
-  m_LocalScale: {x: 0.24304692, y: 0.48802, z: 2.0739}
+  m_LocalPosition: {x: -0.0000005729494, y: -0.83004, z: -1.819e-12}
+  m_LocalScale: {x: 0.24304692, y: 0.30374363, z: 2.0739}
   m_Children: []
   m_Father: {fileID: 7844516961318534840}
   m_RootOrder: 3
@@ -219,8 +219,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7844516961318534724}
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0, z: 1}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0, y: 0.00000024906, z: -1.0893}
+  m_LocalScale: {x: 1, y: 2.0866, z: 1}
   m_Children:
   - {fileID: 7844516962305736247}
   - {fileID: 7190063454794139081}
@@ -286,9 +286,9 @@ CapsuleCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: 0.6488272
-  m_Height: 2.1948526
+  m_Height: 1.5251212
   m_Direction: 1
-  m_Center: {x: 0.019527018, y: 1.9074606, z: -0.020575166}
+  m_Center: {x: 0.019527018, y: 1.6762704, z: -0.020575166}
 --- !u!54 &7844516961318534847
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -317,7 +317,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd099fa5d9fa145419252c5cbde13c49, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  missileForce: 500
+  missileForce: 900
 --- !u!114 &1430299099270140515
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5196,7 +5196,7 @@ ParticleSystemRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10308, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 10301, guid: 0000000000000000f000000000000000, type: 0}
   - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
@@ -5269,8 +5269,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8177160335974728854}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.68382, y: 1.2096, z: -0.000000014901}
-  m_LocalScale: {x: 0.6808904, y: 0.9248536, z: 0.68089056}
+  m_LocalPosition: {x: 0.68382, y: 1.098, z: 0}
+  m_LocalScale: {x: 0.6808904, y: 0.6684287, z: 0.68089056}
   m_Children:
   - {fileID: 5451196249169849076}
   m_Father: {fileID: 7844516961318534840}

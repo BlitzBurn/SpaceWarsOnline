@@ -10,6 +10,8 @@ TagManager:
   - UFOLaserTag
   - GameManager
   - PlayerDeathLocation
+  - SunTag
+  - UFOendPosition
   layers:
   - Default
   - TransparentFX

@@ -29,7 +29,7 @@ public class PlayerScript : MonoBehaviourPun, IPunObservable
         rocketRigidBody = GetComponent<Rigidbody>();
 
         PV = GetComponent<PhotonView>();
-        if ((!base.photonView.IsMine && GetComponent<RocketController>() != null && GetComponent<FireMissile>() != null && GetComponent<PlayerMaterialChange>() != null) )
+        if ((!base.photonView.IsMine && GetComponent<RocketController>() != null && GetComponent<FireMissile>() != null && GetComponent<PlayerMaterialChange>() != null) && GetComponent<AttractScript>() != null )
         {
             if (!isInTestScene)
             {
@@ -37,6 +37,7 @@ public class PlayerScript : MonoBehaviourPun, IPunObservable
                 Destroy(GetComponent<FireMissile>());
                 Destroy(GetComponent<RocketController>());
                 Destroy(GetComponent<PlayerMaterialChange>());
+                //Destroy(GetComponent<AttractScript>());
             }
         }
     }

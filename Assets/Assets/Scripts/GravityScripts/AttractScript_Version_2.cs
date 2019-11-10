@@ -7,7 +7,7 @@ using Photon.Realtime;
 
 public class AttractScript_Version_2 : MonoBehaviourPunCallbacks
 {
-    [Range(1, 6)]
+    [Range(0.1f, 1.5f)]
     public float attractionForce;
     private float distance;
     
@@ -18,7 +18,7 @@ public class AttractScript_Version_2 : MonoBehaviourPunCallbacks
 
     private void OnTriggerStay(Collider other)
     {
-        if (other.CompareTag("SunTag"))
+        if (other.CompareTag("SunTag") && GameManagerScript.gameIsInProgress)
         {
             distance = Vector3.Distance(other.transform.position, transform.position);
 

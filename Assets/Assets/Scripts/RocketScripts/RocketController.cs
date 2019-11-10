@@ -20,6 +20,7 @@ public class RocketController : MonoBehaviourPun
         rocketRB = gameObject.GetComponent<Rigidbody>();
         rocketDirection = gameObject.GetComponent<Transform>();
         gameObject.name = PhotonNetwork.NickName;
+        
     }
 
 
@@ -31,16 +32,6 @@ public class RocketController : MonoBehaviourPun
             {
                 MoveForward();
             }
-        }
-
-        if (!GameManagerScript.gameIsInProgress)
-        {
-            rocketRB.constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ;
-        }
-        else if (GameManagerScript.gameIsInProgress)
-        {
-            rocketRB.constraints = RigidbodyConstraints.None;
-            rocketRB.constraints = RigidbodyConstraints.FreezeRotationY;
         }
 
         if (Input.GetKey(KeyCode.A))

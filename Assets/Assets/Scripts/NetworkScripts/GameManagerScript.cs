@@ -20,6 +20,7 @@ public class GameManagerScript : MonoBehaviourPunCallbacks, IPunObservable
     private float countDownTimerReset;
     public Text playersInLobby;
     public GameObject canvasStartGame;
+    public GameObject canvasEndGame;
     private PhotonView PV;
     public static int livingPlayers=0;
 
@@ -34,8 +35,9 @@ public class GameManagerScript : MonoBehaviourPunCallbacks, IPunObservable
     public List<GameObject> playerLocationGameStart;
 
     [Header("Restart Crap")]
+    public float restartTime;
+    public Text restartText;
     private float resTime;
-    private float restartTime=3f;
     private float restartResetTimer;
 
     public static int numberOfPlayers = 0;
@@ -67,6 +69,9 @@ public class GameManagerScript : MonoBehaviourPunCallbacks, IPunObservable
         preparingToStart = true;
         gameIsInProgress = false;
         gameHasEnded = false;
+
+        canvasStartGame.SetActive(true);
+        canvasEndGame.SetActive(false);
 
         timer = 0;
         countDownTimerReset = countDownTime;
@@ -146,10 +151,12 @@ public class GameManagerScript : MonoBehaviourPunCallbacks, IPunObservable
         if (gameHasEnded)
         {
             resTime += Time.deltaTime;
+            restartText.text = Mathf.Ceil(restartTime - resTime).ToString();
         }
 
         if (gameHasEnded && resTime>=restartTime)
         {
+            canvasEndGame.SetActive(true);
             timer = 0;
             countDownTime = countDownTimerReset;
             resTime = 0;

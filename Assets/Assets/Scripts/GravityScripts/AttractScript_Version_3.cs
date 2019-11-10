@@ -19,11 +19,12 @@ public class AttractScript_Version_3 : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-        if (other.CompareTag("SunTag"))
+        if (other.CompareTag("RocketTag") && GameManagerScript.gameIsInProgress)
         {
+           // Debug.Log(GameManagerScript.gameIsInProgress);
             Rigidbody gravRB = other.GetComponent<Rigidbody>();
-            //PV.RPC("AttractGarbage", RpcTarget.All, gravRB );
-            AttractGarbage(gravRB);
+            PV.RPC("AttractGarbage", RpcTarget.AllViaServer, gravRB );
+            //AttractGarbage(gravRB);
         }
     }
 
@@ -32,7 +33,7 @@ public class AttractScript_Version_3 : MonoBehaviour
     {
         Vector3 direction = gravityRb.position - garbageToAttract.position;
         float distance = direction.magnitude;
-
+        //Debug.Log("flkjhgdsfzökliojgvndlfoziskjngm");
         float forceMagnitude = GravityForce * (gravityRb.mass * garbageToAttract.mass) / Mathf.Pow(distance, 2);
         Vector3 force = direction.normalized * forceMagnitude;
 
@@ -44,6 +45,7 @@ public class AttractScript_Version_3 : MonoBehaviour
         if (stream.IsWriting == true)
         {
             stream.SendNext(GravityForce);
+            //stream.SendNext()
         }
         else
         {

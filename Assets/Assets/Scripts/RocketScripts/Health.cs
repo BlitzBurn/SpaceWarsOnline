@@ -60,10 +60,11 @@ public class Health : MonoBehaviourPun/*, Photon.Pun.IPunObservable*/
         if (collision.collider.tag == "MissileTag")
         {
             PV.RPC("TakeDamage", RpcTarget.All, 1);
-            // Debug.Log("Missile hit");
-
-            //MissileExplode explodeScript = collision.gameObject.GetComponent<MissileExplode>();
-            //explodeScript.DetonateMissile();
+           
+        }
+        else if (collision.collider.tag == "SunTag")
+        {
+            PV.RPC("TakeDamage", RpcTarget.All, 15);
         }
     }
     void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)

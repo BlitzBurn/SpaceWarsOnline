@@ -22,7 +22,7 @@ public class GameManagerScript : MonoBehaviourPunCallbacks, IPunObservable
     public GameObject canvasStartGame;
     public GameObject canvasEndGame;
     private PhotonView PV;
-    public static int livingPlayers=0;
+    public static int livingPlayers = 0;
 
     [Header("Booltexts")]
     public Text preptostText;
@@ -46,16 +46,21 @@ public class GameManagerScript : MonoBehaviourPunCallbacks, IPunObservable
     public static bool preparingToStart;
     public static bool gameHasEnded;
     public static bool gameIsInProgress;
+    public bool showGameManagerBools;
 
     private int LoopVariable = 0;
 
     [HideInInspector]
     public PlayerScript localPlayer;
 
+    [Header("Explosion")]
+    public GameObject explosionprefab;
+    public GameObject explosionLocation;
+
     private void Awake()
     {
         PV = GetComponent<PhotonView>();
-       
+
 
         if (!PhotonNetwork.IsConnected)
         {
@@ -78,16 +83,16 @@ public class GameManagerScript : MonoBehaviourPunCallbacks, IPunObservable
 
         resTime = 0;
         restartResetTimer = restartTime;
-      
+
         //PhotonNetwork.SendRate = 20;
         //PhotonNetwork.SerializationRate = 10;
-    
-        PlayerScript.RefreshInstance(ref localPlayer, playerPrefab, spawnLocation[PhotonNetwork.PlayerList.Length - 1]);     
+
+        PlayerScript.RefreshInstance(ref localPlayer, playerPrefab, spawnLocation[PhotonNetwork.PlayerList.Length - 1]);
     }
 
     public void RestartGame()
     {
-        for(int i = 0; i < PhotonNetwork.PlayerList.Length; i++)
+        for (int i = 0; i < PhotonNetwork.PlayerList.Length; i++)
         {
             // PhotonNetwork.Destroy(playersList[i].gameObject);
 
@@ -97,7 +102,8 @@ public class GameManagerScript : MonoBehaviourPunCallbacks, IPunObservable
             Debug.Log("SetActive");
         }
 
-        for (int i=0; i<PhotonNetwork.PlayerList.Length; i++) {
+        for (int i = 0; i < PhotonNetwork.PlayerList.Length; i++)
+        {
             PlayerScript.RefreshInstance(ref localPlayer, playerPrefab, spawnLocation[i]);
             Debug.Log("Refresh instance");
         }
@@ -121,18 +127,22 @@ public class GameManagerScript : MonoBehaviourPunCallbacks, IPunObservable
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {            
-            Debug.Log("Restart Game");
-            gameHasEnded = true;
-            Debug.Log(gameHasEnded);            
+
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            PhotonNetwork.Instantiate(explosionprefab.gameObject.name, explosionLocation.transform.position, Quaternion.identity);
         }
 
-        preptostText.text = "PreparingToStart: "+preparingToStart.ToString();
-        gahaenText.text = "GameHasEnded: "+gameHasEnded.ToString();
-        gaiprogText.text = "GameIsInProgress: "+gameIsInProgress.ToString();
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            Debug.Log("Restart Game");
+            gameHasEnded = true;
+            Debug.Log(gameHasEnded);
+        }
 
-        if (countDownTime >= 0 && preparingToStart && PhotonNetwork.PlayerList.Length>=2)
+
+
+        if (countDownTime >= 0 && preparingToStart && PhotonNetwork.PlayerList.Length >= 2)
         {
             timer = Time.deltaTime;
             countDownTime -= timer;
@@ -142,7 +152,7 @@ public class GameManagerScript : MonoBehaviourPunCallbacks, IPunObservable
             PV.RPC("GameStartSequence", RpcTarget.All, preparingToStart);
         }
 
-        if(gameIsInProgress && livingPlayers == 1)
+        if (gameIsInProgress && livingPlayers == 1)
         {
             gameHasEnded = true;
             gameIsInProgress = false;
@@ -150,13 +160,14 @@ public class GameManagerScript : MonoBehaviourPunCallbacks, IPunObservable
 
         if (gameHasEnded)
         {
+            canvasEndGame.SetActive(true);
             resTime += Time.deltaTime;
             restartText.text = Mathf.Ceil(restartTime - resTime).ToString();
         }
 
-        if (gameHasEnded && resTime>=restartTime)
+        if (gameHasEnded && resTime >= restartTime)
         {
-            canvasEndGame.SetActive(true);
+            
             timer = 0;
             countDownTime = countDownTimerReset;
             resTime = 0;
@@ -167,6 +178,18 @@ public class GameManagerScript : MonoBehaviourPunCallbacks, IPunObservable
         timeToGameStartText.text = Mathf.Ceil(countDownTime).ToString();
         playersInLobby.text = PhotonNetwork.PlayerList.Length.ToString();
 
+        if (showGameManagerBools)
+        {
+            preptostText.text = "PreparingToStart: " + preparingToStart.ToString();
+            gahaenText.text = "GameHasEnded: " + gameHasEnded.ToString();
+            gaiprogText.text = "GameIsInProgress: " + gameIsInProgress.ToString();
+        }
+        else if (!showGameManagerBools)
+        {
+            preptostText.gameObject.SetActive(false);
+            gahaenText.gameObject.SetActive(false);
+            gaiprogText.gameObject.SetActive(false);
+        }
     }
 
     [PunRPC]
@@ -181,29 +204,29 @@ public class GameManagerScript : MonoBehaviourPunCallbacks, IPunObservable
     [PunRPC]
     public void GameStartSequence(bool IfgameHasStarted)
     {
-        
-            canvasStartGame.SetActive(false);
-            preparingToStart = false;
-            gameIsInProgress = true;
-            Debug.Log("GameStartSequence, gameHasStarted:" + preparingToStart + ", IfgameHasStarted: " + IfgameHasStarted);
+
+        canvasStartGame.SetActive(false);
+        preparingToStart = false;
+        gameIsInProgress = true;
+        Debug.Log("GameStartSequence, gameHasStarted:" + preparingToStart + ", IfgameHasStarted: " + IfgameHasStarted);
 
 
 
-            playersList.Clear();
-            Debug.Log(playersList.Count);
+        playersList.Clear();
+        Debug.Log(playersList.Count);
 
-            foreach (GameObject rocket in GameObject.FindGameObjectsWithTag("RocketTag"))
-            {
-                //rocket.transform.position = playerLocationGameStart[i].transform.position;
-                playersList.Add(rocket);
-                //Debug.Log("Added crap to da big list");
-                //Debug.Log(playersList.Count);
-               
-            }
+        foreach (GameObject rocket in GameObject.FindGameObjectsWithTag("RocketTag"))
+        {
+            //rocket.transform.position = playerLocationGameStart[i].transform.position;
+            playersList.Add(rocket);
+            //Debug.Log("Added crap to da big list");
+            //Debug.Log(playersList.Count);
+
+        }
 
         livingPlayers = playersList.Count;
         Debug.Log(livingPlayers);
-        
+
     }
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
@@ -234,7 +257,7 @@ public class GameManagerScript : MonoBehaviourPunCallbacks, IPunObservable
             countDownTimerReset = (float)stream.ReceiveNext();
             livingPlayers = (int)stream.ReceiveNext();
             gameIsInProgress = (bool)stream.ReceiveNext();
-            resTime= (float)stream.ReceiveNext();
+            resTime = (float)stream.ReceiveNext();
             restartTime = (float)stream.ReceiveNext();
             restartResetTimer = (float)stream.ReceiveNext();
         }

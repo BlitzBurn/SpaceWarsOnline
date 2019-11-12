@@ -15,7 +15,9 @@ public class Health : MonoBehaviourPun/*, Photon.Pun.IPunObservable*/
     private PhotonView PV;
     private PlayerScript _playerScript;
 
-    
+    [Header("Explosion")]
+    public GameObject explosionprefab;
+    //public GameObject explosionLocation;
 
     private void Start()
     {
@@ -31,6 +33,7 @@ public class Health : MonoBehaviourPun/*, Photon.Pun.IPunObservable*/
 
         if (AmountOfHealth <= 0 && isNonDestructible == false)
         {
+            PhotonNetwork.Instantiate(explosionprefab.gameObject.name, gameObject.transform.position, Quaternion.identity);
             GameManagerScript.livingPlayers -= 1;
             Debug.Log(GameManagerScript.livingPlayers);
             Debug.Log("Ded");            
@@ -46,6 +49,7 @@ public class Health : MonoBehaviourPun/*, Photon.Pun.IPunObservable*/
     {
         if (!isNonDestructible && time >= invisTime)
         {
+
             AmountOfHealth = AmountOfHealth - damageTaken;
             time = 0;
         }

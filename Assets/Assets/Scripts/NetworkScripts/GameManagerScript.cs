@@ -53,9 +53,7 @@ public class GameManagerScript : MonoBehaviourPunCallbacks, IPunObservable
     [HideInInspector]
     public PlayerScript localPlayer;
 
-    [Header("Explosion")]
-    public GameObject explosionprefab;
-    public GameObject explosionLocation;
+    
 
     private void Awake()
     {
@@ -130,7 +128,7 @@ public class GameManagerScript : MonoBehaviourPunCallbacks, IPunObservable
 
         if (Input.GetKeyDown(KeyCode.E))
         {
-            PhotonNetwork.Instantiate(explosionprefab.gameObject.name, explosionLocation.transform.position, Quaternion.identity);
+           
         }
 
         if (Input.GetKeyDown(KeyCode.Escape))
@@ -140,6 +138,7 @@ public class GameManagerScript : MonoBehaviourPunCallbacks, IPunObservable
             Debug.Log(gameHasEnded);
         }
 
+        
 
 
         if (countDownTime >= 0 && preparingToStart && PhotonNetwork.PlayerList.Length >= 2)
@@ -158,23 +157,33 @@ public class GameManagerScript : MonoBehaviourPunCallbacks, IPunObservable
             gameIsInProgress = false;
         }
 
-        if (gameHasEnded)
+        
+        //4>3
+        if (gameHasEnded && restartTime >= 0)
         {
             canvasEndGame.SetActive(true);
-            resTime += Time.deltaTime;
-            restartText.text = Mathf.Ceil(restartTime - resTime).ToString();
-        }
+            restartTime -= Time.deltaTime;
+            restartText.text = Mathf.Ceil(restartTime).ToString();
+            Debug.Log("Game has ended"+restartTime);
 
-        if (gameHasEnded && resTime >= restartTime)
+        }
+        else if(gameHasEnded && restartTime <= 0)
         {
+            livingPlayers = PhotonNetwork.PlayerList.Length;
             
-            timer = 0;
-            countDownTime = countDownTimerReset;
-            resTime = 0;
             gameHasEnded = false;
             gameIsInProgress = false;
             preparingToStart = true;
+
+            restartTime = restartResetTimer;
+            //resTime = 0;
+            timer = 0;
+            countDownTime = countDownTimerReset;
+
+            canvasEndGame.SetActive(false);
+            canvasStartGame.SetActive(true);
         }
+
         timeToGameStartText.text = Mathf.Ceil(countDownTime).ToString();
         playersInLobby.text = PhotonNetwork.PlayerList.Length.ToString();
 

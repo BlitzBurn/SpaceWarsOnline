@@ -4,18 +4,18 @@ using UnityEngine;
 
 public class RotateImage : MonoBehaviour
 {
-    RectTransform rectTransform;
+    Transform rectTransform;
     public float rotationRate;
 
     void Start()
     {
-        rectTransform = GetComponent<RectTransform>();
+        rectTransform = GetComponent<Transform>();
         
     }
 
     
     void Update()
     {
-        rectTransform.Rotate(new Vector3(0, 0, rotationRate*Time.deltaTime));
+        rectTransform.Rotate(new Vector3(0,  rotationRate * Time.deltaTime,  0 ));
     }
 }

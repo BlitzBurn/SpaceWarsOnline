@@ -24,6 +24,8 @@ public class PlayerScript : MonoBehaviourPun, IPunObservable
     public bool playerIsAlive;
     public bool isInTestScene;
 
+   
+
     private void Awake()
     {
         rocketRigidBody = GetComponent<Rigidbody>();
@@ -64,6 +66,7 @@ public class PlayerScript : MonoBehaviourPun, IPunObservable
         if (!playerIsAlive)
         {
             gameObject.transform.position = deathPosition;
+            
         }
 
     }

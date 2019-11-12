@@ -97,7 +97,7 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 0
+  m_UseShadowmask: 1
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -267,6 +267,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Asteroid
       objectReference: {fileID: 0}
+    - target: {fileID: 5610088580319355323, guid: 6fcce2f04657af4429a2faece5ee823d,
+        type: 3}
+      propertyPath: m_Constraints
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 5610088580319355324, guid: 6fcce2f04657af4429a2faece5ee823d,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -336,11 +341,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalScale.z
       value: 9.651749
-      objectReference: {fileID: 0}
-    - target: {fileID: 5610088580319355323, guid: 6fcce2f04657af4429a2faece5ee823d,
-        type: 3}
-      propertyPath: m_Constraints
-      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 5610088580319355321, guid: 6fcce2f04657af4429a2faece5ee823d,
         type: 3}
@@ -1722,7 +1722,7 @@ PrefabInstance:
     - target: {fileID: 5624644647899921858, guid: 8dec97275cc102d41bf3cf982ecb191f,
         type: 3}
       propertyPath: m_Radius
-      value: 7.3274913
+      value: 0.7
       objectReference: {fileID: 0}
     - target: {fileID: 5624644647899921858, guid: 8dec97275cc102d41bf3cf982ecb191f,
         type: 3}
@@ -1732,7 +1732,7 @@ PrefabInstance:
     - target: {fileID: 5624644647899921858, guid: 8dec97275cc102d41bf3cf982ecb191f,
         type: 3}
       propertyPath: m_IsTrigger
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5624644647899921859, guid: 8dec97275cc102d41bf3cf982ecb191f,
         type: 3}
@@ -1759,7 +1759,6 @@ GameObject:
   - component: {fileID: 1889449787}
   - component: {fileID: 1889449786}
   - component: {fileID: 1889449785}
-  - component: {fileID: 1889449789}
   m_Layer: 0
   m_Name: Plane
   m_TagString: Untagged
@@ -1841,18 +1840,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1889449789
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1889449784}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1aa2c376c835a8e49b8ae98a1c21850f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1969299938
 GameObject:
   m_ObjectHideFlags: 0
@@ -2061,21 +2048,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 3278733913496031897, guid: 6d1d51daa6ba04c4ebcf5cf065c6662a,
-        type: 3}
-      propertyPath: m_Name
-      value: RedRocket Variant
-      objectReference: {fileID: 0}
-    - target: {fileID: 8012799065530238570, guid: 6d1d51daa6ba04c4ebcf5cf065c6662a,
-        type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8012799065530238570, guid: 6d1d51daa6ba04c4ebcf5cf065c6662a,
-        type: 3}
-      propertyPath: isInTestScene
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 7556674016688469783, guid: 6d1d51daa6ba04c4ebcf5cf065c6662a,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2131,6 +2103,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3278733913496031897, guid: 6d1d51daa6ba04c4ebcf5cf065c6662a,
+        type: 3}
+      propertyPath: m_Name
+      value: RedRocket Variant
+      objectReference: {fileID: 0}
     - target: {fileID: 1568694538484766975, guid: 6d1d51daa6ba04c4ebcf5cf065c6662a,
         type: 3}
       propertyPath: missileExplode
@@ -2162,10 +2139,25 @@ PrefabInstance:
       propertyPath: viewIdField
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3211799335434199576, guid: 6d1d51daa6ba04c4ebcf5cf065c6662a,
+        type: 3}
+      propertyPath: explosionprefab
+      value: 
+      objectReference: {fileID: 100000, guid: 15ca5b8fa431dc04291a79cadcd19874, type: 3}
     - target: {fileID: 7007511125811939317, guid: 6d1d51daa6ba04c4ebcf5cf065c6662a,
         type: 3}
       propertyPath: rocketForce
       value: 1500
+      objectReference: {fileID: 0}
+    - target: {fileID: 8012799065530238570, guid: 6d1d51daa6ba04c4ebcf5cf065c6662a,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8012799065530238570, guid: 6d1d51daa6ba04c4ebcf5cf065c6662a,
+        type: 3}
+      propertyPath: isInTestScene
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6256815429384284356, guid: 6d1d51daa6ba04c4ebcf5cf065c6662a,
         type: 3}

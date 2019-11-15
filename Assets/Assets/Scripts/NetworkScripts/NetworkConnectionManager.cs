@@ -13,6 +13,8 @@ public class NetworkConnectionManager : MonoBehaviourPunCallbacks
     
     private Text _userNameText;
 
+    public static bool hasEnteredName;
+
     [Header("Buttons")]
     public Button BtnConnectMaster;
     public Button BtnCreateRoom;
@@ -37,7 +39,8 @@ public class NetworkConnectionManager : MonoBehaviourPunCallbacks
 
     void Start()
     {
-        roomName = "room1";
+        hasEnteredName = false;
+        //roomName = "room1";
         //userNameInput.onValueChanged.AddListener(delegate { OnTextInput(); });
         DontDestroyOnLoad(gameObject);
         TriesToConnectToMaster = false;
@@ -47,7 +50,15 @@ public class NetworkConnectionManager : MonoBehaviourPunCallbacks
 
     public void RoomNameInput_OnClick()
     {
-        roomName = roomNameInput.text.ToString();
+        if (roomNameInput.text != "")
+        {
+            roomName = roomNameInput.text.ToString();
+            hasEnteredName = true;
+        }
+        else
+        {
+            Debug.Log("Nope");
+        }
     }
 
     public void UserNameInput_OnClick()
@@ -81,6 +92,15 @@ public class NetworkConnectionManager : MonoBehaviourPunCallbacks
             BtnCreateRoom.gameObject.SetActive(PhotonNetwork.IsConnected && !TriesToConnectToMaster && !TriesToConnectToRoom);
             roomNameInput.gameObject.SetActive(PhotonNetwork.IsConnected && !TriesToConnectToMaster && !TriesToConnectToRoom);
             submitRoomName.gameObject.SetActive(PhotonNetwork.IsConnected && !TriesToConnectToMaster && !TriesToConnectToRoom);
+
+            BtnConnectRoom.interactable = false;
+            BtnCreateRoom.interactable = false;
+        }
+
+        if (roomName != null)
+        {
+            BtnConnectRoom.interactable = true;
+            BtnCreateRoom.interactable = true;
         }
 
         if (TriesToConnectToRoom)

@@ -25,6 +25,14 @@ public class Health : MonoBehaviourPun/*, Photon.Pun.IPunObservable*/
         maxHealth = AmountOfHealth;
         PV = GetComponent<PhotonView>();
         _playerScript = GetComponent<PlayerScript>();
+        //PhotonView PV = PhotonView.Get(this);
+        PV.RPC("fuckMeLife", RpcTarget.All);
+    }
+
+    [PunRPC]
+    private void fuckMeLife()
+    {
+        Debug.Log("Fuch.dis");
     }
 
     void Update()
@@ -47,6 +55,7 @@ public class Health : MonoBehaviourPun/*, Photon.Pun.IPunObservable*/
     [PunRPC]
     public void TakeDamage(int damageTaken)
     {
+        Debug.Log("Take Damage");
         if (!isNonDestructible && time >= invisTime)
         {
 
@@ -63,6 +72,7 @@ public class Health : MonoBehaviourPun/*, Photon.Pun.IPunObservable*/
     {
         if (collision.collider.tag == "MissileTag")
         {
+
             PV.RPC("TakeDamage", RpcTarget.All, 1);
            
         }

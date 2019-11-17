@@ -18,6 +18,6 @@ public class ShipBobMainMenu : MonoBehaviour
     void Update()
     {       
         transform.position = new Vector3(transform.position.x, yPosition+ ( (float)Mathf.Sin(Time.time) *rateOfBob), transform.position.z);
-        transform.rotation =  Quaternion.Euler(xRotation + ( (float)Mathf.Sin(Time.time) * rotationVar), (-21.2f), transform.rotation.z);
+        transform.rotation =  Quaternion.Euler(xRotation + ( (float)Mathf.Sin(Time.time) * rotationVar), (150f), transform.rotation.z);
     }
 }

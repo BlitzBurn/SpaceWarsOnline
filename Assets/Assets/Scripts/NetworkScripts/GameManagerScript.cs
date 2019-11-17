@@ -53,18 +53,28 @@ public class GameManagerScript : MonoBehaviourPunCallbacks, IPunObservable
     [HideInInspector]
     public PlayerScript localPlayer;
 
-    
+    [Header("Music Clips")]
+    public AudioClip battleTheme;
+    public AudioClip setupTheme;
+    public AudioClip gameOverTheme;
+
+    [Header("Audio Sources")]
+    private AudioSource musicAD;
 
     private void Awake()
     {
         PV = GetComponent<PhotonView>();
-
 
         if (!PhotonNetwork.IsConnected)
         {
             SceneManager.LoadScene("Login");
             return;
         }
+
+        musicAD = GetComponent<AudioSource>();
+        musicAD.loop = true;
+        musicAD.clip = setupTheme;
+        musicAD.Play();
     }
 
     private void Start()
@@ -81,6 +91,8 @@ public class GameManagerScript : MonoBehaviourPunCallbacks, IPunObservable
 
         resTime = 0;
         restartResetTimer = restartTime;
+
+        
 
         //PhotonNetwork.SendRate = 20;
         //PhotonNetwork.SerializationRate = 10;
@@ -126,11 +138,6 @@ public class GameManagerScript : MonoBehaviourPunCallbacks, IPunObservable
     void Update()
     {
 
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-           
-        }
-
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             Debug.Log("Restart Game");
@@ -162,10 +169,8 @@ public class GameManagerScript : MonoBehaviourPunCallbacks, IPunObservable
         if (gameHasEnded && restartTime >= 0)
         {
             canvasEndGame.SetActive(true);
-            restartTime -= Time.deltaTime;
-            restartText.text = Mathf.Ceil(restartTime).ToString();
+            restartTime = restartTime - Time.deltaTime;
             Debug.Log("Game has ended"+restartTime);
-
         }
         else if(gameHasEnded && restartTime <= 0)
         {
@@ -184,6 +189,7 @@ public class GameManagerScript : MonoBehaviourPunCallbacks, IPunObservable
             canvasStartGame.SetActive(true);
         }
 
+        restartText.text = Mathf.Ceil(restartTime).ToString();
         timeToGameStartText.text = Mathf.Ceil(countDownTime).ToString();
         playersInLobby.text = PhotonNetwork.PlayerList.Length.ToString();
 
@@ -219,7 +225,8 @@ public class GameManagerScript : MonoBehaviourPunCallbacks, IPunObservable
         gameIsInProgress = true;
         Debug.Log("GameStartSequence, gameHasStarted:" + preparingToStart + ", IfgameHasStarted: " + IfgameHasStarted);
 
-
+        musicAD.clip = battleTheme;
+        musicAD.Play();
 
         playersList.Clear();
         Debug.Log(playersList.Count);

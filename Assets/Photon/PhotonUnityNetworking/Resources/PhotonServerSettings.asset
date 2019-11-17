@@ -50,5 +50,6 @@ MonoBehaviour:
   - AttractGarbage
   - DetermineUfoDirection
   - FireLasers
+  - fuckMeLife
   DisableAutoOpenWizard: 1
   ShowSettings: 1

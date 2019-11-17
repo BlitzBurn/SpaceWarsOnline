@@ -4,16 +4,25 @@ using UnityEngine;
 
 public class MusicPlayer : MonoBehaviour
 {
-    [Header("AudioSource")]
-    public AudioSource ADS;
+    [Header("AudioStuff")]
+    public AudioClip sound;
+    private AudioSource ADS;
+    public bool isLogin;
+
     void Start()
     {
-        
-    }
+        ADS = GetComponent<AudioSource>();
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        if (isLogin)
+        {
+            ADS.loop = true;
+        }
+        else
+        {
+            ADS.loop = false;
+        }
+
+        ADS.clip = sound;
+        ADS.Play();
     }
 }

@@ -13,6 +13,9 @@ public class RocketController : MonoBehaviourPun
     public float rotationSpeed;
     private PlayerScript _playerScript;
 
+    [Header("Sound Shit")]
+    public AudioClip rocketThrust;
+    private AudioSource audioSource;
 
     void Start()
     {
@@ -20,7 +23,10 @@ public class RocketController : MonoBehaviourPun
         rocketRB = gameObject.GetComponent<Rigidbody>();
         rocketDirection = gameObject.GetComponent<Transform>();
         gameObject.name = PhotonNetwork.NickName;
-        
+
+        audioSource = GetComponent<AudioSource>();
+        audioSource.loop = true;
+        audioSource.clip = rocketThrust;
     }
 
 
@@ -31,7 +37,19 @@ public class RocketController : MonoBehaviourPun
             if (Input.GetKey(KeyCode.Space))
             {
                 MoveForward();
+                
             }
+
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                audioSource.Play();
+            }
+            else if (Input.GetKeyUp(KeyCode.Space))
+            {
+                audioSource.Stop();
+            }
+
+
         }
 
         if (Input.GetKey(KeyCode.A))

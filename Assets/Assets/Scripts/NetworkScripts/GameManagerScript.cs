@@ -138,6 +138,12 @@ public class GameManagerScript : MonoBehaviourPunCallbacks, IPunObservable
     void Update()
     {
 
+    }
+
+    /*
+    void Update()
+    {
+
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             Debug.Log("Restart Game");
@@ -205,7 +211,7 @@ public class GameManagerScript : MonoBehaviourPunCallbacks, IPunObservable
             gahaenText.gameObject.SetActive(false);
             gaiprogText.gameObject.SetActive(false);
         }
-    }
+    }*/
 
     [PunRPC]
     public void GameRestart()

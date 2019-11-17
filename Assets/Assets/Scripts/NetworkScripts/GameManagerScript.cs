@@ -137,7 +137,61 @@ public class GameManagerScript : MonoBehaviourPunCallbacks, IPunObservable
 
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            Debug.Log("Restart Game");
+            gameHasEnded = true;
+            Debug.Log(gameHasEnded);
+        }
 
+
+
+
+
+        if (countDownTime >= 0 && preparingToStart && PhotonNetwork.PlayerList.Length >= 2)
+        {
+            timer = Time.deltaTime;
+            countDownTime -= timer;
+        }
+        else if (countDownTime <= 0 && preparingToStart)
+        {
+            PV.RPC("GameStartSequence", RpcTarget.All, preparingToStart);
+        }
+
+        if (gameIsInProgress && livingPlayers == 1)
+        {
+            gameHasEnded = true;
+            gameIsInProgress = false;
+        }
+
+
+        //4>3
+        if (gameHasEnded && restartTime >= 0)
+        {
+            canvasEndGame.SetActive(true);
+            restartTime = restartTime - Time.deltaTime;
+            Debug.Log("Game has ended" + restartTime);
+        }
+        else if (gameHasEnded && restartTime <= 0)
+        {
+            livingPlayers = PhotonNetwork.PlayerList.Length;
+
+            gameHasEnded = false;
+            gameIsInProgress = false;
+            preparingToStart = true;
+
+            restartTime = restartResetTimer;
+            //resTime = 0;
+            timer = 0;
+            countDownTime = countDownTimerReset;
+
+            canvasEndGame.SetActive(false);
+            canvasStartGame.SetActive(true);
+        }
+
+        restartText.text = Mathf.Ceil(restartTime).ToString();
+        timeToGameStartText.text = Mathf.Ceil(countDownTime).ToString();
+        playersInLobby.text = PhotonNetwork.PlayerList.Length.ToString();
     }
 
     /*

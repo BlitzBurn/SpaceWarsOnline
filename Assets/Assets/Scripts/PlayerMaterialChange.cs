@@ -10,7 +10,7 @@ public class PlayerMaterialChange : MonoBehaviourPun, IPunObservable
     public List<Material> RocketColors;
     Renderer rocketRenderer;
     private PhotonView _photonView;
-    private bool hasChangedMat = false;
+    private bool hasChangedMat;
 
     [Header("Materials")]
     public Material redMaterial;
@@ -28,7 +28,7 @@ public class PlayerMaterialChange : MonoBehaviourPun, IPunObservable
 
     private void Update()
     {
-        if (!photonView.IsMine)
+        if (!photonView.IsMine && !hasChangedMat)
         {
             _photonView = GetComponent<PhotonView>();
             shipColour = PhotonNetwork.LocalPlayer.ActorNumber;
@@ -42,6 +42,7 @@ public class PlayerMaterialChange : MonoBehaviourPun, IPunObservable
     {
         if (_shipColour == 1 )
         {
+            Debug.Log(redMaterial.name);
             rocketRenderer = GetComponent<Renderer>();
             rocketRenderer.enabled = true;
             rocketRenderer.material = redMaterial;
@@ -49,6 +50,7 @@ public class PlayerMaterialChange : MonoBehaviourPun, IPunObservable
         }
         else if (_shipColour == 2 )
         {
+            Debug.Log(greenMaterial.name);
             rocketRenderer = GetComponent<Renderer>();
             rocketRenderer.enabled = true;
             rocketRenderer.material = greenMaterial;
@@ -56,6 +58,7 @@ public class PlayerMaterialChange : MonoBehaviourPun, IPunObservable
         }
         else if (_shipColour == 3 )
         {
+            Debug.Log(purpleMaterial.name);
             rocketRenderer = GetComponent<Renderer>();
             rocketRenderer.enabled = true;
             rocketRenderer.material = purpleMaterial;
@@ -63,6 +66,7 @@ public class PlayerMaterialChange : MonoBehaviourPun, IPunObservable
         }
         else if (_shipColour == 4 )
         {
+            Debug.Log(blueMaterial.name);
             rocketRenderer = GetComponent<Renderer>();
             rocketRenderer.enabled = true;
             rocketRenderer.material = blueMaterial;

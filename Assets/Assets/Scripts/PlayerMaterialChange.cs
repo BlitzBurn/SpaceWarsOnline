@@ -40,7 +40,7 @@ public class PlayerMaterialChange : MonoBehaviourPun, IPunObservable
     [PunRPC]
     public void ChangeRocketMaterial(int _shipColour)
     {
-        if (_shipColour == 1 )
+        if (_shipColour == 1 && hasChangedMat == false)
         {
             rocketRenderer = GetComponent<Renderer>();
             rocketRenderer.enabled = true;

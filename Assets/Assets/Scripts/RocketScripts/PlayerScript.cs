@@ -24,21 +24,29 @@ public class PlayerScript : MonoBehaviourPun, IPunObservable
     public bool playerIsAlive;
     public bool isInTestScene;
 
-   
+    public GameObject rocketThrust;
+
+   public static void ResetPlayerPosition(GameObject playerReference, GameObject newPosition)
+    {
+        playerReference.transform.position = newPosition.transform.position;
+    }
 
     private void Awake()
     {
         rocketRigidBody = GetComponent<Rigidbody>();
 
+        rocketThrust.SetActive(false);
+
         PV = GetComponent<PhotonView>();
-        if ((!base.photonView.IsMine && GetComponent<RocketController>() != null && GetComponent<FireMissile>() != null && GetComponent<PlayerMaterialChange>() != null) )
+        if (!base.photonView.IsMine && GetComponent<RocketController>() != null && GetComponent<FireMissile>() != null/* && GetComponent<PlayerMaterialChange>() != null) */&& GetComponent<Health>() != null )
         {
             if (!isInTestScene)
             {
                 Debug.Log("Components destroyed");
                 Destroy(GetComponent<FireMissile>());
                 Destroy(GetComponent<RocketController>());
-                Destroy(GetComponent<PlayerMaterialChange>());
+                //Destroy(GetComponent<PlayerMaterialChange>());
+                //Destroy(GetComponent<Health>());
                 //Destroy(GetComponent<AttractScript>());
             }
         }
@@ -50,23 +58,32 @@ public class PlayerScript : MonoBehaviourPun, IPunObservable
         startPosition = gameObject.transform.position;
         deathPosition = new Vector3(gameObject.transform.position.x, -40f, gameObject.transform.position.z);
 
-        Debug.Log(startPosition);
+
     }
 
     void Update()
     {
-        if (GameManagerScript.gameHasEnded)
+        if (!playerIsAlive)
         {
-            Debug.Log("Restart PlayerScript");
+            gameObject.transform.position = deathPosition;
+
+        }
+
+        if (GameManagerScript.preparingToStart)
+        {
+            //Debug.Log("Restart PlayerScript");
             playerIsAlive = true;
             //RestartGame();
             PV.RPC("RestartGame", RpcTarget.AllBuffered);
         }
 
-        if (!playerIsAlive)
+        if (Input.GetKeyDown(KeyCode.Space))
         {
-            gameObject.transform.position = deathPosition;
-            
+            rocketThrust.SetActive(true);
+        }
+        else if(Input.GetKeyUp(KeyCode.Space))
+        {
+            rocketThrust.SetActive(false);
         }
 
     }
@@ -90,10 +107,7 @@ public class PlayerScript : MonoBehaviourPun, IPunObservable
     public void RestartGame()
     {
         gameObject.transform.position = startPosition;
-        // if (photonView.IsMine)
-        {
-
-        }
+        
     }
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)

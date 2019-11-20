@@ -51,5 +51,10 @@ MonoBehaviour:
   - DetermineUfoDirection
   - FireLasers
   - fuckMeLife
+  - EndGameMethod
+  - EndGameCanvas
+  - EndGameSequence
+  - EndGame1
+  - EndGame2
   DisableAutoOpenWizard: 1
   ShowSettings: 1

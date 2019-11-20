@@ -47,12 +47,11 @@ GameObject:
   - component: {fileID: 4400448764778249396}
   - component: {fileID: 4400448764778249397}
   - component: {fileID: 4400448764778249399}
-  - component: {fileID: 4400448764778249392}
+  - component: {fileID: 4400448764778249295}
   - component: {fileID: 4400448764778249393}
   - component: {fileID: 4400448764778249394}
   - component: {fileID: 4400448764778249292}
   - component: {fileID: 4400448764778249293}
-  - component: {fileID: 4400448764778249295}
   - component: {fileID: 4400448764778249288}
   - component: {fileID: 9111298982928965939}
   m_Layer: 0
@@ -201,6 +200,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerIsAlive: 0
   isInTestScene: 0
+  rocketThrust: {fileID: 6509742193469283058}
 --- !u!114 &4400448764778249399
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -216,7 +216,7 @@ MonoBehaviour:
   m_SynchronizePosition: 1
   m_SynchronizeRotation: 1
   m_SynchronizeScale: 0
---- !u!114 &4400448764778249392
+--- !u!114 &4400448764778249295
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -250,10 +250,11 @@ MonoBehaviour:
   Synchronization: 3
   OwnershipTransfer: 0
   ObservedComponents:
-  - {fileID: 4400448764778249392}
+  - {fileID: 4400448764778249295}
   - {fileID: 4400448764778249397}
   - {fileID: 4400448764778249399}
   - {fileID: 4400448764778249292}
+  - {fileID: 4400448764778249293}
   viewIdField: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
@@ -306,22 +307,6 @@ MonoBehaviour:
   AmountOfHealth: 3
   isNonDestructible: 0
   explosionprefab: {fileID: 100000, guid: 15ca5b8fa431dc04291a79cadcd19874, type: 3}
---- !u!114 &4400448764778249295
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5430936292771821794}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 64179f3720bbfe947b7724caa67b7c1d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SynchronizeVelocity: 1
-  m_SynchronizeAngularVelocity: 0
-  m_TeleportEnabled: 0
-  m_TeleportIfDistanceGreaterThan: 3
 --- !u!114 &4400448764778249288
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -968,6 +953,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: de2f38893ab6a5147b20a3fefc563c7f, type: 3}
+--- !u!1 &6509742193469283058 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4469676829150286256, guid: de2f38893ab6a5147b20a3fefc563c7f,
+    type: 3}
+  m_PrefabInstance: {fileID: 6509742193469283289}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &6509742193469282863 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7468018493007894781, guid: de2f38893ab6a5147b20a3fefc563c7f,

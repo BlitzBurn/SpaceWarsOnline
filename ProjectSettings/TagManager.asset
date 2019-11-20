@@ -12,6 +12,7 @@ TagManager:
   - PlayerDeathLocation
   - SunTag
   - UFOendPosition
+  - RocketThrustTag
   layers:
   - Default
   - TransparentFX

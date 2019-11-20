@@ -11,6 +11,7 @@ using Photon.Realtime;
 
 public class GameManagerScript : MonoBehaviourPunCallbacks, IPunObservable
 {
+
     [Header("Lobby Stuff")]
     List<GameObject> playersList = new List<GameObject>();
 
@@ -22,7 +23,7 @@ public class GameManagerScript : MonoBehaviourPunCallbacks, IPunObservable
     public GameObject canvasStartGame;
     public GameObject canvasEndGame;
     private PhotonView PV;
-    public static int livingPlayers = 0;
+    public static int deadPlayers = 0;
 
     [Header("Booltexts")]
     public Text preptostText;
@@ -77,8 +78,10 @@ public class GameManagerScript : MonoBehaviourPunCallbacks, IPunObservable
         musicAD.Play();
     }
 
+
     private void Start()
     {
+        Debug.Log("Game manager Activated");
         preparingToStart = true;
         gameIsInProgress = false;
         gameHasEnded = false;
@@ -92,32 +95,15 @@ public class GameManagerScript : MonoBehaviourPunCallbacks, IPunObservable
         resTime = 0;
         restartResetTimer = restartTime;
 
-        
+        PhotonNetwork.AutomaticallySyncScene = true;
 
         //PhotonNetwork.SendRate = 20;
         //PhotonNetwork.SerializationRate = 10;
-
-        PlayerScript.RefreshInstance(ref localPlayer, playerPrefab, spawnLocation[PhotonNetwork.PlayerList.Length - 1]);
+        Debug.Log("Number of Players: "+(PhotonNetwork.PlayerList.Length-1));
+        PlayerScript.RefreshInstance(ref localPlayer, playerPrefab, spawnLocation[PhotonNetwork.PlayerList.Length-1]);
     }
 
-    public void RestartGame()
-    {
-        for (int i = 0; i < PhotonNetwork.PlayerList.Length; i++)
-        {
-            // PhotonNetwork.Destroy(playersList[i].gameObject);
 
-            //playerList[i].seyActive
-
-            playersList[i].SetActive(false);
-            Debug.Log("SetActive");
-        }
-
-        for (int i = 0; i < PhotonNetwork.PlayerList.Length; i++)
-        {
-            PlayerScript.RefreshInstance(ref localPlayer, playerPrefab, spawnLocation[i]);
-            Debug.Log("Refresh instance");
-        }
-    }
 
     public override void OnPlayerEnteredRoom(Photon.Realtime.Player newPlayer)
     {
@@ -125,7 +111,7 @@ public class GameManagerScript : MonoBehaviourPunCallbacks, IPunObservable
         Debug.Log("Player Entered room ");
         base.OnPlayerEnteredRoom(newPlayer);
 
-        PlayerScript.RefreshInstance(ref localPlayer, playerPrefab, spawnLocation[PhotonNetwork.PlayerList.Length]);
+        PlayerScript.RefreshInstance(ref localPlayer, playerPrefab, spawnLocation[PhotonNetwork.PlayerList.Length-1]);
         //PV.RPC("GameStartSequence", RpcTarget.All);
     }
 
@@ -135,18 +121,11 @@ public class GameManagerScript : MonoBehaviourPunCallbacks, IPunObservable
         base.OnPlayerLeftRoom(otherPlayer);
     }
 
+
+
+
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            Debug.Log("Restart Game");
-            gameHasEnded = true;
-            Debug.Log(gameHasEnded);
-        }
-
-
-
-
 
         if (countDownTime >= 0 && preparingToStart && PhotonNetwork.PlayerList.Length >= 2)
         {
@@ -158,95 +137,36 @@ public class GameManagerScript : MonoBehaviourPunCallbacks, IPunObservable
             PV.RPC("GameStartSequence", RpcTarget.All, preparingToStart);
         }
 
-        if (gameIsInProgress && livingPlayers == 1)
+        if (gameIsInProgress && deadPlayers == PhotonNetwork.PlayerList.Length)
         {
-            gameHasEnded = true;
-            gameIsInProgress = false;
-        }
+            Debug.Log("EndGame conditions met");
 
-
-        //4>3
-        if (gameHasEnded && restartTime >= 0)
-        {
-            canvasEndGame.SetActive(true);
-            restartTime = restartTime - Time.deltaTime;
-            Debug.Log("Game has ended" + restartTime);
-        }
-        else if (gameHasEnded && restartTime <= 0)
-        {
-            livingPlayers = PhotonNetwork.PlayerList.Length;
-
-            gameHasEnded = false;
-            gameIsInProgress = false;
-            preparingToStart = true;
-
-            restartTime = restartResetTimer;
-            //resTime = 0;
-            timer = 0;
-            countDownTime = countDownTimerReset;
-
-            canvasEndGame.SetActive(false);
-            canvasStartGame.SetActive(true);
-        }
-
-        restartText.text = Mathf.Ceil(restartTime).ToString();
-        timeToGameStartText.text = Mathf.Ceil(countDownTime).ToString();
-        playersInLobby.text = PhotonNetwork.PlayerList.Length.ToString();
-    }
-
-    /*
-    void Update()
-    {
-
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            Debug.Log("Restart Game");
-            gameHasEnded = true;
-            Debug.Log(gameHasEnded);
-        }
-
-        
-
-
-        if (countDownTime >= 0 && preparingToStart && PhotonNetwork.PlayerList.Length >= 2)
-        {
-            timer = Time.deltaTime;
-            countDownTime -= timer;
-        }
-        else if (countDownTime <= 0 && preparingToStart)
-        {
-            PV.RPC("GameStartSequence", RpcTarget.All, preparingToStart);
-        }
-
-        if (gameIsInProgress && livingPlayers == 1)
-        {
-            gameHasEnded = true;
-            gameIsInProgress = false;
-        }
-
-        
-        //4>3
-        if (gameHasEnded && restartTime >= 0)
-        {
-            canvasEndGame.SetActive(true);
-            restartTime = restartTime - Time.deltaTime;
-            Debug.Log("Game has ended"+restartTime);
-        }
-        else if(gameHasEnded && restartTime <= 0)
-        {
-            livingPlayers = PhotonNetwork.PlayerList.Length;
             
-            gameHasEnded = false;
-            gameIsInProgress = false;
-            preparingToStart = true;
+            StartCoroutine(EndGameSequence());
+            Debug.Log("The game has ended");
+           // PV.RPC("StartCoroutine(EndGameSequence())", RpcTarget.All);
+        }
 
-            restartTime = restartResetTimer;
-            //resTime = 0;
-            timer = 0;
-            countDownTime = countDownTimerReset;
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            PV.RPC("GameRestart", RpcTarget.All);
+        }
 
-            canvasEndGame.SetActive(false);
-            canvasStartGame.SetActive(true);
+        else if (gameHasEnded && !gameIsInProgress)
+        {
+            //deadPlayers = PhotonNetwork.PlayerList.Length;
+
+            //gameHasEnded = false;
+            //gameIsInProgress = false;
+            //preparingToStart = true;
+
+            //restartTime = restartResetTimer;
+            ////resTime = 0;
+            //timer = 0;
+            //countDownTime = countDownTimerReset;
+
+
+            //canvasStartGame.SetActive(true);
         }
 
         restartText.text = Mathf.Ceil(restartTime).ToString();
@@ -257,7 +177,7 @@ public class GameManagerScript : MonoBehaviourPunCallbacks, IPunObservable
         {
             preptostText.text = "PreparingToStart: " + preparingToStart.ToString();
             gahaenText.text = "GameHasEnded: " + gameHasEnded.ToString();
-            gaiprogText.text = "GameIsInProgress: " + gameIsInProgress.ToString();
+            gaiprogText.text = "GameIsInProgress: " + gameIsInProgress.ToString()+" "+deadPlayers;
         }
         else if (!showGameManagerBools)
         {
@@ -265,16 +185,50 @@ public class GameManagerScript : MonoBehaviourPunCallbacks, IPunObservable
             gahaenText.gameObject.SetActive(false);
             gaiprogText.gameObject.SetActive(false);
         }
-    }*/
+    }
+    [PunRPC]
+    public void EndGameMethod()
+    {
+        canvasEndGame.SetActive(true);
+        canvasStartGame.SetActive(false);
+    }
 
     [PunRPC]
     public void GameRestart()
     {
+        preparingToStart = true;
+        gameIsInProgress = false;
+        gameHasEnded = false;
+
         canvasStartGame.SetActive(true);
+        canvasEndGame.SetActive(false);
         countDownTime = countDownTimerReset;
     }
 
+    [PunRPC]
+    public IEnumerator EndGameSequence()
+    {
+        PV.RPC("EndGame1", RpcTarget.All);
+        yield return new WaitForSeconds(5);
+        PV.RPC("EndGame2", RpcTarget.All);
+        yield return null;
+    }
 
+    [PunRPC]
+    public void EndGame1()
+    {
+        deadPlayers = 0;
+        Debug.Log("Canvas End Game start");
+        gameIsInProgress = false;
+        gameHasEnded = true;
+        canvasEndGame.SetActive(true);
+    }
+
+    [PunRPC]
+    public void EndGame2()
+    {
+        PhotonNetwork.LoadLevel("GamePlayScene");
+    }
 
     [PunRPC]
     public void GameStartSequence(bool IfgameHasStarted)
@@ -283,25 +237,12 @@ public class GameManagerScript : MonoBehaviourPunCallbacks, IPunObservable
         canvasStartGame.SetActive(false);
         preparingToStart = false;
         gameIsInProgress = true;
-        Debug.Log("GameStartSequence, gameHasStarted:" + preparingToStart + ", IfgameHasStarted: " + IfgameHasStarted);
+        //Debug.Log("GameStartSequence, gameHasStarted:" + preparingToStart + ", IfgameHasStarted: " + IfgameHasStarted);
 
         musicAD.clip = battleTheme;
         musicAD.Play();
-
-        playersList.Clear();
-        Debug.Log(playersList.Count);
-
-        foreach (GameObject rocket in GameObject.FindGameObjectsWithTag("RocketTag"))
-        {
-            //rocket.transform.position = playerLocationGameStart[i].transform.position;
-            playersList.Add(rocket);
-            //Debug.Log("Added crap to da big list");
-            //Debug.Log(playersList.Count);
-
-        }
-
-        livingPlayers = playersList.Count;
-        Debug.Log(livingPlayers);
+       // deadPlayers = PhotonNetwork.PlayerList.Length;
+        Debug.Log("game Start "+deadPlayers);
 
     }
 
@@ -316,7 +257,7 @@ public class GameManagerScript : MonoBehaviourPunCallbacks, IPunObservable
             stream.SendNext(LoopVariable);
             stream.SendNext(gameHasEnded);
             stream.SendNext(countDownTimerReset);
-            stream.SendNext(livingPlayers);
+            stream.SendNext(deadPlayers);
             stream.SendNext(gameIsInProgress);
             stream.SendNext(resTime);
             stream.SendNext(restartTime);
@@ -331,7 +272,7 @@ public class GameManagerScript : MonoBehaviourPunCallbacks, IPunObservable
             LoopVariable = (int)stream.ReceiveNext();
             gameHasEnded = (bool)stream.ReceiveNext();
             countDownTimerReset = (float)stream.ReceiveNext();
-            livingPlayers = (int)stream.ReceiveNext();
+            deadPlayers = (int)stream.ReceiveNext();
             gameIsInProgress = (bool)stream.ReceiveNext();
             resTime = (float)stream.ReceiveNext();
             restartTime = (float)stream.ReceiveNext();
@@ -341,4 +282,103 @@ public class GameManagerScript : MonoBehaviourPunCallbacks, IPunObservable
 
 }
 
+/*
+       //4>3
+       if (gameHasEnded && restartTime >= 0)
+       {
+
+           restartTime = restartTime - Time.deltaTime;
+           Debug.Log("Game has ended" + restartTime);
+       }*/
+
+/*
+ 
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            Debug.Log("Restart Game");
+            gameHasEnded = true;
+            Debug.Log(gameHasEnded);
+        }
+
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            //PlayerScript.ResetPlayerPosition(PhotonNetwork.LocalPlayer., spawnLocation[PhotonNetwork.LocalPlayer.ActorNumber]);
+                //PlayerScript.RefreshInstance(ref localPlayer, playerPrefab, spawnLocation[PhotonNetwork.LocalPlayer.ActorNumber]);
+                Debug.Log("Refresh instance");
+            
+        }
+      */
+
+/*
+void Update()
+{
+
+    if (Input.GetKeyDown(KeyCode.Escape))
+    {
+        Debug.Log("Restart Game");
+        gameHasEnded = true;
+        Debug.Log(gameHasEnded);
+    }
+
+
+
+
+    if (countDownTime >= 0 && preparingToStart && PhotonNetwork.PlayerList.Length >= 2)
+    {
+        timer = Time.deltaTime;
+        countDownTime -= timer;
+    }
+    else if (countDownTime <= 0 && preparingToStart)
+    {
+        PV.RPC("GameStartSequence", RpcTarget.All, preparingToStart);
+    }
+
+    if (gameIsInProgress && livingPlayers == 1)
+    {
+        gameHasEnded = true;
+        gameIsInProgress = false;
+    }
+
+
+    //4>3
+    if (gameHasEnded && restartTime >= 0)
+    {
+        canvasEndGame.SetActive(true);
+        restartTime = restartTime - Time.deltaTime;
+        Debug.Log("Game has ended"+restartTime);
+    }
+    else if(gameHasEnded && restartTime <= 0)
+    {
+        livingPlayers = PhotonNetwork.PlayerList.Length;
+
+        gameHasEnded = false;
+        gameIsInProgress = false;
+        preparingToStart = true;
+
+        restartTime = restartResetTimer;
+        //resTime = 0;
+        timer = 0;
+        countDownTime = countDownTimerReset;
+
+        canvasEndGame.SetActive(false);
+        canvasStartGame.SetActive(true);
+    }
+
+    restartText.text = Mathf.Ceil(restartTime).ToString();
+    timeToGameStartText.text = Mathf.Ceil(countDownTime).ToString();
+    playersInLobby.text = PhotonNetwork.PlayerList.Length.ToString();
+
+    if (showGameManagerBools)
+    {
+        preptostText.text = "PreparingToStart: " + preparingToStart.ToString();
+        gahaenText.text = "GameHasEnded: " + gameHasEnded.ToString();
+        gaiprogText.text = "GameIsInProgress: " + gameIsInProgress.ToString();
+    }
+    else if (!showGameManagerBools)
+    {
+        preptostText.gameObject.SetActive(false);
+        gahaenText.gameObject.SetActive(false);
+        gaiprogText.gameObject.SetActive(false);
+    }
+}*/
 

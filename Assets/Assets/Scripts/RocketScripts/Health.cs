@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
+using Photon.Realtime;
 
-public class Health : MonoBehaviourPun/*, Photon.Pun.IPunObservable*/
+public class Health : MonoBehaviourPun, IPunObservable
 {
     
 
@@ -26,13 +27,15 @@ public class Health : MonoBehaviourPun/*, Photon.Pun.IPunObservable*/
         PV = GetComponent<PhotonView>();
         _playerScript = GetComponent<PlayerScript>();
         //PhotonView PV = PhotonView.Get(this);
-        PV.RPC("fuckMeLife", RpcTarget.All);
+        if(!isNonDestructible)
+        PV.RPC("fuckMeLife", RpcTarget.MasterClient);
     }
 
     [PunRPC]
     private void fuckMeLife()
     {
-        Debug.Log("Fuch.dis");
+
+       
     }
 
     void Update()
@@ -42,9 +45,8 @@ public class Health : MonoBehaviourPun/*, Photon.Pun.IPunObservable*/
         if (AmountOfHealth <= 0 && isNonDestructible == false)
         {
             PhotonNetwork.Instantiate(explosionprefab.gameObject.name, gameObject.transform.position, Quaternion.identity);
-            GameManagerScript.livingPlayers -= 1;
-            Debug.Log(GameManagerScript.livingPlayers);
-            Debug.Log("Ded");            
+            GameManagerScript.deadPlayers += 1;
+            Debug.Log("Ded "+ GameManagerScript.deadPlayers);            
             AmountOfHealth = maxHealth;
             _playerScript.playerIsAlive = false;
             Debug.Log(gameObject.name + "||" + _playerScript.playerIsAlive);
@@ -81,7 +83,7 @@ public class Health : MonoBehaviourPun/*, Photon.Pun.IPunObservable*/
             PV.RPC("TakeDamage", RpcTarget.All, 15);
         }
     }
-    void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
         if (stream.IsWriting == true)
         {
@@ -89,7 +91,7 @@ public class Health : MonoBehaviourPun/*, Photon.Pun.IPunObservable*/
             stream.SendNext(maxHealth);
             stream.SendNext(time);
             stream.SendNext(invisTime);
-            stream.SendNext(GameManagerScript.livingPlayers);
+            //stream.SendNext(GameManagerScript.deadPlayers);
         }
         else
         {
@@ -97,7 +99,7 @@ public class Health : MonoBehaviourPun/*, Photon.Pun.IPunObservable*/
             maxHealth = (int)stream.ReceiveNext();
             time = (float)stream.ReceiveNext();
             invisTime = (float)stream.ReceiveNext();
-            GameManagerScript.livingPlayers = (int)stream.ReceiveNext();
+           // GameManagerScript.deadPlayers = (int)stream.ReceiveNext();
         }
     }
 

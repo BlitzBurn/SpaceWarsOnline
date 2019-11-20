@@ -12,11 +12,13 @@ public class PlayerMaterialChange : MonoBehaviourPun, IPunObservable
     private PhotonView _photonView;
     private bool hasChangedMat = false;
 
+    private int shipColour;
+
     void Start()
     {        
         hasChangedMat = false;
         _photonView = GetComponent<PhotonView>();
-        _photonView.RPC("ChangeRocketMaterial", RpcTarget.All);
+        
 
         
 
@@ -26,19 +28,17 @@ public class PlayerMaterialChange : MonoBehaviourPun, IPunObservable
 
     private void Update()
     {
-        if (hasChangedMat == false)
-        {
-            Debug.Log("Changed mats");
-            rocketRenderer.material = RocketColors[PhotonNetwork.LocalPlayer.ActorNumber];//.sharedMaterial = RocketColors[PhotonNetwork.PlayerList.Length];
-            hasChangedMat = true;
-        }
+        shipColour = PhotonNetwork.LocalPlayer.ActorNumber;
+        _photonView.RPC("ChangeRocketMaterial", RpcTarget.All);
     }
 
 
     [PunRPC]
     public void ChangeRocketMaterial()
     {
-       
+        Debug.Log("Changed mats");
+        rocketRenderer.material = RocketColors[shipColour];//.sharedMaterial = RocketColors[PhotonNetwork.PlayerList.Length];
+        hasChangedMat = true;
     }
 
 
@@ -47,10 +47,12 @@ public class PlayerMaterialChange : MonoBehaviourPun, IPunObservable
         if (stream.IsWriting == true)
         {
             stream.SendNext(hasChangedMat);
+            stream.SendNext(shipColour);
         }
         else
         {
             hasChangedMat = (bool)stream.ReceiveNext();
+            shipColour = (int)stream.ReceiveNext();
         }
     }
 }

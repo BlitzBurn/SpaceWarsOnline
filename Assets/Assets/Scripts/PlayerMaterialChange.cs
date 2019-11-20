@@ -28,7 +28,7 @@ public class PlayerMaterialChange : MonoBehaviourPun, IPunObservable
 
     private void Update()
     {
-        if (photonView.IsMine)
+        if (!photonView.IsMine)
         {
             _photonView = GetComponent<PhotonView>();
             shipColour = PhotonNetwork.LocalPlayer.ActorNumber;
@@ -40,28 +40,28 @@ public class PlayerMaterialChange : MonoBehaviourPun, IPunObservable
     [PunRPC]
     public void ChangeRocketMaterial(int _shipColour)
     {
-        if (_shipColour == 1 && hasChangedMat == false)
+        if (_shipColour == 1 )
         {
             rocketRenderer = GetComponent<Renderer>();
             rocketRenderer.enabled = true;
             rocketRenderer.material = redMaterial;
             hasChangedMat = true;
         }
-        else if (_shipColour == 2 && hasChangedMat == false)
+        else if (_shipColour == 2 )
         {
             rocketRenderer = GetComponent<Renderer>();
             rocketRenderer.enabled = true;
             rocketRenderer.material = greenMaterial;
             hasChangedMat = true;
         }
-        else if (_shipColour == 3 && hasChangedMat == false)
+        else if (_shipColour == 3 )
         {
             rocketRenderer = GetComponent<Renderer>();
             rocketRenderer.enabled = true;
             rocketRenderer.material = purpleMaterial;
             hasChangedMat = true;
         }
-        else if (_shipColour == 4 && hasChangedMat == false)
+        else if (_shipColour == 4 )
         {
             rocketRenderer = GetComponent<Renderer>();
             rocketRenderer.enabled = true;

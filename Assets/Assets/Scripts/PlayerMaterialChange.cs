@@ -12,35 +12,67 @@ public class PlayerMaterialChange : MonoBehaviourPun, IPunObservable
     private PhotonView _photonView;
     private bool hasChangedMat = false;
 
-    private int shipColour;
+    [Header("Materials")]
+    public Material redMaterial;
+    public Material greenMaterial;
+    public Material purpleMaterial;
+    public Material blueMaterial;
 
+    private int shipColour;
+    
+    
     void Start()
     {        
         hasChangedMat = false;
-        _photonView = GetComponent<PhotonView>();
-        
-
-        
-
-            rocketRenderer = GetComponent<Renderer>();
-            rocketRenderer.enabled = true;
     }
 
     private void Update()
     {
-        shipColour = PhotonNetwork.LocalPlayer.ActorNumber;
-        _photonView.RPC("ChangeRocketMaterial", RpcTarget.All);
+        if (!photonView.IsMine)
+        {
+            _photonView = GetComponent<PhotonView>();
+            shipColour = PhotonNetwork.LocalPlayer.ActorNumber;
+            _photonView.RPC("ChangeRocketMaterial", RpcTarget.AllBuffered, shipColour);
+        }
     }
 
 
     [PunRPC]
-    public void ChangeRocketMaterial()
+    public void ChangeRocketMaterial(int _shipColour)
     {
-        Debug.Log("Changed mats");
-        rocketRenderer.material = RocketColors[shipColour];//.sharedMaterial = RocketColors[PhotonNetwork.PlayerList.Length];
-        hasChangedMat = true;
+        if (_shipColour == 1 )
+        {
+            rocketRenderer = GetComponent<Renderer>();
+            rocketRenderer.enabled = true;
+            rocketRenderer.material = redMaterial;
+            hasChangedMat = true;
+        }
+        else if (_shipColour == 2 && hasChangedMat == false)
+        {
+            rocketRenderer = GetComponent<Renderer>();
+            rocketRenderer.enabled = true;
+            rocketRenderer.material = greenMaterial;
+            hasChangedMat = true;
+        }
+        else if (_shipColour == 3 && hasChangedMat == false)
+        {
+            rocketRenderer = GetComponent<Renderer>();
+            rocketRenderer.enabled = true;
+            rocketRenderer.material = purpleMaterial;
+            hasChangedMat = true;
+        }
+        else if (_shipColour == 4 && hasChangedMat == false)
+        {
+            rocketRenderer = GetComponent<Renderer>();
+            rocketRenderer.enabled = true;
+            rocketRenderer.material = blueMaterial;
+            hasChangedMat = true;
+        }
+
+       
     }
 
+    
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {

@@ -28,7 +28,7 @@ public class PlayerMaterialChange : MonoBehaviourPun, IPunObservable
 
     private void Update()
     {
-        if (!photonView.IsMine)
+        if (photonView.IsMine)
         {
             _photonView = GetComponent<PhotonView>();
             shipColour = PhotonNetwork.LocalPlayer.ActorNumber;

@@ -4,7 +4,7 @@ using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
 
-public class PlayerMaterialChange : MonoBehaviourPun, IPunObservable
+public class PlayerMaterialChange : MonoBehaviourPunCallbacks, IPunObservable
 {
     [Header("Material")]
     public List<Material> RocketColors;

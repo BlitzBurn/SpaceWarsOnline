@@ -32,7 +32,7 @@ public class PlayerMaterialChange : MonoBehaviourPunCallbacks, IPunObservable
         {
             _photonView = GetComponent<PhotonView>();
             shipColour = PhotonNetwork.LocalPlayer.ActorNumber;
-            _photonView.RPC("ChangeRocketMaterial", RpcTarget.AllBuffered, shipColour);
+            _photonView.RPC("ChangeRocketMaterial", RpcTarget.All, shipColour);
         }
     }
 

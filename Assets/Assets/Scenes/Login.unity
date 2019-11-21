@@ -1809,11 +1809,6 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4400448764778249392, guid: 9f248f210ecc8dd43b3e21cd271c0140,
-        type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 4400448764778249393, guid: 9f248f210ecc8dd43b3e21cd271c0140,
         type: 3}
       propertyPath: viewIdField
@@ -1850,6 +1845,16 @@ PrefabInstance:
       value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 4464469419012342564, guid: 9f248f210ecc8dd43b3e21cd271c0140,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 4400448764778249392, guid: 9f248f210ecc8dd43b3e21cd271c0140,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6509742193469282780, guid: 9f248f210ecc8dd43b3e21cd271c0140,
         type: 3}
       propertyPath: m_RootOrder
       value: 8
@@ -3589,7 +3594,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b04f8de17cbbd664595bda5385551df7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sound: {fileID: 0}
+  sound: {fileID: 8300000, guid: 9da311e05ab333d47ad5970c2bba4f6e, type: 3}
   isLogin: 1
 --- !u!4 &1858478256
 Transform:

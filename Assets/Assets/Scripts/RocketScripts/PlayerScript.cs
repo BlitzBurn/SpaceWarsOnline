@@ -99,7 +99,7 @@ public class PlayerScript : MonoBehaviourPun, IPunObservable
             rotation = player.transform.rotation;
             PhotonNetwork.Destroy(player.gameObject);
         }
-
+        
         player = PhotonNetwork.Instantiate(playerPrefab.gameObject.name, spawnPosition, rotation).GetComponent<PlayerScript>();
     }
 

@@ -102,14 +102,14 @@ public class GameManagerScript : MonoBehaviourPunCallbacks, IPunObservable
         //PhotonNetwork.SendRate = 20;
         //PhotonNetwork.SerializationRate = 10;
         Debug.Log("Number of Players: "+(PhotonNetwork.PlayerList.Length-1));
-        PlayerScript.RefreshInstance(ref localPlayer, playerPrefab, spawnLocation[PhotonNetwork.LocalPlayer.ActorNumber]);
+        PlayerScript.RefreshInstance(ref localPlayer, playerPrefab, spawnLocation[PhotonNetwork.LocalPlayer.ActorNumber-1]);
     }
 
     public override void OnPlayerEnteredRoom(Photon.Realtime.Player newPlayer)
     {
         Debug.Log("Player Entered room ");
         base.OnPlayerEnteredRoom(newPlayer);
-        PlayerScript.RefreshInstance(ref localPlayer, playerPrefab, spawnLocation[PhotonNetwork.LocalPlayer.ActorNumber]);
+        PlayerScript.RefreshInstance(ref localPlayer, playerPrefab, spawnLocation[PhotonNetwork.LocalPlayer.ActorNumber-1]);
         //PV.RPC("GameStartSequence", RpcTarget.All);
     }
 

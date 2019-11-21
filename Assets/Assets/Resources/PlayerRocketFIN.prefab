@@ -79,7 +79,7 @@ Transform:
   - {fileID: 5430936294080552226}
   - {fileID: 5599175967872613345}
   - {fileID: 4400448764386992651}
-  - {fileID: 4464469419012342564}
+  - {fileID: 6509742193469282780}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -200,7 +200,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerIsAlive: 0
   isInTestScene: 0
-  rocketThrust: {fileID: 7228342745081301609}
+  rocketThrust: {fileID: 6509742193469283049}
 --- !u!114 &4400448764778249399
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -956,13 +956,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: de2f38893ab6a5147b20a3fefc563c7f, type: 3}
---- !u!1 &7228342745081301609 stripped
+--- !u!1 &6509742193469283049 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4469676829150286256, guid: de2f38893ab6a5147b20a3fefc563c7f,
     type: 3}
   m_PrefabInstance: {fileID: 6509742193469283289}
   m_PrefabAsset: {fileID: 0}
---- !u!4 &4464469419012342564 stripped
+--- !u!4 &6509742193469282780 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7468018493007894781, guid: de2f38893ab6a5147b20a3fefc563c7f,
     type: 3}

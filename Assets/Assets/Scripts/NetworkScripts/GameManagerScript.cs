@@ -43,6 +43,8 @@ public class GameManagerScript : MonoBehaviourPunCallbacks, IPunObservable
 
     public static int numberOfPlayers = 0;
 
+    public static int totalAmountOfHealth;
+
     [Header("Gamemanager Booleans")]
     public static bool preparingToStart;
     public static bool gameHasEnded;
@@ -137,14 +139,14 @@ public class GameManagerScript : MonoBehaviourPunCallbacks, IPunObservable
             PV.RPC("GameStartSequence", RpcTarget.All, preparingToStart);
         }
 
-        if (gameIsInProgress && deadPlayers == PhotonNetwork.PlayerList.Length)
+        if (gameIsInProgress && deadPlayers == (PhotonNetwork.PlayerList.Length-1))
         {
             Debug.Log("EndGame conditions met");
 
             
             StartCoroutine(EndGameSequence());
             Debug.Log("The game has ended");
-           // PV.RPC("StartCoroutine(EndGameSequence())", RpcTarget.All);
+           PV.RPC("StartCoroutine(EndGameSequence())", RpcTarget.All);
         }
 
         if (Input.GetKeyDown(KeyCode.E))
@@ -262,6 +264,7 @@ public class GameManagerScript : MonoBehaviourPunCallbacks, IPunObservable
             stream.SendNext(resTime);
             stream.SendNext(restartTime);
             stream.SendNext(restartResetTimer);
+            stream.SendNext(totalAmountOfHealth);
         }
         else if (stream.IsReading)
         {
@@ -277,6 +280,7 @@ public class GameManagerScript : MonoBehaviourPunCallbacks, IPunObservable
             resTime = (float)stream.ReceiveNext();
             restartTime = (float)stream.ReceiveNext();
             restartResetTimer = (float)stream.ReceiveNext();
+            totalAmountOfHealth = (int)stream.ReceiveNext();
         }
     }
 

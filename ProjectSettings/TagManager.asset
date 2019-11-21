@@ -13,6 +13,8 @@ TagManager:
   - SunTag
   - UFOendPosition
   - RocketThrustTag
+  - Enemy
+  - Asteroid
   layers:
   - Default
   - TransparentFX

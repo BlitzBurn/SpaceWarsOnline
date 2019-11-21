@@ -27,15 +27,11 @@ public class Health : MonoBehaviourPun, IPunObservable
         PV = GetComponent<PhotonView>();
         _playerScript = GetComponent<PlayerScript>();
         //PhotonView PV = PhotonView.Get(this);
-        if(!isNonDestructible)
-        PV.RPC("fuckMeLife", RpcTarget.MasterClient);
-    }
-
-    [PunRPC]
-    private void fuckMeLife()
-    {
-
-       
+        if (!isNonDestructible)
+        {
+            GameManagerScript.totalAmountOfHealth += AmountOfHealth; 
+        }
+        
     }
 
     void Update()
@@ -62,6 +58,7 @@ public class Health : MonoBehaviourPun, IPunObservable
         {
 
             AmountOfHealth = AmountOfHealth - damageTaken;
+            GameManagerScript.totalAmountOfHealth = GameManagerScript.totalAmountOfHealth - damageTaken;
             time = 0;
         }
         else if (isNonDestructible)
@@ -81,6 +78,10 @@ public class Health : MonoBehaviourPun, IPunObservable
         else if (collision.collider.tag == "SunTag")
         {
             PV.RPC("TakeDamage", RpcTarget.All, 15);
+        }
+        else if(collision.collider.tag == "Asteroid")
+        {
+            PV.RPC("TakeDamage", RpcTarget.All, 3);
         }
     }
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)

@@ -14,6 +14,8 @@ public class AsteroidMovement : MonoBehaviourPunCallbacks
 
     public float rotationSpeed;
 
+
+
     private Rigidbody asteroidRB;
 
 
@@ -29,12 +31,14 @@ public class AsteroidMovement : MonoBehaviourPunCallbacks
     void Update()
     {
         angle += Time.deltaTime*movementSpeed;
-
+        
         float x = Mathf.Cos(angle)*circleWidth;
         float z = Mathf.Sin(angle) * circleHeight;
         float y = gameObject.transform.position.y;
 
         transform.position= new Vector3(x, y, z);
+
+       // transform.RotateAround(Vector3.zero, Vector3.up, 50*Time.deltaTime);
     }
 
     void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)

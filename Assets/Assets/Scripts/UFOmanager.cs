@@ -41,7 +41,7 @@ public class UFOmanager : MonoBehaviourPun
     void Start()
     {
         PV = GetComponent<PhotonView>();
-        MoveUFO = true;
+        MoveUFO = false;
         transform.position = startPositions[1].transform.position;
         ufoRigidbody = gameObject.GetComponent<Rigidbody>();
         DetermineUfoDirection();
@@ -101,6 +101,7 @@ public class UFOmanager : MonoBehaviourPun
         {
             transform.position = startPositions[1].transform.position;
             MoveUFO = false;
+            movementSpeed = movementSpeed * (-1);
         }
     }
 

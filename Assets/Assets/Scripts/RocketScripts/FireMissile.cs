@@ -31,7 +31,7 @@ public class FireMissile :MonoBehaviourPun
         time += Time.deltaTime;
         if (GameManagerScript.gameIsInProgress && _playerScript.playerIsAlive)
         {
-            if (Input.GetKeyDown(KeyCode.Mouse1) && time >= MissileCooldown)
+            if (Input.GetKeyDown(KeyCode.E) && time >= MissileCooldown)
             {
                 FireMissileMethod();
 

@@ -3649,21 +3649,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: -9188184114433313565, guid: 60ca497d793175d42a1a3c092c23129a,
-        type: 3}
-      propertyPath: ObservedComponents.Array.size
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: -9188184114433313565, guid: 60ca497d793175d42a1a3c092c23129a,
-        type: 3}
-      propertyPath: viewIdField
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: -9188184114433313565, guid: 60ca497d793175d42a1a3c092c23129a,
-        type: 3}
-      propertyPath: ObservedComponents.Array.data[1]
-      value: 
-      objectReference: {fileID: 1707843249}
     - target: {fileID: 6869085423070844795, guid: 60ca497d793175d42a1a3c092c23129a,
         type: 3}
       propertyPath: m_Name
@@ -3673,6 +3658,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_TagString
       value: Asteroid
+      objectReference: {fileID: 0}
+    - target: {fileID: 6869085423070844795, guid: 60ca497d793175d42a1a3c092c23129a,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6869085423071021707, guid: 60ca497d793175d42a1a3c092c23129a,
         type: 3}
@@ -3744,6 +3734,21 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 3.8883
       objectReference: {fileID: 0}
+    - target: {fileID: -9188184114433313565, guid: 60ca497d793175d42a1a3c092c23129a,
+        type: 3}
+      propertyPath: ObservedComponents.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: -9188184114433313565, guid: 60ca497d793175d42a1a3c092c23129a,
+        type: 3}
+      propertyPath: viewIdField
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: -9188184114433313565, guid: 60ca497d793175d42a1a3c092c23129a,
+        type: 3}
+      propertyPath: ObservedComponents.Array.data[1]
+      value: 
+      objectReference: {fileID: 1707843249}
     - target: {fileID: 6869085423070637315, guid: 60ca497d793175d42a1a3c092c23129a,
         type: 3}
       propertyPath: m_IsActive

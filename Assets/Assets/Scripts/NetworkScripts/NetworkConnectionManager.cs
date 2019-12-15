@@ -108,6 +108,11 @@ public class NetworkConnectionManager : MonoBehaviourPunCallbacks
             //Debug.Log("TriesToConnectToRoom");
         }
 
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            Application.Quit();
+        }
+
     }
 
    
